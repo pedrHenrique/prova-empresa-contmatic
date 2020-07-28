@@ -8,3 +8,8 @@
 	> Reformulação de alguns métodos e seus métodos de retorno<br>
 	> Amanhã será feito os testes das demais classes do projeto<br>
 	
+-> 28/07/20
+	> Finalização da Classe Empresa
+	> Testes na classe Empresa 
+	> Reformulação de estrutura de testes 
+	
