@@ -2,21 +2,15 @@ package br.com.contmatic.empresav1.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeNoException;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresav1.model.Departamento;
 
-public class DepartamentoTestAdiciona {
-
-	Departamento departamento;
+public class DepartamentoTest {
+	
+	Departamento dep = new Departamento();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -68,15 +62,13 @@ public class DepartamentoTestAdiciona {
 	@Test
 	public void teste_remocao_objeto_existente() {
 		long id = 250;
-		Departamento dep = new Departamento(id, "Rogerio", 145);
-		assertEquals(dep, dep.removerDep(id));
+		assertEquals(new Departamento(id, "Rogerio", 145), dep.removerDep(id));
 
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_remocao_objeto_nao_existente() {
 		long id = 179;
-		Departamento dep = new Departamento();
 		dep.removerDep(id);
 	}
 
@@ -87,7 +79,6 @@ public class DepartamentoTestAdiciona {
 
 	@Test // Testando a busca por objetos num HashSet
 	public void teste_busca_departamento_existente() {
-		Departamento dep = new Departamento();
 		assertNotNull("Esperava receber uma lista de objetos", dep.solicitarDep(10));
 		assertNotNull("Esperava receber uma lista de objetos", dep.solicitarDep(11));
 		assertNotNull("Esperava receber uma lista de objetos", dep.solicitarDep(12));
@@ -95,7 +86,6 @@ public class DepartamentoTestAdiciona {
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_busca_departamento_nao_existente() {
-		Departamento dep = new Departamento();
 		dep.solicitarDep(50); // deve falhar
 
 	}
@@ -107,7 +97,6 @@ public class DepartamentoTestAdiciona {
 	@Test
 	public void teste_setNome_e_getNome_nome_correto() {
 		String name = new String("Ana");
-		Departamento dep = new Departamento();
 		dep.setNome(name);
 		assertEquals(name, dep.getNome());
 	}
@@ -115,21 +104,18 @@ public class DepartamentoTestAdiciona {
 	@Test(expected = java.lang.NullPointerException.class)
 	public void teste_setNome_valor_nulo() {
 		String name = null;
-		Departamento dep = new Departamento();
 		dep.setNome(name);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_setNome_valor_vazio() {
 		String name = "";
-		Departamento dep = new Departamento();
 		dep.setNome(name);
 	}
 
 	@Test
 	public void teste_setId_e_getId_correto() {
 		long id = 25;
-		Departamento dep = new Departamento();
 		dep.setIdDepartamento(id);
 		assertEquals(id, dep.getIdDepartamento());
 	}
@@ -137,14 +123,12 @@ public class DepartamentoTestAdiciona {
 	@SuppressWarnings("null")
 	@Test(expected = java.lang.NullPointerException.class)
 	public void teste_setId_valor_nulo() {
-		Departamento dep = new Departamento();
 		long id = (Long) null;
 		dep.setIdDepartamento(id);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_setId_valor_vazio() {
-		Departamento dep = new Departamento();
 		long id = 0;
 		dep.setIdDepartamento(id);
 	}
@@ -152,7 +136,6 @@ public class DepartamentoTestAdiciona {
 	@Test
 	public void teste_setRamal_e_getId_correto() {
 		int num = 456;
-		Departamento dep = new Departamento();
 		dep.setRamal(num);
 		assertEquals(num, dep.getRamal());
 	}
@@ -160,14 +143,12 @@ public class DepartamentoTestAdiciona {
 	@SuppressWarnings("null")
 	@Test(expected = java.lang.NullPointerException.class)
 	public void teste_setRamal_valor_nulo() {
-		Departamento dep = new Departamento();
 		int num = (Integer) null;
 		dep.setIdDepartamento(num);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_setRamal_valor_vazio() {
-		Departamento dep = new Departamento();
 		int num = 0;
 		dep.setRamal(num);
 	}
@@ -178,13 +159,11 @@ public class DepartamentoTestAdiciona {
 
 	@Test
 	public void teste_listar_departamentos() {
-		Departamento dep = new Departamento();
 		assertNotNull(dep.listarDepartamentos());
 	}
 
 	@Test
 	public void teste_toString() {
-		Departamento dep = new Departamento();
 		assertNotNull(dep.toString());
 	}
 }
