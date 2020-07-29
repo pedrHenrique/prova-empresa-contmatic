@@ -3,6 +3,9 @@ package br.com.contmatic.empresav1.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,13 +13,39 @@ import br.com.contmatic.empresav1.model.Departamento;
 
 public class DepartamentoTest {
 	
-	Departamento dep = new Departamento();
-
+	private static final String NULLSTR = null;
+	private static final String EMPTYSTR = "";
+	private static final Long NULLID = (Long) null;
+	private static final Long EMPTYID = (long) 0;
+	private static Departamento departamento; 
+	private Departamento dep;
+	
+	private static final Object NULLINT = null;
+	private static final int EMPTYINT = 0;
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		new Departamento(10, "Junior", 155);
-		new Departamento(11, "Roberto", 285);
-		new Departamento(12, "Ana", 405);
+		departamento = new Departamento();
+		
+		departamento.registrarDep(1, "Contábil", 155);
+		departamento.registrarDep(2, "Recursos Humanos", 285);
+		departamento.registrarDep(3, "Tecnologias", 405);
+	}
+	
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {	
+		Departamento.getDepartamentoLista().clear();
+		departamento = null;
+	}
+	
+	@Before
+	public void setUp() throws Exception{
+		this.dep = new Departamento();
+	}
+	
+	@After
+	public void tearDown() throws Exception{
+		this.dep = null;
 	}
 
 	/*
@@ -26,31 +55,33 @@ public class DepartamentoTest {
 
 	@Test // Testa criando o obj pelo construtor
 	public void teste_objeto_criado_por_construtor() {
-		long passaValor = 1;
-		String passaNome = "Carlos";
-		int passaRamal = 145;
+		long id = 10;
 
-		Departamento test1 = new Departamento(passaValor, passaNome, passaRamal);
-		assertEquals("O Obj esperado era: ", test1, test1.solicitarDep(passaValor));
+		dep = new Departamento(id, "Financeiro", 226);
+		assertEquals("O Obj esperado era: ", dep, dep.solicitarDep(id));
+		assertNotNull(dep.solicitarDep(id));
 	}
 
 	@Test
 	public void teste_objeto_criado_por_metodo_com_parametros() {
-		long passaValor = 2;
-		String passaNome = "Rogerio";
-		int passaRamal = 100;
+		long id = 11;
 
-		Departamento test2 = new Departamento();
-		test2.registrarDep(passaValor, passaNome, passaRamal);
-		assertEquals("O Obj esperado era:", test2, test2.solicitarDep(passaValor));
-		assertNotNull(test2.solicitarDep(passaValor));
+		dep = new Departamento();
+		dep.registrarDep(id, "Expedição", 189);
+		assertEquals("O Obj esperado era:", dep, dep.solicitarDep(id));
+		assertNotNull(dep.solicitarDep(id));
 
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_objeto_criado_ja_existente_() {
-		new Departamento(3, "Rogerio", 145);
-		new Departamento(3, "Claudio", 025); // deve falhar
+		long id = 1;
+		dep.registrarDep(id, "Financeiro", 226);
+	}
+	
+	@Test(expected = java.lang.NullPointerException.class)
+	public void teste_objeto_sendo_criado_nulo_() {
+		dep = new Departamento(NULLID, "Qualidade", 250);
 
 	}
 
@@ -79,9 +110,9 @@ public class DepartamentoTest {
 
 	@Test // Testando a busca por objetos num HashSet
 	public void teste_busca_departamento_existente() {
-		assertNotNull("Esperava receber uma lista de objetos", dep.solicitarDep(10));
-		assertNotNull("Esperava receber uma lista de objetos", dep.solicitarDep(11));
-		assertNotNull("Esperava receber uma lista de objetos", dep.solicitarDep(12));
+		assertNotNull("Esperava receber um objeto", dep.solicitarDep(1));
+		assertNotNull("Esperava receber um objeto", dep.solicitarDep(2));
+		assertNotNull("Esperava receber um objeto", dep.solicitarDep(3));
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
@@ -96,21 +127,19 @@ public class DepartamentoTest {
 
 	@Test
 	public void teste_setNome_e_getNome_nome_correto() {
-		String name = new String("Ana");
+		String name = new String("Gerencia");
 		dep.setNome(name);
 		assertEquals(name, dep.getNome());
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
 	public void teste_setNome_valor_nulo() {
-		String name = null;
-		dep.setNome(name);
+		dep.setNome(NULLSTR);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_setNome_valor_vazio() {
-		String name = "";
-		dep.setNome(name);
+		dep.setNome(EMPTYSTR);
 	}
 
 	@Test
@@ -120,17 +149,14 @@ public class DepartamentoTest {
 		assertEquals(id, dep.getIdDepartamento());
 	}
 
-	@SuppressWarnings("null")
 	@Test(expected = java.lang.NullPointerException.class)
 	public void teste_setId_valor_nulo() {
-		long id = (Long) null;
-		dep.setIdDepartamento(id);
+		dep.setIdDepartamento(NULLID);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_setId_valor_vazio() {
-		long id = 0;
-		dep.setIdDepartamento(id);
+		dep.setIdDepartamento(EMPTYID);
 	}
 
 	@Test
@@ -140,17 +166,14 @@ public class DepartamentoTest {
 		assertEquals(num, dep.getRamal());
 	}
 
-	@SuppressWarnings("null")
 	@Test(expected = java.lang.NullPointerException.class)
 	public void teste_setRamal_valor_nulo() {
-		int num = (Integer) null;
-		dep.setIdDepartamento(num);
+		dep.setRamal((int) NULLINT);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_setRamal_valor_vazio() {
-		int num = 0;
-		dep.setRamal(num);
+		dep.setRamal(EMPTYINT);
 	}
 
 	/*

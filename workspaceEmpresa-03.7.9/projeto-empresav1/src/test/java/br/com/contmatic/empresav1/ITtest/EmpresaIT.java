@@ -6,6 +6,6 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({})
-public class DepartamentoIT {
+public class EmpresaIT {
 
 }

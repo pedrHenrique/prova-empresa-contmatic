@@ -3,7 +3,6 @@ package br.com.contmatic.empresav1.model;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.HashSet;
-import java.util.Scanner;
 
 public class Empresa {
 
@@ -112,25 +111,27 @@ public class Empresa {
 	}
 
 	public String getCnpj() {
-		return cnpj.substring(0,2) + "." + cnpj.substring(2,5) + "." + cnpj.substring(5,8) +
-				"/" + cnpj.substring(8,12) + "-" + cnpj.substring(12,14);
+		return cnpj;
 	}
 
 	public void setCnpj(String cnpj) {
-		if (cnpj.length() == 14) {
-			this.cnpj = cnpj;
+		String aux = cnpj.replaceAll("\\D", "");
+		if (aux.length() == 14) {
+			this.cnpj = aux.substring(0,2) + "." + aux.substring(2,5) + "." + aux.substring(5,8) +
+					"/" + aux.substring(8,12) + "-" + aux.substring(12,14);
 		} else {
 			throw new IllegalArgumentException("Digite apenas os números do CNPJ!!"); //Ex CNPJ: 00.000.000/0001-00
 		}
 	}
 
 	public String getCep() {
-		return cep.substring(0,5) + "-" + cep.substring(5,8);
+		return cep;
 	}
 
 	public void setCep(String cep) {
-		if (cep.length() == 8) {
-			this.cep = cep;
+		String aux = cep.replaceAll("\\D", "");
+		if (aux.length() >= 8) {
+			this.cep = aux.substring(0,5) + "-" + aux.substring(5,8);
 		} else {
 			throw new IllegalArgumentException("Digite apenas os números do CEP"); //Ex CNPJ: 03575-090
 		}
@@ -138,12 +139,13 @@ public class Empresa {
 	}
 
 	public String getTelefone() { //(11) 4564-9304 
-		return "(" + telefone.substring(0,2) + ") " + telefone.substring(2,6) + "-" + telefone.substring(6) ;
+		return telefone;
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone.length() >= 10) {
-			this.telefone = telefone;
+		String aux = telefone.replaceAll("\\D", "");
+		if (aux.length() >= 10) {
+			this.telefone = "(" + aux.substring(0,2) + ") " + aux.substring(2,6) + "-" + aux.substring(6) ;
 		} else {
 			throw new IllegalArgumentException("Digite o DDD e o número do telefone/celular juntos.");
 		}
