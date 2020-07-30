@@ -85,7 +85,7 @@ public class Departamento {
 
 			while (iterator.hasNext()) {
 				Departamento obj = iterator.next();
-				if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
+				if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
 					throw new IllegalArgumentException("Departamento " + id + " não existe\n");
 				} else if (obj.getIdDepartamento() == id) {
 					return obj;
@@ -101,7 +101,7 @@ public class Departamento {
 		while (iterator.hasNext()) {
 			obj = iterator.next();
 
-			if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
+			if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
 				throw new IllegalArgumentException("O Departamento " + id + " não existe\n");
 			} else if (obj.getIdDepartamento() == id) {
 				iterator.remove();
@@ -119,7 +119,7 @@ public class Departamento {
 
 			while (iterator.hasNext()) {
 				Departamento obj = iterator.next();
-				if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
+				if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
 					throw new IllegalArgumentException("O Departamento " + id + " não existe\n");
 				} else if (obj.getIdDepartamento() == id) {
 					break;

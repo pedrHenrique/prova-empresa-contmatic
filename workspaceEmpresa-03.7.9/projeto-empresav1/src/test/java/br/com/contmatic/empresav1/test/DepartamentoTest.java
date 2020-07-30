@@ -59,17 +59,16 @@ public class DepartamentoTest {
 
 		dep = new Departamento(id, "Financeiro", 226);
 		assertEquals("O Obj esperado era: ", dep, dep.solicitarDep(id));
-		assertNotNull(dep.solicitarDep(id));
+		assertNotNull("O objeto não deveria estar nulo", dep.solicitarDep(id));
 	}
 
 	@Test
 	public void teste_objeto_criado_por_metodo_com_parametros() {
 		long id = 11;
 
-		dep = new Departamento();
 		dep.registrarDep(id, "Expedição", 189);
-		assertEquals("O Obj esperado era:", dep, dep.solicitarDep(id));
-		assertNotNull(dep.solicitarDep(id));
+		assertEquals("O Obj esperado era:", dep, departamento.solicitarDep(id));
+		assertNotNull("O objeto não deveria estar nulo", dep.solicitarDep(id));
 
 	}
 
@@ -93,7 +92,7 @@ public class DepartamentoTest {
 	@Test
 	public void teste_remocao_objeto_existente() {
 		long id = 250;
-		assertEquals(new Departamento(id, "Rogerio", 145), dep.removerDep(id));
+		assertEquals("Os objetos deveriam ser iguais", new Departamento(id, "Rogerio", 145), dep.removerDep(id));
 
 	}
 
@@ -129,7 +128,7 @@ public class DepartamentoTest {
 	public void teste_setNome_e_getNome_nome_correto() {
 		String name = new String("Gerencia");
 		dep.setNome(name);
-		assertEquals(name, dep.getNome());
+		assertEquals("Os valores deveriam ser iguais", name, dep.getNome());
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
@@ -146,7 +145,7 @@ public class DepartamentoTest {
 	public void teste_setId_e_getId_correto() {
 		long id = 25;
 		dep.setIdDepartamento(id);
-		assertEquals(id, dep.getIdDepartamento());
+		assertEquals("Os valores deveriam ser iguais", id, dep.getIdDepartamento());
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
@@ -163,7 +162,7 @@ public class DepartamentoTest {
 	public void teste_setRamal_e_getId_correto() {
 		int num = 456;
 		dep.setRamal(num);
-		assertEquals(num, dep.getRamal());
+		assertEquals("Os valores deveriam ser iguais", num, dep.getRamal());
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
@@ -182,11 +181,11 @@ public class DepartamentoTest {
 
 	@Test
 	public void teste_listar_departamentos() {
-		assertNotNull(dep.listarDepartamentos());
+		assertNotNull("Esperava receber uma lista", dep.listarDepartamentos());
 	}
 
 	@Test
 	public void teste_toString() {
-		assertNotNull(dep.toString());
+		assertNotNull("Os valores deveriam ser iguais", dep.toString());
 	}
 }

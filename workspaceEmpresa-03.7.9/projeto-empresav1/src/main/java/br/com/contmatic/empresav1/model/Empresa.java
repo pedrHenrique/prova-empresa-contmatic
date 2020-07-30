@@ -34,6 +34,22 @@ public class Empresa {
 		empresaLista.forEach(System.out::println);
 		return empresaLista;
 	}
+	
+	public Empresa solicitarEmpresa(long id) {
+		Iterator<Empresa> iterator = getEmpresaLista().iterator();
+		Empresa obj = new Empresa();
+		while (iterator.hasNext()) {
+			obj = iterator.next();
+			
+			if (obj.getIdEmpresa() != id && !(iterator.hasNext())) {
+				throw new IllegalArgumentException("Departamento " + id + " não existe\n");
+			} else if (obj.getIdEmpresa() == id) {
+				break;
+				
+			}
+		}
+		return obj;
+	}
 
 	public void registrarEmpresa(long idEmpresa, String nome, String cnpj, String endereco, String telefone) {
 		setIdEmpresa(idEmpresa);
@@ -52,29 +68,13 @@ public class Empresa {
 		}
 	}
 
-	public Empresa solicitarEmpresa(long id) {
-		Iterator<Empresa> iterator = getEmpresaLista().iterator();
-		Empresa obj = new Empresa();
-		while (iterator.hasNext()) {
-			obj = iterator.next();
-			
-			if (obj.getIdEmpresa() != id && !(iterator.hasNext())) {
-				throw new IllegalArgumentException("Departamento " + id + " não existe\n");
-			} else if (obj.getIdEmpresa() == id) {
-				return obj;
-			}
-		}
-
-		return null;
-	}
-
 	public Empresa removerEmpresa(long id) {
 		Iterator<Empresa> iterator = empresaLista.iterator();
 		Empresa obj = new Empresa();
 		while (iterator.hasNext()) {
 			obj = iterator.next();
 
-			if (obj.getIdEmpresa() != id && iterator.hasNext() == false) {
+			if (obj.getIdEmpresa() != id && !(iterator.hasNext())) {
 				throw new IllegalArgumentException("A Empresa " + id + " não existe\n");
 			} else if (obj.getIdEmpresa() == id) {
 				iterator.remove();
@@ -130,7 +130,7 @@ public class Empresa {
 
 	public void setCep(String cep) {
 		String aux = cep.replaceAll("\\D", "");
-		if (aux.length() >= 8) {
+		if (aux.length() == 8) {
 			this.cep = aux.substring(0,5) + "-" + aux.substring(5,8);
 		} else {
 			throw new IllegalArgumentException("Digite apenas os números do CEP"); //Ex CNPJ: 03575-090
@@ -147,7 +147,8 @@ public class Empresa {
 		if (aux.length() >= 10) {
 			this.telefone = "(" + aux.substring(0,2) + ") " + aux.substring(2,6) + "-" + aux.substring(6) ;
 		} else {
-			throw new IllegalArgumentException("Digite o DDD e o número do telefone/celular juntos.");
+			throw new IllegalArgumentException("Digite o DDD e o número do telefone/celular juntos."
+					+ "Ex.: 11941063792");
 		}
 
 	}

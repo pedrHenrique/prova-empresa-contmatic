@@ -1,10 +1,5 @@
 package br.com.contmatic.empresav1.controller;
 
-import br.com.contmatic.empresav1.model.Departamento;
-import br.com.contmatic.empresav1.model.Empresa;
-import br.com.contmatic.empresav1.model.Funcionario;
-import br.com.contmatic.empresav1.model.Pessoa;
-
 /*
  * 
  * > Projeto já previamente pronto para ser testado
@@ -15,7 +10,7 @@ public class Principal {
 	public static void main (String [] args) {
 		// Principal funcionou como base para testes primitivos
 	/*
-	 //Métodos de Teste da Classe Empresa	
+	 Métodos de Teste da Classe Empresa	
 		Empresa e = new Empresa();
 		e.registrarEmpresa(1, "TestMatic", "57.695.925/0001-11", "Rua do Mangericao 83", "1145649304");
 		
@@ -27,9 +22,9 @@ public class Principal {
 		
 		Empresa g = new Empresa();
 		g.removerEmpresa(3);
-	*/
 	
-	//Testando Polimorfismo e Ligação de Funcionario com Departamento
+	
+	Testando Polimorfismo e Ligação de Funcionario com Departamento
 		
 		
 
@@ -51,13 +46,13 @@ public class Principal {
 	
 	
 		
-	/*	
+		
 		Empresa emp = new Empresa();
 		emp.registrarEmpresa(4, "JuniorRobertinho", "60.449.385/0001-09", "Rua do São Sebastião 55", "20593218005");
 		emp.registrarEmpresa(5, "JuniorRobertinho", "60.449.385/0001-09", "Rua do São Sebastião 55", "20593218005");
 		emp.registrarEmpresa(6, "JuniorRobertinho", "60.449.385/0001-09", "Rua do São Sebastião 55", "20593218005");
 		emp.removerEmpresa(5);
-	*/
+	
 		
 	//Departamento d = new Departamento();
 	//d.adicionarDep(1, "Jubliskeison", 125);
@@ -65,6 +60,7 @@ public class Principal {
 	//d.adicionarDep(3, "Jubliskeison", 125);
 	
 
-	
+	*/
 	}
+	
 }
