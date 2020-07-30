@@ -14,6 +14,6 @@
 	> Reformulação de estrutura de testes<br>
 	
 -> 30/07/2020<br>
-	> Finalização dos Testes nas demais classes do projeto
-	> Amanhã será feito a vistória e a implementação <br>
+	> Finalização dos Testes nas demais classes do projeto<br>
+	> Amanhã será feito a vistoria dos testes e a implementação <br>
 	dos requisitos que estão faltando da prova 01 
