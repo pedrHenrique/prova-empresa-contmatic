@@ -1,7 +1,8 @@
 package br.com.contmatic.empresav1.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,13 +16,14 @@ public class DepartamentoTest {
 	
 	private static final String NULLSTR = null;
 	private static final String EMPTYSTR = "";
-	private static final Long NULLID = (Long) null;
+	private static final Long NULLID = null;	//Object
 	private static final Long EMPTYID = (long) 0;
-	private static Departamento departamento; 
-	private Departamento dep;
-	
 	private static final Object NULLINT = null;
 	private static final int EMPTYINT = 0;
+	
+	private static Departamento departamento; 
+	private Departamento dep; // criado para testar os getters/setters
+	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -41,6 +43,7 @@ public class DepartamentoTest {
 	@Before
 	public void setUp() throws Exception{
 		this.dep = new Departamento();
+		
 	}
 	
 	@After
@@ -58,7 +61,7 @@ public class DepartamentoTest {
 		long id = 10;
 
 		dep = new Departamento(id, "Financeiro", 226);
-		assertEquals("O Obj esperado era: ", dep, dep.solicitarDep(id));
+		assertThat("O Obj esperado era: ", dep, equalTo(departamento.solicitarDep(id))); //what we got - expected
 		assertNotNull("O objeto não deveria estar nulo", dep.solicitarDep(id));
 	}
 
@@ -67,18 +70,19 @@ public class DepartamentoTest {
 		long id = 11;
 
 		dep.registrarDep(id, "Expedição", 189);
-		assertEquals("O Obj esperado era:", dep, departamento.solicitarDep(id));
-		assertNotNull("O objeto não deveria estar nulo", dep.solicitarDep(id));
+		assertThat("O Obj esperado era: ", dep, equalTo(departamento.solicitarDep(id)));
+
+		assertNotNull("O objeto não deveria estar nulo", departamento.solicitarDep(id));
 
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void teste_objeto_criado_ja_existente_() {
 		long id = 1;
 		dep.registrarDep(id, "Financeiro", 226);
 	}
 	
-	@Test(expected = java.lang.NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void teste_objeto_sendo_criado_nulo_() {
 		dep = new Departamento(NULLID, "Qualidade", 250);
 
@@ -92,11 +96,11 @@ public class DepartamentoTest {
 	@Test
 	public void teste_remocao_objeto_existente() {
 		long id = 250;
-		assertEquals("Os objetos deveriam ser iguais", new Departamento(id, "Rogerio", 145), dep.removerDep(id));
+		assertThat("Os objetos deveriam ser iguais: ", new Departamento(id, "Rogerio", 145), equalTo(dep.removerDep(id)));
 
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void teste_remocao_objeto_nao_existente() {
 		long id = 179;
 		dep.removerDep(id);
@@ -114,7 +118,7 @@ public class DepartamentoTest {
 		assertNotNull("Esperava receber um objeto", dep.solicitarDep(3));
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void teste_busca_departamento_nao_existente() {
 		dep.solicitarDep(50); // deve falhar
 
@@ -128,15 +132,15 @@ public class DepartamentoTest {
 	public void teste_setNome_e_getNome_nome_correto() {
 		String name = new String("Gerencia");
 		dep.setNome(name);
-		assertEquals("Os valores deveriam ser iguais", name, dep.getNome());
+		assertThat("Os valores deveriam ser iguais: ", name, equalTo(dep.getNome()));
 	}
 
-	@Test(expected = java.lang.NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void teste_setNome_valor_nulo() {
 		dep.setNome(NULLSTR);
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void teste_setNome_valor_vazio() {
 		dep.setNome(EMPTYSTR);
 	}
@@ -145,15 +149,15 @@ public class DepartamentoTest {
 	public void teste_setId_e_getId_correto() {
 		long id = 25;
 		dep.setIdDepartamento(id);
-		assertEquals("Os valores deveriam ser iguais", id, dep.getIdDepartamento());
+		assertThat("Os valores deveriam ser iguais: ", id, equalTo(dep.getIdDepartamento()));
 	}
 
-	@Test(expected = java.lang.NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void teste_setId_valor_nulo() {
 		dep.setIdDepartamento(NULLID);
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void teste_setId_valor_vazio() {
 		dep.setIdDepartamento(EMPTYID);
 	}
@@ -162,15 +166,15 @@ public class DepartamentoTest {
 	public void teste_setRamal_e_getId_correto() {
 		int num = 456;
 		dep.setRamal(num);
-		assertEquals("Os valores deveriam ser iguais", num, dep.getRamal());
+		assertThat("Os valores deveriam ser iguais: ", num, equalTo(dep.getRamal()));
 	}
 
-	@Test(expected = java.lang.NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void teste_setRamal_valor_nulo() {
 		dep.setRamal((int) NULLINT);
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void teste_setRamal_valor_vazio() {
 		dep.setRamal(EMPTYINT);
 	}

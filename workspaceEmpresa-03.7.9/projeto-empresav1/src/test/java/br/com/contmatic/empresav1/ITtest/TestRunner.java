@@ -6,11 +6,12 @@ import org.junit.runner.notification.Failure;
 
 import br.com.contmatic.empresav1.test.DepartamentoTest;
 import br.com.contmatic.empresav1.test.EmpresaTest;
+import br.com.contmatic.empresav1.test.FuncionarioTest;
 
 public class TestRunner {
 
 	public static void main(String[] args) {
-		Result resultado = JUnitCore.runClasses(EmpresaTest.class, DepartamentoTest.class);
+		Result resultado = JUnitCore.runClasses(EmpresaTest.class, DepartamentoTest.class, FuncionarioTest.class);
 
 		for (Failure falha : resultado.getFailures()) {
 			System.out.println(falha.toString());

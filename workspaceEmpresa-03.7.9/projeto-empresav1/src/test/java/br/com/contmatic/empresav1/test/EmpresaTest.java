@@ -1,5 +1,6 @@
 package br.com.contmatic.empresav1.test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -60,7 +61,7 @@ public class EmpresaTest {
 	public void teste_objeto_criado_por_construtor() {
 		long id = 5;
 		empresa = new Empresa(id, "HoHoHo", "89270828000173", "04789050", "1125064896");
-		assertEquals("O Obj esperado era: ", empresa, empresa.solicitarEmpresa(id));
+		assertThat("O Obj esperado era: ", empresa, equalTo(empresa.solicitarEmpresa(id)));
 		assertNotNull("O objeto não deveria estar nulo", empresa.solicitarEmpresa(id));
 	}
 	
@@ -69,7 +70,7 @@ public class EmpresaTest {
 		long id = 6;
 
 		empresa.registrarEmpresa(id, "HoHoHo", "89270828000173", "04789050", "1125064896");
-		assertEquals("O Obj esperado era:", empresa, empresa.solicitarEmpresa(id));
+		assertThat("O Obj esperado era:", empresa, equalTo(empresa.solicitarEmpresa(id)));
 		assertNotNull("O objeto não deveria estar nulo", empresa.solicitarEmpresa(id));
 	}
 	
@@ -89,7 +90,7 @@ public class EmpresaTest {
 	@Test
 	public void teste_remocao_objeto_existente() {
 		long id = 250;
-		assertEquals("O Obj esperado era:", new Empresa(id, "HoHoHo", "89270828000173", "04789050", "1125064896"), empresa.removerEmpresa(id));
+		assertThat("O Obj esperado era:", new Empresa(id, "HoHoHo", "89270828000173", "04789050", "1125064896"), equalTo(empresa.removerEmpresa(id)));
 
 	}
 
@@ -110,7 +111,6 @@ public class EmpresaTest {
 	public void teste_busca_departamento_nao_existente() {
 		long id = 899;
 		empresa.solicitarEmpresa(id); // deve falhar
-
 	}
 	
 	
@@ -140,7 +140,7 @@ public class EmpresaTest {
 	public void teste_setNome_e_getNome_correto() {
 		String nome = "Softmatic";
 		empresa.setNome(nome);
-		assertEquals("Os valores deveriam ser iguais", nome, empresa.getNome());
+		assertThat("Os valores deveriam ser iguais", nome, equalTo(empresa.getNome()));
 	}
 	
 	@Test(expected = java.lang.NullPointerException.class)
@@ -157,7 +157,7 @@ public class EmpresaTest {
 	public void teste_setCNPJ_e_getCNPJ_correto() {
 		String cnpj = "15456145000169";
 		empresa.setCnpj(cnpj);
-		assertEquals("Os valores deveriam ser iguais", cnpj, empresa.getCnpj().replaceAll("\\D", ""));
+		assertThat("Os valores deveriam ser iguais", cnpj, equalTo(empresa.getCnpj().replaceAll("\\D", "")));
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
@@ -174,7 +174,7 @@ public class EmpresaTest {
 	public void teste_setCep_e_getCep_correto() {
 		String cep = "03575090";
 		empresa.setCep(cep);
-		assertEquals("Os valores deveriam ser iguais", cep, empresa.getCep().replaceAll("\\D", ""));
+		assertThat("Os valores deveriam ser iguais", cep, equalTo(empresa.getCep().replaceAll("\\D", "")));
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
@@ -191,7 +191,7 @@ public class EmpresaTest {
 	public void teste_setTelefone_e_getTelefone_correto() {
 		String telefone = "11998420563";
 		empresa.setTelefone(telefone);
-		assertEquals("Os valores deveriam ser iguais", telefone, empresa.getTelefone().replaceAll("\\D", ""));
+		assertThat("Os valores deveriam ser iguais", telefone, equalTo(empresa.getTelefone().replaceAll("\\D", "")));
 	}
 
 	@Test(expected = java.lang.NullPointerException.class)
