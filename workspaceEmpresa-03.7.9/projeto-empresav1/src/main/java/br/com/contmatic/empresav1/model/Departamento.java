@@ -54,7 +54,7 @@ public class Departamento {
 
 	private void salvarRegistro(Departamento departamento) {
 		if (departamentoLista.contains(departamento)) {
-			throw new IllegalArgumentException("O Departamento " + getIdDepartamento() + " já possui registro\n");
+			throw new IllegalArgumentException(getIdDepartamento() + " já possui registro\n");
 		} else {
 			departamentoLista.add(departamento);
 		}
@@ -62,8 +62,10 @@ public class Departamento {
 
 	public Departamento solicitarDep(long id) {
 		Iterator<Departamento> iterator = getDepartamentoLista().iterator();
+		Departamento obj = new Departamento();
+		
 		while (iterator.hasNext()) {
-			Departamento obj = iterator.next();
+			obj = iterator.next();
 			if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
 				throw new IllegalArgumentException("Departamento " + id + " não existe\n");
 			} else if (obj.getIdDepartamento() == id) {
@@ -83,7 +85,7 @@ public class Departamento {
 
 			while (iterator.hasNext()) {
 				Departamento obj = iterator.next();
-				if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
+				if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
 					throw new IllegalArgumentException("Departamento " + id + " não existe\n");
 				} else if (obj.getIdDepartamento() == id) {
 					return obj;
@@ -99,7 +101,7 @@ public class Departamento {
 		while (iterator.hasNext()) {
 			obj = iterator.next();
 
-			if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
+			if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
 				throw new IllegalArgumentException("O Departamento " + id + " não existe\n");
 			} else if (obj.getIdDepartamento() == id) {
 				iterator.remove();
@@ -117,7 +119,7 @@ public class Departamento {
 
 			while (iterator.hasNext()) {
 				Departamento obj = iterator.next();
-				if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
+				if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
 					throw new IllegalArgumentException("O Departamento " + id + " não existe\n");
 				} else if (obj.getIdDepartamento() == id) {
 					break;
@@ -204,7 +206,7 @@ public class Departamento {
 
 	@Override
 	public String toString() {
-		return ("Departamento: " + nome + ", idDepartamento=" + idDepartamento + ", Ramal=" + ramal);
+		return ("Departamento: " + nome + ", idDepartamento: " + idDepartamento + ", Ramal: " + ramal);
 
 	}
 

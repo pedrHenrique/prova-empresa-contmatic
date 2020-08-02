@@ -3,7 +3,6 @@ package br.com.contmatic.empresav1.model;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.HashSet;
-import java.util.Scanner;
 
 public class Empresa {
 
@@ -11,79 +10,100 @@ public class Empresa {
 	private long idEmpresa;
 	private String nome;
 	private String cnpj;
-	private String endereco;
+	private String cep;
 	private String telefone;
 	private static Collection<Empresa> empresaLista = new HashSet<Empresa>();
 
-	/*
-	 * Construtor utilizado para instanciar a classe empresa
-	 */
+	// Construtores
 	public Empresa(long idEmpresa, String nome, String cnpj, String endereco, String telefone) {
 		setIdEmpresa(idEmpresa);
 		setNome(nome);
 		setCnpj(cnpj);
-		setEndereco(endereco);
+		setCep(endereco);
 		setTelefone(telefone);
+		salvarRegistro(this);
 	}
 
-	/*
-	 * Construtor para a utilização da classe sem a necessidade de parâmetros
-	 */
 	public Empresa() {
 
+	}
+
+	// Métodos
+
+	public Collection<Empresa> listarEmpresas() {
+		empresaLista.forEach(System.out::println);
+		return empresaLista;
+	}
+	
+	public Empresa solicitarEmpresa(long id) {
+		Iterator<Empresa> iterator = getEmpresaLista().iterator();
+		Empresa obj = new Empresa();
+		while (iterator.hasNext()) {
+			obj = iterator.next();
+			
+			if (obj.getIdEmpresa() != id && !(iterator.hasNext())) {
+				throw new IllegalArgumentException("Departamento " + id + " não existe\n");
+			} else if (obj.getIdEmpresa() == id) {
+				break;
+				
+			}
+		}
+		return obj;
 	}
 
 	public void registrarEmpresa(long idEmpresa, String nome, String cnpj, String endereco, String telefone) {
 		setIdEmpresa(idEmpresa);
 		setNome(nome);
 		setCnpj(cnpj);
-		setEndereco(endereco);
+		setCep(endereco);
 		setTelefone(telefone);
+		new Empresa(idEmpresa, nome, cnpj, endereco, telefone);
+	}
 
-		Empresa empresa = new Empresa(getIdEmpresa(), getNome(), getCnpj(), getEndereco(), getTelefone());
-
-		if (empresaLista.contains(empresa)) {
-			throw new IllegalArgumentException("A Empresa " + getIdEmpresa() + " já possui registro\n");
+	private void salvarRegistro(Empresa departamento) {
+		if (empresaLista.contains(departamento)) {
+			throw new IllegalArgumentException("A empresa: " + getIdEmpresa() + " já possui registro\n");
 		} else {
-			empresaLista.add(empresa);
-			System.out.println("A empresa com ID: " + getIdEmpresa() + " Foi cadastrada com sucesso!\n");
+			empresaLista.add(departamento);
 		}
 	}
 
-	public void removerEmpresa(long id) {
+	public Empresa removerEmpresa(long id) {
 		Iterator<Empresa> iterator = empresaLista.iterator();
+		Empresa obj = new Empresa();
 		while (iterator.hasNext()) {
-			Empresa obj = iterator.next();
-			if (obj.getIdEmpresa() != id && iterator.hasNext() == false) {
+			obj = iterator.next();
+
+			if (obj.getIdEmpresa() != id && !(iterator.hasNext())) {
 				throw new IllegalArgumentException("A Empresa " + id + " não existe\n");
 			} else if (obj.getIdEmpresa() == id) {
+				iterator.remove();
 				break;
 			}
-			System.out.println("A empresa encontrado foi: " + obj + ". Deseja removela?");
-			try (Scanner input = new Scanner(System.in)) {
-				String resposta = input.nextLine();
-				if (resposta.equalsIgnoreCase("s")) {
-					iterator.remove();
-					System.out.println("A empresa foi excluido com sucesso\n");
-				} else {
-					System.out.println("Operação Abortada");
-				}
-			}
 		}
-	}
-
-	public void listarEmpresas() {
-		empresaLista.forEach(System.out::println);
+		return obj;
 	}
 
 	// Getters and Setters
+	
+	public long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(long idEmpresa) {
+		if (idEmpresa > 0 && idEmpresa <= 500) {
+			this.idEmpresa = idEmpresa;
+		} else {
+			throw new IllegalArgumentException("O ID da empresa deve ser maior que zero e menor que 500!");
+		}
+	}
 
 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
-		if (nome.length() >= 5) {
+		if ((nome.length() >= 5) && !(nome.isEmpty())) {
 			this.nome = nome;
 		} else {
 			throw new IllegalArgumentException("Nome deve ter 5 ou mais caracteres!");
@@ -94,47 +114,47 @@ public class Empresa {
 		return cnpj;
 	}
 
-	public void setCnpj(String cnpj) {//TODO Modificar CPF amanhã
-		if (cnpj.length() == 18) {
-			this.cnpj = cnpj;
+	public void setCnpj(String cnpj) {
+		String aux = cnpj.replaceAll("\\D", "");
+		if (aux.length() == 14) {
+			this.cnpj = aux.substring(0,2) + "." + aux.substring(2,5) + "." + aux.substring(5,8) +
+					"/" + aux.substring(8,12) + "-" + aux.substring(12,14);
 		} else {
-			throw new IllegalArgumentException(
-					"CNPJ precisa ter os 14 números mais a pontuação. Ex.: 00.000.000/0001-00!");
+			throw new IllegalArgumentException("Digite apenas os números do CNPJ!!"); //Ex CNPJ: 00.000.000/0001-00
 		}
 	}
 
-	public String getEndereco() {
-		return endereco;
+	public String getCep() {
+		return cep;
 	}
 
-	public void setEndereco(String endereco) {
-		//TODO Definir configuração para Endereco
-		this.endereco = endereco;
+	public void setCep(String cep) {
+		String aux = cep.replaceAll("\\D", "");
+		if (aux.length() == 8) {
+			this.cep = aux.substring(0,5) + "-" + aux.substring(5,8);
+		} else {
+			throw new IllegalArgumentException("Digite apenas os números do CEP"); //Ex CNPJ: 03575-090
+		}
+		
 	}
 
-	public String getTelefone() {
+	public String getTelefone() { //(11) 4564-9304 
 		return telefone;
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone.length() > 11 || telefone.length() < 15) {
-			this.telefone = telefone;
+		String aux = telefone.replaceAll("\\D", "");
+		if (aux.length() >= 10) {
+			this.telefone = "(" + aux.substring(0,2) + ") " + aux.substring(2,6) + "-" + aux.substring(6) ;
 		} else {
-			throw new IllegalArgumentException("O telefone está incorreto. Ex.: 011998420563");
+			throw new IllegalArgumentException("Digite o DDD e o número do telefone/celular juntos."
+					+ "Ex.: 11941063792");
 		}
 
 	}
 
-	public long getIdEmpresa() {
-		return idEmpresa;
-	}
-
-	public void setIdEmpresa(long idEmpresa) {
-		if (idEmpresa > 0) {
-			this.idEmpresa = idEmpresa;
-		} else {
-			throw new IllegalArgumentException("O ID da empresa deve ser maior que zero!");
-		}
+	public static Collection<Empresa> getEmpresaLista() {
+		return empresaLista;
 	}
 
 	@Override
@@ -160,8 +180,9 @@ public class Empresa {
 	}
 
 	@Override
-	public String toString() {
-		return "Empresa: " + "[ID=" + idEmpresa + ", Nome=" + nome + ", CNPJ=" + cnpj + ", Endereco=" + endereco + "]";
+	public String toString() { //Ex CNPJ: 00.000.000/0001-00
+		return "Empresa: [" + idEmpresa + ", Nome: " + nome + ", CNPJ: " + getCnpj() + 
+				", Cep: " + getCep() + ", Telefone: " + getTelefone() + "]";
 	}
 
 }

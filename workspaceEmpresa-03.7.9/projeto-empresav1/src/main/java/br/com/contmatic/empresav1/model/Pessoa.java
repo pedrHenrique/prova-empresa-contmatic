@@ -1,6 +1,5 @@
 package br.com.contmatic.empresav1.model;
 
-import java.text.DateFormat;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -11,19 +10,19 @@ public abstract class Pessoa {
 	private long idPessoa;
 	private String nome;
 	private String cpf;
-	private String endereco;
+	private String cep;
 	private String telefone;
 	private static Collection<Pessoa> pessoaLista = new HashSet<Pessoa>();
 
 	// Construtores
 
-	public Pessoa(long idPessoa, String nome, String cpf, String endereco, String telefone) {
+	public Pessoa(long idPessoa, String nome, String cpf, String cep, String telefone) {
 		setIdPessoa(idPessoa);
 		setNome(nome);
 		setCpf(cpf);
-		setEndereco(endereco);
+		setCep(cep);
 		setTelefone(telefone);
-		adiciona(this);
+		salvarRegistro(this);
 	}
 
 	public Pessoa() {
@@ -33,30 +32,23 @@ public abstract class Pessoa {
 	// Métodos
 
 	// Método de listagem inicial.
-	public abstract void solicitarPessoa();
+	public abstract Pessoa solicitarPessoa(long id);
 
-	public abstract void cadastrarPessoa(long idPessoa);
+	public abstract Pessoa solicitarPessoa(String cpf);
+
+	public abstract Collection<Pessoa> listarPessoa();
 
 	// Sonar: Major
-	public abstract void cadastrarPessoa(long idPessoa, String nome, String cpf, String endereco, String telefone,
-			String email, double salario);
+	public abstract Pessoa cadastrarPessoa(long idPessoa, String nome, String cpf, String endereco, String telefone,
+			String email, long dep, double salario);
 
-	public abstract void removerPessoa(long id);
+	public abstract Pessoa removerPessoa(long id);
 
-	// Método secundário para testes
-	public void listaPessoa() {
-		System.out.println("Exibindo Pessoas da Classe Pessoa:");
-		for (Pessoa p : pessoaLista) {
-			System.out.println(p);
-		}
-	}
-
-	private void adiciona(Pessoa p) {
+	private void salvarRegistro(Pessoa p) {
 		if (pessoaLista.contains(p)) {
 			throw new IllegalArgumentException("A Pessoa " + getIdPessoa() + " já possui registro\n");
 		} else {
 			pessoaLista.add(p);
-			System.out.println("Pessoa cadastrada com sucesso.\n");
 		}
 	}
 
@@ -80,10 +72,10 @@ public abstract class Pessoa {
 	}
 
 	public void setNome(String nome) {
-		if (!(nome.length() < 5) && !(nome.isEmpty())) { // Se Nome ñ tiver um tam > que 5 e nome não estiver vazio
+		if (!(nome.length() < 3) && !(nome.isEmpty())) { // Se Nome ñ tiver um tam > que 5 e nome não estiver vazio
 			this.nome = nome;// adicione nome
 		} else {
-			throw new IllegalArgumentException("Nome deve ter 5 ou mais caracteres!");
+			throw new IllegalArgumentException("Nome deve ter 3 ou mais caracteres!");
 		}
 	}
 
@@ -92,20 +84,26 @@ public abstract class Pessoa {
 	}
 
 	public void setCpf(String cpf) {
-		if (cpf.length() == 11) {
-			this.cpf = cpf;
+		String aux = cpf.replaceAll("\\D", "");
+		if (aux.length() == 11) {
+			this.cpf = aux.substring(0, 3) + "." + aux.substring(3, 6) + "." + aux.substring(6, 9) + "-"
+					+ aux.substring(9, 11);
 		} else {
 			throw new IllegalArgumentException("Digite apenas os números do CPF");
 		}
 	}
 
-	public String getEndereco() {
-		return endereco;
+	public String getCep() {
+		return cep;
 	}
 
-	public void setEndereco(String endereco) {
-		//TODO Definir configuração para Endereco
-		this.endereco = endereco;
+	public void setCep(String cep) {
+		String aux = cep.replaceAll("\\D", "");
+		if (aux.length() == 8) {
+			this.cep = aux.substring(0, 5) + "-" + aux.substring(5, 8);
+		} else {
+			throw new IllegalArgumentException("Digite apenas os números do CEP"); // Ex CNPJ: 03575-090
+		}
 	}
 
 	public String getTelefone() {
@@ -113,16 +111,18 @@ public abstract class Pessoa {
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone.length() > 11 || telefone.length() < 15) {
-			this.telefone = telefone;
+		String aux = telefone.replaceAll("\\D", "");
+		if (aux.length() >= 10) {
+			this.telefone = "(" + aux.substring(0, 2) + ") " + aux.substring(2, 6) + "-" + aux.substring(6);
 		} else {
-			throw new IllegalArgumentException("O telefone está incorreto. Ex.: 011998420563");
+			throw new IllegalArgumentException(
+					"Digite o DDD e o número do telefone/celular juntos." + "Ex.: 11941063792");
 		}
 	}
 
 	public static Collection<Pessoa> getPessoaLista() {
 		return pessoaLista;
-	}
+	} 
 
 	@Override
 	public int hashCode() {
