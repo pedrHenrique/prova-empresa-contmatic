@@ -7,6 +7,13 @@ public class Funcionario extends Pessoa {
 
 	// Variáveis
 
+	// Para amanhã 
+	 //Cada Funcionario terá um ID de Identificação
+	 //Cada ID terá como base um CPF que é atributo de Pessoa
+	 // Se o ID já estiver cadastrado, o funcionario não pode ser criado
+	 // Se o CPF da pessoa já estiver cadastrado. O Funcionario e a pessoa não podem ser criados
+	
+	private long idFuncionario;
 	private String email;
 	private double salario;
 	private Departamento departamento = new Departamento();
@@ -121,6 +128,28 @@ public class Funcionario extends Pessoa {
 		} else {
 			throw new IllegalArgumentException("Salario está incorreto!");
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + (int) (idFuncionario ^ (idFuncionario >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Funcionario other = (Funcionario) obj;
+		if (idFuncionario != other.idFuncionario)
+			return false;
+		return true;
 	}
 
 	@Override

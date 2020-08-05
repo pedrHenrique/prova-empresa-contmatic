@@ -17,11 +17,9 @@ public abstract class Pessoa {
 	// Construtores
 
 	public Pessoa(long idPessoa, String nome, String cpf, String cep, String telefone) {
-		setIdPessoa(idPessoa);
 		setNome(nome);
 		setCpf(cpf);
 		setCep(cep);
-		setTelefone(telefone);
 		salvarRegistro(this);
 	}
 
