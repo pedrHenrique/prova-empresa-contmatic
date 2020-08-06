@@ -7,10 +7,13 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import br.com.contmatic.empresav1.model.Empresa;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmpresaTest {
 	
 	// Variáveis 

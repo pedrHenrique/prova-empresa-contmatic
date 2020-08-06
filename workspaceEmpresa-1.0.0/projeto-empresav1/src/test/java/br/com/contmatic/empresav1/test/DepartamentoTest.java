@@ -8,12 +8,15 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import br.com.contmatic.empresav1.model.Departamento;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DepartamentoTest {
-	
+
 	private static final String NULLSTR = null;
 	private static final String EMPTYSTR = "";
 	private static final Long NULLID = null;	//Object
@@ -22,8 +25,7 @@ public class DepartamentoTest {
 	private static final int EMPTYINT = 0;
 	
 	private static Departamento departamento; 
-	private Departamento dep; // criado para testar diferença de instâncias 
-	
+	private Departamento dep; // criado para testar diferença de instâncias 	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -50,7 +52,8 @@ public class DepartamentoTest {
 	public void tearDown() throws Exception{
 		this.dep = null;
 	}
-
+	
+	
 	/*
 	 * Está seção de testes tem o intuito de testar os métodos de criação dos
 	 * objetos da classe

@@ -7,12 +7,15 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import br.com.contmatic.empresav1.model.Departamento;
 import br.com.contmatic.empresav1.model.Funcionario;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FuncionarioTest {
 
 	private static final Object NULLOBJ = null;
