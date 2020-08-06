@@ -27,7 +27,6 @@ public class Departamento {
 	// Métodos
 
 	public Collection<Departamento> listarDepartamentos() {
-		departamentoLista.forEach(System.out::println);
 		return departamentoLista;
 	}
 
