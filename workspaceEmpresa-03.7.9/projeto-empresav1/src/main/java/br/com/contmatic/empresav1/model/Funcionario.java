@@ -1,33 +1,33 @@
 package br.com.contmatic.empresav1.model;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
-public class Funcionario extends Pessoa {
+public class Funcionario {
 
 	// Variáveis
-
-	// Para amanhã 
-	 //Cada Funcionario terá um ID de Identificação
-	 //Cada ID terá como base um CPF que é atributo de Pessoa
-	 // Se o ID já estiver cadastrado, o funcionario não pode ser criado
-	 // Se o CPF da pessoa já estiver cadastrado. O Funcionario e a pessoa não podem ser criados
 	
 	private long idFuncionario;
+	private String nome;
+	private String cpf;
+	private String cep;
 	private String email;
 	private double salario;
 	private Departamento departamento = new Departamento();
-	// TODO private ProjetoFuncionarioProjeto e DtAdmissão furutamente planejados
+	private static Collection<Funcionario> funcionarioLista = new HashSet<Funcionario>();
 
 	// Construtores
 
-	public Funcionario(long idPessoa, String nome, String cpf, String cep, String telefone, String email,
-			long dep, double salario) {
-		
-		super(idPessoa, nome, cpf, cep, telefone);
+	public Funcionario(long idFuncionario, String nome, String cpf, String cep, String email, long dep, double salario) {
+		setIdFuncionario(idFuncionario);
+		setNome(nome);
+		setCpf(cpf);
+		setCep(cep);
 		setEmail(email);
-		buscaDepartamento(departamento.solicitarDep(dep));
+		buscaDepartamento(departamento.solicitaDep(dep));
 		setSalario(salario);
+		salvaRegistro(this);
 	}
 
 	public Funcionario() {
@@ -35,79 +35,59 @@ public class Funcionario extends Pessoa {
 	}
 
 	// Métodos
-
-	@Override
-	public Pessoa solicitarPessoa(String cpf) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	@Override
-	public Collection<Pessoa> listarPessoa() {
-		getPessoaLista().forEach(System.out::println);
-		return Pessoa.getPessoaLista();
+
+	public Collection<Funcionario> listaFuncionario() {
+		return getFuncionarioLista();
+		
 	}
 
-	@Override
-	public Pessoa solicitarPessoa(long id) {
-		Iterator<Pessoa> iterator = getPessoaLista().iterator();
-		Pessoa obj = new Funcionario();
+	public Funcionario solicitaFuncionario(long id) {
+		Iterator<Funcionario> iterator = getFuncionarioLista().iterator();
+		Funcionario obj = new Funcionario();
 		while(iterator.hasNext()) {
 			obj = iterator.next();
 			
-			if (obj.getIdPessoa() != id && !(iterator.hasNext())) {
+			if (obj.getIdFuncionario() != id && !(iterator.hasNext())) {
 				throw new IllegalArgumentException("O Funcionario com o ID: " + id + " não existe\n");
-			} else if (obj.getIdPessoa() == id) {
+			} else if (obj.getIdFuncionario() == id) {
 				break;
 			}
 		}
 		return obj;
 	}
 	
-	@Override
-	public Pessoa cadastrarPessoa(long id, String nome, String cpf, String cep, String telefone, 
-			String email, long dep, double salario) {
+	public Funcionario cadastraFuncionario(long id, String nome, String cpf, String cep, String email, long dep, double salario) {
 			
-		return new Funcionario(id, nome, cpf, cep, telefone, email, dep, salario);
+		return new Funcionario(id, nome, cpf, cep, email, dep, salario);
 	}
 	
-	@Override
-	public Pessoa removerPessoa(long id) {
-		Iterator<Pessoa> iterator = getPessoaLista().iterator();
-		Pessoa obj = new Funcionario();
+	public Funcionario removeFuncionario(long id) {
+		Iterator<Funcionario> iterator = getFuncionarioLista().iterator();
+		Funcionario obj = new Funcionario();
 
 		while (iterator.hasNext()) {
 			obj = iterator.next();
 
-			if (obj.getIdPessoa() != id && !(iterator.hasNext())) {
-				throw new IllegalArgumentException("A pessoa com o ID: " + id + " não existe\n");
-			} else if (obj.getIdPessoa() == id) {
+			if (obj.getIdFuncionario() != id && !(iterator.hasNext())) {
+				throw new IllegalArgumentException(" com o ID: " + id + " não existe\n");
+			} else if (obj.getIdFuncionario() == id) {
 				iterator.remove();
 				break;
 			}
 		}
 		return obj;
 	}
-
-	// Getters and Setters
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		if (email.contains("@") && email.contains(".com") && !(email.isEmpty() && email.length() < 5)) {
-			this.email = email;
+	
+	private void salvaRegistro(Funcionario funcionario) {
+		if (funcionarioLista.contains(funcionario)) {
+			throw new IllegalArgumentException("O Funcionario: " + getNome() + " de ID: " + getIdFuncionario() + " já possui registro\n");
 		} else {
-			throw new IllegalArgumentException(
-					"Por favor, digite um email válido. Ex.: pedro.silva@contmatic.com.br\n");
+			funcionarioLista.add(funcionario);
 		}
+		
 	}
-
-	public Departamento getDepartamento() {
-		return departamento;
-	}
-
+	
 	public Departamento buscaDepartamento(Departamento departamento) { // Está Verificando
 		if (Departamento.getDepartamentoLista().contains(departamento)) {
 			this.departamento = departamento;
@@ -116,11 +96,87 @@ public class Funcionario extends Pessoa {
 			throw new IllegalArgumentException("Este departamento não possui registro\n");
 		}
 	}
-		
 
+	// Getters and Setters
+	
+	public long getIdFuncionario() {
+		return idFuncionario;
+		
+	}
+
+	public void setIdFuncionario(long idFuncionario) {
+		if (idFuncionario > 0) {
+			this.idFuncionario = idFuncionario;
+		} else {
+			throw new IllegalArgumentException("ID para pessoa precisa ser mais de 0");
+		}
+	}
+	
+	public String getNome() {
+		return nome;
+		
+	}
+
+	public void setNome(String nome) {
+		if (nome.length() >= 3 && !(nome.isEmpty())) { 
+			this.nome = nome;// adicione nome
+		} else {
+			throw new IllegalArgumentException("Nome deve ter 3 ou mais caracteres!");
+		}
+	}
+
+	
+	public String getCpf() {
+		return cpf;
+		
+	}
+
+	public void setCpf(String cpf) {
+		String aux = cpf.replaceAll("\\D", "");
+		if (aux.length() == 11) {
+			this.cpf = aux.substring(0, 3) + "." + aux.substring(3, 6) + "." + aux.substring(6, 9) + "-"
+					+ aux.substring(9, 11);
+		} else {
+			throw new IllegalArgumentException("Digite apenas os números do CPF");
+		}
+	}
+
+
+	public String getEmail() {
+		return email;
+		
+	}
+
+
+	public void setEmail(String email) {
+		if (email.contains("@") && email.contains(".com") && !(email.isEmpty() && email.length() < 5)) {
+			this.email = email;
+		} else {
+			throw new IllegalArgumentException(
+					"Por favor, digite um email válido. Ex.: nome.outronome@dominio.com.br\n");
+		}
+		
+	}
+	
+	public String getCep() {
+		return cep;
+		
+	}
+
+	public void setCep(String cep) {
+		String aux = cep.replaceAll("\\D", "");
+		if (aux.length() == 8) {
+			this.cep = aux.substring(0, 5) + "-" + aux.substring(5, 8);
+		} else {
+			throw new IllegalArgumentException("Digite apenas os números do CEP"); // Ex CNPJ: 03575-090
+		}
+	}
+	
 	public double getSalario() {
 		return salario;
+		
 	}
+	
 
 	public void setSalario(double salario) {
 		if (salario > 0 && salario <= 10000.00) {
@@ -128,12 +184,23 @@ public class Funcionario extends Pessoa {
 		} else {
 			throw new IllegalArgumentException("Salario está incorreto!");
 		}
+		
+	}
+
+	public Departamento getDepartamento() {
+		return departamento;
+		
+	}		
+
+	public static Collection<Funcionario> getFuncionarioLista() {
+		return funcionarioLista;
+		
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + (int) (idFuncionario ^ (idFuncionario >>> 32));
 		return result;
 	}
@@ -142,9 +209,7 @@ public class Funcionario extends Pessoa {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Funcionario))
 			return false;
 		Funcionario other = (Funcionario) obj;
 		if (idFuncionario != other.idFuncionario)
@@ -154,15 +219,10 @@ public class Funcionario extends Pessoa {
 
 	@Override
 	public String toString() {
-		return "Funcionario: [ID= " + getIdPessoa() + ", Nome= " + getNome() + ", Cpf= " + getCpf() + " Cep= "
-				+ getCep() + " Telefone= " + getTelefone() + " Email= " + getEmail() + " Salario=  " + getSalario() 
+		return "Funcionario: [ID= " + getIdFuncionario() + ", Nome= " + getNome() + ", Cpf= " + getCpf() + " Cep= "
+				+ getCep() + " Telefone= " + getIdFuncionario() + " Email= " + getEmail() + " Salario=  " + getSalario() 
 				+ " " + getDepartamento() + "]";
 	}
 
 }
 
-//public String toString() {
-// Exemplo de Concatenar
-// String s = "Pessoa: [idPessoa= " + getIdPessoa() + ", nome= " + getNome() + " [teste=" + teste + "]" ;
-// s += super.toString();
-// return s;

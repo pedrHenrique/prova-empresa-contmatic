@@ -19,24 +19,24 @@ public class EmpresaTest {
 	private static final String EMPTYSTR = "";
 	private static final Long NULLID = (Long) null;
 	private static final Long EMPTYID = (long) 0;
-	private static Empresa exemplo1;
-	private Empresa empresa; 
+	private static Empresa EmpresaTest;
+	private Empresa empresa;  // criado para testar diferença de instâncias 
 	
 	//Configuração do teste
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		exemplo1 = new Empresa();
+		EmpresaTest = new Empresa();
 		
-		exemplo1.registrarEmpresa(1, "TestMatic", "57695925000111", "03575090", "1145649304");
-		exemplo1.registrarEmpresa(2,"MarcaoTimatic", "89138206000196", "72150704", "11941063792");
-		exemplo1.registrarEmpresa(3, "Softmatiqui", "60449385000109", "57071401", "1104028922");
+		EmpresaTest.registrarEmpresa(1, "TestMatic", "57695925000111", "03575090", "1145649304");
+		EmpresaTest.registrarEmpresa(2,"MarcaoTimatic", "89138206000196", "72150704", "11941063792");
+		EmpresaTest.registrarEmpresa(3, "Softmatiqui", "60449385000109", "57071401", "1104028922");
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {	
 		Empresa.getEmpresaLista().clear();
-		exemplo1 = null;
+		EmpresaTest = null;
 	}
 	
 	@Before
@@ -48,8 +48,6 @@ public class EmpresaTest {
 	public void tearDown() throws Exception{
 		this.empresa = null;
 	}	
-	
-	// Testar a implementação de testes de criação de objetos NULOS
 	
 	/*
 	 * Está seção de testes tem o intuito de testar os métodos principais

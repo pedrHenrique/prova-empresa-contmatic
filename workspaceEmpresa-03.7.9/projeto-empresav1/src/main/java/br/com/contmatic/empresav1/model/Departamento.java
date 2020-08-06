@@ -33,7 +33,7 @@ public class Departamento {
 		return departamentoLista;
 	}
 
-	public void registrarDep() {
+	public void registraDep() {
 		input = new Scanner(System.in);
 		System.out.print("Digite o número do Departamento: ");
 		setIdDepartamento(input.nextLong());
@@ -45,7 +45,7 @@ public class Departamento {
 
 	}
 
-	public void registrarDep(long id, String nome, int ramal) {
+	public void registraDep(long id, String nome, int ramal) {
 		setIdDepartamento(id);
 		setNome(nome);
 		setRamal(ramal);
@@ -60,14 +60,14 @@ public class Departamento {
 		}
 	}
 
-	public Departamento solicitarDep(long id) {
+	public Departamento solicitaDep(long id) {
 		Iterator<Departamento> iterator = getDepartamentoLista().iterator();
 		Departamento obj = new Departamento();
 		
 		while (iterator.hasNext()) {
 			obj = iterator.next();
-			if (obj.getIdDepartamento() != id && iterator.hasNext() == false) {
-				throw new IllegalArgumentException("Departamento " + id + " não existe\n");
+			if (obj.getIdDepartamento() != id && !(iterator.hasNext())) {
+				throw new IllegalArgumentException("Departamento " + id + " não foi encontrado\n");
 			} else if (obj.getIdDepartamento() == id) {
 				return obj;
 			}
@@ -76,7 +76,7 @@ public class Departamento {
 
 	}
 
-	public Departamento solicitarDep() { // Not able to run with multiples requests
+	public Departamento solicitaDep() { // Not able to run with multiples requests
 		try (Scanner user = new Scanner(System.in)) {
 			Iterator<Departamento> iterator = getDepartamentoLista().iterator();
 
@@ -95,7 +95,7 @@ public class Departamento {
 		return null;
 	}
 
-	public Departamento removerDep(long id) {
+	public Departamento removeDep(long id) {
 		Iterator<Departamento> iterator = getDepartamentoLista().iterator();
 		Departamento obj = new Departamento();
 		while (iterator.hasNext()) {

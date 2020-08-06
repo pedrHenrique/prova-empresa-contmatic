@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import br.com.contmatic.empresav1.model.Departamento;
 import br.com.contmatic.empresav1.model.Funcionario;
-import br.com.contmatic.empresav1.model.Pessoa;
 
 public class FuncionarioTest {
 
@@ -26,7 +25,7 @@ public class FuncionarioTest {
 	private static final int EMPTYINTEGER = 0;
 
 	private static Funcionario funcionario;
-	private Funcionario fun; // criado para testar os getters/setters.
+	private Funcionario fun; // criado para testar diferença de instâncias 
 	private static Departamento dep;
 	
 
@@ -35,13 +34,14 @@ public class FuncionarioTest {
 		funcionario = new Funcionario();
 
 		dep = new Departamento(1, " DepTestes", 256);
-		funcionario.cadastrarPessoa(1, "Ana", "56495985096", "03575090", "11941063792",
+		funcionario.cadastraFuncionario(1, "Ana", "56495985096", "03575090", 
 				"testeMatic@cont.com", 1,3500.00);
+		
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		Funcionario.getPessoaLista().clear();
+		Funcionario.getFuncionarioLista().clear();
 		Departamento.getDepartamentoLista().clear();
 		funcionario = null;
 		dep = null;
@@ -65,59 +65,58 @@ public class FuncionarioTest {
 	@Test
 	public void teste_criando_objeto_construtor() {
 		long id = 2;
-		fun = new Funcionario(id, "Joana", "45495985096", "03575090", "11941063792",
+		fun = new Funcionario(id, "Joana", "45495985096", "03575090",
 				"testeMatic@cont.com", 1, 1500.00);
-		assertThat("O Obj esperado era:", fun, equalTo(funcionario.solicitarPessoa(id)));
+		assertThat("O Obj esperado era:", fun, equalTo(funcionario.solicitaFuncionario(id)));
 	}
 
 	@Test
 	public void teste_objeto_criado_por_metodo_com_parametros() {
 	long id = 3;
-	assertThat("O Obj esperado era:",fun.cadastrarPessoa(id, "Cleber", "71477403000", "69915890",
-			"1194106792", "testeMatic@cont.com", 1, 1500.79), equalTo(funcionario.solicitarPessoa(id)));
-	assertNotNull("O objeto não deveria estar nulo", Pessoa.getPessoaLista().contains(funcionario.solicitarPessoa(id)));
+	assertThat("O Obj esperado era:",fun.cadastraFuncionario(id, "Cleber", "71477403000", "69915890", "testeMatic@cont.com", 1, 1500.79), equalTo(funcionario.solicitaFuncionario(id)));
+	assertNotNull("O objeto não deveria estar nulo", Funcionario.getFuncionarioLista().contains(funcionario.solicitaFuncionario(id)));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void teste_pessoa_criada_ja_existente() {
 		long id = 1;
-		fun.cadastrarPessoa(id, "Rogerinho", "45664899804", "69915890","11941012412792", "junior@Junior.com", 1, 50.79);
+		fun.cadastraFuncionario(id, "Rogerinho", "45664899804", "69915890", "junior@Junior.com", 1, 50.79);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = java.lang.IllegalArgumentException.class)
 	@Ignore("Teste ignorado pois funcionalidade ainda não está presente") 
 	public void teste_pessoa_criada_com_cpf_ja_existente() {
 		long id = 4;
-		fun.cadastrarPessoa(id, "Rogerinho", "45664899804", "69915890","11941012412792", "junior@Junior.com", 1, 50.79);
+		fun.cadastraFuncionario(id, "Rogerinho", "45664899804", "69915890", "junior@Junior.com", 1, 50.79);
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void teste_pessoa_sendo_criada_nula() {
-		fun.cadastrarPessoa(NULLID, NULLSTR, NULLSTR, NULLSTR,NULLSTR, NULLSTR, NULLID, NULLINT);
+		fun.cadastraFuncionario(NULLID, NULLSTR, NULLSTR, NULLSTR, NULLSTR, NULLID, NULLINT);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_pessoa_sendo_criada_vazia() {
-		fun.cadastrarPessoa(EMPTYID, EMPTYSTR, EMPTYSTR, EMPTYSTR, EMPTYSTR, EMPTYSTR, EMPTYID, EMPTYINT);
+		fun.cadastraFuncionario(EMPTYID, EMPTYSTR, EMPTYSTR, EMPTYSTR, EMPTYSTR, EMPTYID, EMPTYINT);
 	}
 	
 	@Test
 	public void teste_remocao_pessoa_existente() {
 		long id = 250;
-		assertThat("Os objetos deveriam ser iguais", new Funcionario(id, "Rogerinho", "45664899804", "69915890","11941012412792", "junior@Junior.com", 1, 50.79), equalTo(fun.removerPessoa(id)));
+		assertThat("Os objetos deveriam ser iguais", new Funcionario(id, "Rogerinho", "45664899804", "69915890", "junior@Junior.com", 1, 50.79), equalTo(fun.removeFuncionario(id)));
 
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_remocao_pessoa_nao_existente() {
 		long id = 500;
-		fun.removerPessoa(id);
+		fun.removeFuncionario(id);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_solicita_pessoa_nao_existente() {
 		long id = 500;
-		fun.solicitarPessoa(id);
+		fun.solicitaFuncionario(id);
 	}
 	
 	/*
@@ -126,7 +125,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void teste_listar_pessoas() {
-		assertNotNull("Esperava receber uma lista: ", funcionario.listarPessoa());
+		assertNotNull("Esperava receber uma lista: ", funcionario.listaFuncionario());
 	}
 	
 	@Test
@@ -141,18 +140,18 @@ public class FuncionarioTest {
 	@Test
 	public void teste_setId_e_getId_nome_correto() {
 		long id = 45;
-		fun.setIdPessoa(id);
-		assertThat("Os valores deveriam ser iguais", id, equalTo(fun.getIdPessoa()));
+		fun.setIdFuncionario(id);
+		assertThat("Os valores deveriam ser iguais", id, equalTo(fun.getIdFuncionario()));
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void teste_setId_valor_nulo() {
-		fun.setIdPessoa(NULLID);
+		fun.setIdFuncionario(NULLID);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_setId_valor_vazio() {
-		fun.setIdPessoa(EMPTYID);
+		fun.setIdFuncionario(EMPTYID);
 	}
 	
 	@Test
@@ -207,23 +206,6 @@ public class FuncionarioTest {
 	}
 	
 	@Test
-	public void teste_setTelefone_e_getTelefone_nome_correto() {
-		String tel = new String("1145649304");
-		fun.setTelefone(tel);
-		assertThat("Os valores deveriam ser iguais", tel, equalTo(fun.getTelefone().replaceAll("\\D", ""))); // "\\D" remove formatação
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void teste_setTel_valor_nulo() {
-		fun.setTelefone(NULLSTR);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void teste_setTel_valor_vazio() {
-		fun.setTelefone(EMPTYSTR);
-	}
-	
-	@Test
 	public void teste_setEmail_e_getEmail_nome_correto() {
 		String email = new String("andre.crespo@contmatic.com");
 		fun.setEmail(email);
@@ -266,13 +248,13 @@ public class FuncionarioTest {
 	public void teste_funcionario_busca_departamento_existente() {
 		long id = 1;
 		Departamento depart = new Departamento();
-		assertThat("Os departamentos deveriam ser iguais", fun.buscaDepartamento(dep.solicitarDep(id)), equalTo(depart.solicitarDep(id)));
+		assertThat("Os departamentos deveriam ser iguais", fun.buscaDepartamento(dep.solicitaDep(id)), equalTo(depart.solicitaDep(id)));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_funcionario_busca_departamento_inexistente() {
 		long id = 193;
-		fun.buscaDepartamento(dep.solicitarDep(id));
+		fun.buscaDepartamento(dep.solicitaDep(id));
 	}
 
 	@Test(expected = NullPointerException.class)

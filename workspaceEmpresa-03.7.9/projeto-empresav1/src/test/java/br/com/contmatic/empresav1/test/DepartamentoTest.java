@@ -22,16 +22,16 @@ public class DepartamentoTest {
 	private static final int EMPTYINT = 0;
 	
 	private static Departamento departamento; 
-	private Departamento dep; // criado para testar os getters/setters
+	private Departamento dep; // criado para testar diferença de instâncias 
 	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		departamento = new Departamento();
 		
-		departamento.registrarDep(1, "Contábil", 155);
-		departamento.registrarDep(2, "Recursos Humanos", 285);
-		departamento.registrarDep(3, "Tecnologias", 405);
+		departamento.registraDep(1, "Contábil", 155);
+		departamento.registraDep(2, "Recursos Humanos", 285);
+		departamento.registraDep(3, "Tecnologias", 405);
 	}
 	
 	@AfterClass
@@ -61,25 +61,25 @@ public class DepartamentoTest {
 		long id = 10;
 
 		dep = new Departamento(id, "Financeiro", 226);
-		assertThat("O Obj esperado era: ", dep, equalTo(departamento.solicitarDep(id))); //what we got - expected
-		assertNotNull("O objeto não deveria estar nulo", dep.solicitarDep(id));
+		assertThat("O Obj esperado era: ", dep, equalTo(departamento.solicitaDep(id))); //what we got - expected
+		assertNotNull("O objeto não deveria estar nulo", dep.solicitaDep(id));
 	}
 
 	@Test
 	public void teste_objeto_criado_por_metodo_com_parametros() {
 		long id = 11;
 
-		dep.registrarDep(id, "Expedição", 189);
-		assertThat("O Obj esperado era: ", dep, equalTo(departamento.solicitarDep(id)));
+		dep.registraDep(id, "Expedição", 189);
+		assertThat("O Obj esperado era: ", dep, equalTo(departamento.solicitaDep(id)));
 
-		assertNotNull("O objeto não deveria estar nulo", departamento.solicitarDep(id));
+		assertNotNull("O objeto não deveria estar nulo", departamento.solicitaDep(id));
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_objeto_criado_ja_existente_() {
 		long id = 1;
-		dep.registrarDep(id, "Financeiro", 226);
+		dep.registraDep(id, "Financeiro", 226);
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -96,14 +96,14 @@ public class DepartamentoTest {
 	@Test
 	public void teste_remocao_objeto_existente() {
 		long id = 250;
-		assertThat("Os objetos deveriam ser iguais: ", new Departamento(id, "Rogerio", 145), equalTo(dep.removerDep(id)));
+		assertThat("Os objetos deveriam ser iguais: ", new Departamento(id, "Rogerio", 145), equalTo(dep.removeDep(id)));
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_remocao_objeto_nao_existente() {
 		long id = 179;
-		dep.removerDep(id);
+		dep.removeDep(id);
 	}
 
 	/*
@@ -113,14 +113,14 @@ public class DepartamentoTest {
 
 	@Test // Testando a busca por objetos num HashSet
 	public void teste_busca_departamento_existente() {
-		assertNotNull("Esperava receber um objeto", dep.solicitarDep(1));
-		assertNotNull("Esperava receber um objeto", dep.solicitarDep(2));
-		assertNotNull("Esperava receber um objeto", dep.solicitarDep(3));
+		assertNotNull("Esperava receber um objeto", dep.solicitaDep(1));
+		assertNotNull("Esperava receber um objeto", dep.solicitaDep(2));
+		assertNotNull("Esperava receber um objeto", dep.solicitaDep(3));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void teste_busca_departamento_nao_existente() {
-		dep.solicitarDep(50); // deve falhar
+		dep.solicitaDep(50); // deve falhar
 
 	}
 
