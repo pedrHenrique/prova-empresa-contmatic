@@ -17,3 +17,7 @@
 	> Finalização dos Testes nas demais classes do projeto<br>
 	> Amanhã será feito a vistoria dos testes e a implementação <br>
 	dos requisitos que estão faltando da prova 01 
+	
+-> 06/08/2020<br>
+	> Finalização Prévia da Prova...
+	
