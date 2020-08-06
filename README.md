@@ -17,3 +17,9 @@
 	> Finalização dos Testes nas demais classes do projeto<br>
 	> Amanhã será feito a vistoria dos testes e a implementação <br>
 	dos requisitos que estão faltando da prova 01 
+	
+-> 06/08/2020<br>
+	> Finalização Prévia da Prova...
+	
+<h4> JDK download: https://cdn.azul.com/zulu/bin/zulu8.48.0.53-ca-jdk8.0.265-win_x64.zip </h4>
+	
