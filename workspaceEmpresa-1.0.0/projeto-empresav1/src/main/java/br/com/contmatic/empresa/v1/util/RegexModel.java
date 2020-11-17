@@ -22,8 +22,8 @@ public final class RegexModel {
 	 * opcional de a até z.. */
 	public static final String EMAIL = "([\\w_]+@[\\w]+)\\.(com|org|net|br)+[\\.a-z]*";
 	
-	/** Permite a passagem de um número tanto de celular quanto de telefone, podendo já estar corretamente formatado ou não. */
-	public static final String TELEFONECELULAR = "\\(\\d{2}\\)\\d{4,5}\\-\\d{4}|\\d{10,11}|\\(\\d{2}\\)\\s\\d{4,5}\\-\\d{4}|\\d{2}\\s\\d{8,9}";
+	/** Permite a passagem de um número tanto de celular quanto de telefone, podendo já estar corretamente formatado de diversas formas. */
+	public static final String TELEFONECELULAR = "\\(\\d{2}\\)\\d{4,5}\\-\\d{4}|\\d{10,11}|\\(\\d{2}\\)\\s\\d{4,5}\\-\\d{4}|\\d{2}\\s\\d{4,5}[-]*[ ]?\\d{4}";
 	
 	public static final String FORMATATELEFONE = "[\\D\\s]*";
 

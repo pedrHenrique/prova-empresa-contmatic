@@ -53,7 +53,7 @@ public enum TipoDDD {
 	DDD75("75", "Feira de Santana", TipoEstado.BA),
 	DDD77("77", "Barreiras", TipoEstado.BA),
 	DDD79("79", "Aracaju", TipoEstado.SE),
-	DDD81("51", "Recife", TipoEstado.PE),
+	DDD81("81", "Recife", TipoEstado.PE),
 	DDD82("82", "Maceió", TipoEstado.AL),
 	DDD83("83", "João Pessoa", TipoEstado.PB),
 	DDD84("84", "Natal", TipoEstado.RN),
