@@ -1,113 +1,118 @@
 package br.com.contmatic.empresa.v1.model.contato;
 
-import java.util.regex.Pattern;
-
-import br.com.contmatic.empresa.v1.util.RegexModel;
-
 public class Telefone {
 
-	/** O numero do telefone. */
+	private static final int TAMANHO_DDD_E_FORMATACAO = 5;
+
+	private static final int TAMANHO_TELEFONE_MOVEL = 11;
+
+	private static final int TAMANHO_TELEFONE_FIXO = 10;
+
 	private String numeroTelefone;
 
-	/** O ddd - Setado a partir do numero de telefone informado */
-	private TipoDDD ddd;
-
-	/** O tipo do telefone - Setado automaticamente se passado como nulo. */
 	private TipoTelefone tipoTelefone;
 
 	public Telefone(String numeroTelefone, TipoTelefone tipo) {
-		setNumeroTelefone(numeroTelefone);
-		setDdd(numeroTelefone.replaceAll(RegexModel.FORMATATELEFONE, "").substring(0, 2));
-		setTipoTelefone(tipo);
+		this.setNumeroTelefone(numeroTelefone);
+		this.setTipoTelefone(tipo);
 	}
 
 	public Telefone(String numeroTelefone) {
-		setNumeroTelefone(numeroTelefone);
-		setDdd(numeroTelefone.replaceAll(RegexModel.FORMATATELEFONE, "").substring(0, 2));
-		setTipoTelefone(null);
-	}
-
-	public Telefone() {
-
+		this.setNumeroTelefone(numeroTelefone);
+		this.setTipoTelefone(null);
 	}
 
 	public String getNumeroTelefone() {
 		return numeroTelefone;
 	}
 
-	public void setNumeroTelefone(String telefone) {
-		if (telefone == null) {
-			throw new NullPointerException("Telefone não pode estar vazio");
-
-		} else if (!Pattern.compile(RegexModel.TELEFONECELULAR).matcher(telefone).matches()) {
-			throw new IllegalArgumentException(
-					"Este formato de telefone passado não pode ser aceito. Por favor, tente novamente.");
-
-		} else {
-			this.numeroTelefone = formataTextoTelefone(telefone);
-		}
-	}
-
-	public TipoDDD getDdd() {
-		return ddd;
-	}
-
-	public void setDdd(String ddd) {
-		if (ddd == null) {
-			throw new NullPointerException("DDD não deveria ser passado como nulo ou vazio");
-
-		} else {
-			try {
-				this.ddd = (Enum.valueOf(TipoDDD.class, "DDD" + ddd));
-			} catch (IllegalArgumentException e) {
-				throw new IllegalArgumentException("O DDD " + ddd + " não é válido.");
-			}
-		}
+	public void setNumeroTelefone(String numeroTelefone) {		
+		this.validaNuloTelefone(numeroTelefone);
+		numeroTelefone = removeEspacamento(numeroTelefone);
+		this.validaTamanhoTelefone(numeroTelefone);
+		this.validaDDDTelefone(numeroTelefone);
+		this.validaFormatoTelefone(numeroTelefone);
+		this.numeroTelefone = formataTextoTelefone(numeroTelefone);
 	}
 
 	public TipoTelefone getTipoTelefone() {
 		return tipoTelefone;
 	}
 
-	public void setTipoTelefone(TipoTelefone tipo) {
-		if (getNumeroTelefone() == null) {
-			throw new NullPointerException("Você não pode setar um tipo para um telefone se o mesmo estiver vazio");
+	public void setTipoTelefone(TipoTelefone tipoTelefone) {
+		validaTipo(tipoTelefone);
+		this.tipoTelefone = tipoTelefone;
+	}
 
-		} else {
-			int tamanhoTelefone = getNumeroTelefone().replaceAll(RegexModel.FORMATATELEFONE, "").substring(2).length();
-			int tamanhoFixo = TipoTelefone.RESIDENCIAL.getTamanho();
-			int tamanhoCelular = TipoTelefone.CELULAR.getTamanho();
+	private String removeEspacamento(String numeroTelefone) {
+		numeroTelefone = numeroTelefone.trim();
+		return numeroTelefone;
+	}
 
-			if (tipo == TipoTelefone.COMERCIAL && (tamanhoTelefone == tamanhoFixo || tamanhoTelefone == tamanhoCelular)) {
-				this.tipoTelefone = TipoTelefone.COMERCIAL;
+	private void validaDDDTelefone(String numeroTelefone) {
+		String ddd = numeroTelefone.substring(0, 2);
 
-			} else if ((tipo == null || tipo == TipoTelefone.CELULAR) && tamanhoTelefone == tamanhoCelular) {
-				this.tipoTelefone = TipoTelefone.CELULAR;
+		if (!ddd.equalsIgnoreCase(Enum.valueOf(TipoDDD.class, "DDD" + ddd).getDdd())) {
+			throw new IllegalArgumentException("O DDD " + ddd + " inserido para o telefone não existe");
+		}
+	}
 
-			} else if ((tipo == null || tipo == TipoTelefone.RESIDENCIAL) && tamanhoTelefone == tamanhoFixo) {
-				this.tipoTelefone = TipoTelefone.RESIDENCIAL;
+	private void validaTamanhoTelefone(String numeroTelefone) {
+		int tamanhoTelefone = numeroTelefone.length();
 
-			} else {
+		if (tamanhoTelefone != TAMANHO_TELEFONE_FIXO || tamanhoTelefone != TAMANHO_TELEFONE_MOVEL) {
+			throw new IllegalArgumentException("O tamanho do telefone inserido está incorreto.\n"
+					+ "Apenas insira o DDD e o restante do numero de telefone sem nenhum tipo de formatação");
+		}
+	}
+
+	private void validaFormatoTelefone(String numeroTelefone) {
+		int tamanhoTelefone = numeroTelefone.length();
+
+		for (int i = 0; i < tamanhoTelefone; ++i) {
+			if (!Character.isDigit(numeroTelefone.charAt(i))) {
 				throw new IllegalArgumentException(
-						"O Tipo de telefone inserido não condiz com o telefone de contato informado!");
+						"Este formato de telefone passado não pode ser aceito. Por favor, tente novamente.");
 			}
 		}
 	}
 
-	// Não sei onde propriamente inserir esses métodos auxiliares.
-	public static String formataTextoTelefone(String telefone) {
-		telefone = telefone.replaceAll("\\s", "");
-		// Não permite que os espaços em brancos atrapalhem a obtenção do tamanho real
-		// do telefone.
+	private void validaNuloTelefone(String telefone) {
+		if (telefone == null) {
+			throw new NullPointerException("Telefone não pode ser nulo");
+		}
+	}
 
-		switch (telefone.length()) { // Verifica se o contato já está com a sua formatação certa. Se não estiver,
-										// formata e devolve o contato, se estiver, só retorna o contato formatado
-			case 10:
-				return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 6) + "-" + telefone.substring(6);// fixo
-			case 11:
-				return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7); // celular
-			default:
-				return telefone; // Se cair aqui. O contato passado já está formatado.
+	private void validaTipo(TipoTelefone tipoTelefone) {
+		if (!isTipoValido(tipoTelefone)) {
+			throw new IllegalArgumentException("O Tipo inserido não é válido");
+		}
+	}
+
+	private boolean isTipoValido(TipoTelefone tipoTelefone) {
+		int tamanhoTelefone = this.getNumeroTelefone().length() - TAMANHO_DDD_E_FORMATACAO;
+		int tamanhoFixo = TipoTelefone.RESIDENCIAL.getTamanho();
+
+		if (tamanhoTelefone == tamanhoFixo) {
+			return validaFixo(tipoTelefone);
+		} else {
+			return validaMovel(tipoTelefone);
+		}
+	}
+
+	private boolean validaMovel(TipoTelefone tipoTelefone) {
+		return tipoTelefone == TipoTelefone.CELULAR || tipoTelefone == null;
+	}
+
+	private boolean validaFixo(TipoTelefone tipoTelefone) {
+		return tipoTelefone == TipoTelefone.RESIDENCIAL || tipoTelefone == null;
+	}
+
+	public static String formataTextoTelefone(String telefone) {
+		if (telefone.length() == 10) {
+			return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 6) + "-" + telefone.substring(6);
+		} else {
+			return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7);
 		}
 	}
 
@@ -143,6 +148,6 @@ public class Telefone {
 
 	@Override
 	public String toString() {
-		return "Telefone [numeroTelefone=" + numeroTelefone + ", ddd=" + ddd + ", tipoTelefone=" + tipoTelefone + "]";
+		return "Telefone [Numero: " + numeroTelefone + " Tipo Telefone: " + tipoTelefone + "]";
 	}
 }
