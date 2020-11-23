@@ -8,23 +8,23 @@ public class Contato {
 
 	private static final int EMAIL_TAMANHO_MIN = 7;
 
-	private String email; 
-	
+	private String email;
+
 	private Telefone telefone;
 
 	public Contato(String email, Telefone contato) {
-		this.setEmail(email);		
+		this.setEmail(email);
 		this.setTelefone(contato);
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
-		this.validaNuloEmail(email); 
-		this.validaTamanho(email); 
-		this.validaEmail(email); 
+		this.validaNuloEmail(email);
+		this.validaTamanho(email);
+		this.validaEmail(email);
 		this.email = email;
 	}
 
@@ -38,16 +38,24 @@ public class Contato {
 	}
 
 	private void validaNuloTelefone(Telefone telefone) {
-		if  (telefone == null) {
+		if (telefone == null) {
 			throw new NullPointerException("Telefone não pode ser nulo");
 		}
 	}
 
 	private void validaEmail(String email) {
-		if (!email.contains("@") && ((email.contains(".com") || email.contains(".br")) || (email.contains(".org") || email.contains(".net")))) {
+		if (!validaInicioEmail(email) || !validaDomioEmail(email)) {
 			throw new IllegalArgumentException("O modelo de email inserido não corresponde a um modelo de email válido."
 					+ "Por Favor tente novamente.");
 		}
+	}
+
+	private boolean validaInicioEmail(String email) {
+		return email.contains("@") && email.contains(".");
+	}
+
+	private boolean validaDomioEmail(String email) {
+		return (email.contains("com") || email.contains("br")) || (email.contains("org") || email.contains("net"));
 	}
 
 	private void validaTamanho(String email) {
@@ -73,28 +81,23 @@ public class Contato {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Contato other = (Contato) obj;
 		if (email == null) {
-			if (other.email != null) {
+			if (other.email != null)
 				return false;
-			}
-		} else if (!email.equals(other.email)) {
+		} else if (!email.equals(other.email))
 			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Contato [" + "Email: " + email + ", Telefone de contato: " + telefone  + "]";
+		return getClass().getSimpleName() + "Email=" + email + ", Telefone de contato=" + telefone;
 	}
 }

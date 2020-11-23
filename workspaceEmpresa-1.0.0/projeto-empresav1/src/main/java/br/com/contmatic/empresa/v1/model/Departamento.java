@@ -26,7 +26,7 @@ public class Departamento {
 	public void setNome(String nome) {
 		this.validaNulo(nome);
 		this.validaTamanhoNome(nome);
-		this.validaFormato(nome);
+		this.validaFormatoNome(nome);
 		this.nome = nome;
 	}
 
@@ -44,23 +44,22 @@ public class Departamento {
 	private void validaFormatoRamal(String ramal) {
 		for (int i = 0; i < ramal.length(); ++i) {
 			if (!Character.isDigit(ramal.charAt(i))) {
-				throw new IllegalArgumentException(
-						"Ramal só pode conter números");
+				throw new IllegalArgumentException("Ramal só pode conter números");
 			}
 		}
 	}
 
 	private void validaTamanhoRamal(String ramal) {
 		if (ramal.length() < RAMAL_TAMANHO_MIN || ramal.length() > RAMAL_TAMANHO_MAX) {
-			throw new IllegalArgumentException(
-				"O tamanho para o ramal do departamento não pode ser menor que " + RAMAL_TAMANHO_MIN + " ou maior que " + RAMAL_TAMANHO_MAX);
+			throw new IllegalArgumentException("O tamanho para o ramal do departamento não pode ser menor que "
+					+ RAMAL_TAMANHO_MIN + " ou maior que " + RAMAL_TAMANHO_MAX);
 		}
 	}
 
 	private void validaTamanhoNome(String nome) {
 		if (nome.length() < NOME_TAMANHO_MIN || nome.length() > NOME_TAMANHO_MAX) {
-			throw new IllegalArgumentException(
-				"O tamanho para o nome do departamento não pode ser menor que " + NOME_TAMANHO_MIN + " ou maior que " + NOME_TAMANHO_MAX);
+			throw new IllegalArgumentException("O tamanho para o nome do departamento não pode ser menor que "
+					+ NOME_TAMANHO_MIN + " ou maior que " + NOME_TAMANHO_MAX);
 		}
 	}
 
@@ -70,10 +69,29 @@ public class Departamento {
 		}
 	}
 
-	private void validaFormato(String nome) {
-		if (nome.contains("_-!@#$%¨&*()?/|.,;")) {
-			throw new IllegalArgumentException("O nome do departamento não pode possuir caracteres especiais ou números");
+	private void validaFormatoNome(String nome) {
+		if (nome.contains("!") || nome.contains("@") || nome.contains("#") || nome.contains("$") || nome.contains("%")
+				|| nome.contains("&") || nome.contains("-") || nome.contains("_") || nome.contains("()")
+				|| nome.contains("?") || nome.contains(".") || nome.contains(",")) {
+			throw new IllegalArgumentException(
+					"O nome do departamento não pode possuir caracteres");
 		}
+	}
+
+	public static int getNomeTamanhoMax() {
+		return NOME_TAMANHO_MAX;
+	}
+
+	public static int getNomeTamanhoMin() {
+		return NOME_TAMANHO_MIN;
+	}
+
+	public static int getRamalTamanhoMax() {
+		return RAMAL_TAMANHO_MAX;
+	}
+
+	public static int getRamalTamanhoMin() {
+		return RAMAL_TAMANHO_MIN;
 	}
 
 	@Override
@@ -109,7 +127,6 @@ public class Departamento {
 
 	@Override
 	public String toString() {
-		return ("Departamento: " + nome + ", Ramal: " + ramal);
-
+		return getClass().getSimpleName() + " Nome= " + nome + ", Ramal=" + ramal;
 	}
 }

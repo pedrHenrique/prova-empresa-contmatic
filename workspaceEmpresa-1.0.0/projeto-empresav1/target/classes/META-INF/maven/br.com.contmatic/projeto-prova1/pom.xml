@@ -26,8 +26,19 @@
 		</dependency>
 		<dependency>
 			<groupId> org.apache.commons </groupId>
-			<artifactId> commons-lang3 </artifactId>
-			<version> 3.5 </version>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier</artifactId>
+			<version>3.4.3</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>

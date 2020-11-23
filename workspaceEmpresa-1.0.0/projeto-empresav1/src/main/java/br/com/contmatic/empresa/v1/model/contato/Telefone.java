@@ -2,7 +2,7 @@ package br.com.contmatic.empresa.v1.model.contato;
 
 public class Telefone {
 
-	private static final int TAMANHO_DDD_E_FORMATACAO = 5;
+	private static final int TAMANHO_FORMATACAO = 3;
 
 	private static final int TAMANHO_TELEFONE_MOVEL = 11;
 
@@ -26,13 +26,13 @@ public class Telefone {
 		return numeroTelefone;
 	}
 
-	public void setNumeroTelefone(String numeroTelefone) {		
+	public void setNumeroTelefone(String numeroTelefone) {
 		this.validaNuloTelefone(numeroTelefone);
-		numeroTelefone = removeEspacamento(numeroTelefone);
 		this.validaTamanhoTelefone(numeroTelefone);
 		this.validaDDDTelefone(numeroTelefone);
 		this.validaFormatoTelefone(numeroTelefone);
 		this.numeroTelefone = formataTextoTelefone(numeroTelefone);
+		validaTipoTelefone();
 	}
 
 	public TipoTelefone getTipoTelefone() {
@@ -40,19 +40,15 @@ public class Telefone {
 	}
 
 	public void setTipoTelefone(TipoTelefone tipoTelefone) {
-		validaTipo(tipoTelefone);
-		this.tipoTelefone = tipoTelefone;
-	}
-
-	private String removeEspacamento(String numeroTelefone) {
-		numeroTelefone = numeroTelefone.trim();
-		return numeroTelefone;
+		this.validaTipo(tipoTelefone);
+		this.tipoTelefone = this.atribuiTipoSeNulo(tipoTelefone);
 	}
 
 	private void validaDDDTelefone(String numeroTelefone) {
 		String ddd = numeroTelefone.substring(0, 2);
-
-		if (!ddd.equalsIgnoreCase(Enum.valueOf(TipoDDD.class, "DDD" + ddd).getDdd())) {
+		try {
+			Enum.valueOf(TipoDDD.class, "DDD" + ddd).getDdd(); 
+		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException("O DDD " + ddd + " inserido para o telefone não existe");
 		}
 	}
@@ -60,7 +56,7 @@ public class Telefone {
 	private void validaTamanhoTelefone(String numeroTelefone) {
 		int tamanhoTelefone = numeroTelefone.length();
 
-		if (tamanhoTelefone != TAMANHO_TELEFONE_FIXO || tamanhoTelefone != TAMANHO_TELEFONE_MOVEL) {
+		if (tamanhoTelefone != TAMANHO_TELEFONE_FIXO && tamanhoTelefone != TAMANHO_TELEFONE_MOVEL) {
 			throw new IllegalArgumentException("O tamanho do telefone inserido está incorreto.\n"
 					+ "Apenas insira o DDD e o restante do numero de telefone sem nenhum tipo de formatação");
 		}
@@ -85,15 +81,12 @@ public class Telefone {
 
 	private void validaTipo(TipoTelefone tipoTelefone) {
 		if (!isTipoValido(tipoTelefone)) {
-			throw new IllegalArgumentException("O Tipo inserido não é válido");
+			throw new IllegalArgumentException("O Tipo de telefone inserido não condiz com o informado!");
 		}
 	}
 
 	private boolean isTipoValido(TipoTelefone tipoTelefone) {
-		int tamanhoTelefone = this.getNumeroTelefone().length() - TAMANHO_DDD_E_FORMATACAO;
-		int tamanhoFixo = TipoTelefone.RESIDENCIAL.getTamanho();
-
-		if (tamanhoTelefone == tamanhoFixo) {
+		if (retornaTamanhoTelefone() == TAMANHO_TELEFONE_FIXO) {
 			return validaFixo(tipoTelefone);
 		} else {
 			return validaMovel(tipoTelefone);
@@ -107,6 +100,32 @@ public class Telefone {
 	private boolean validaFixo(TipoTelefone tipoTelefone) {
 		return tipoTelefone == TipoTelefone.RESIDENCIAL || tipoTelefone == null;
 	}
+	
+	private TipoTelefone atribuiTipoSeNulo(TipoTelefone tipoTelefone) {
+		if (tipoTelefone != null) {
+			return tipoTelefone;
+		} else {
+			if (retornaTamanhoTelefone() == TAMANHO_TELEFONE_FIXO) {
+				return TipoTelefone.RESIDENCIAL;
+			} else {
+				return TipoTelefone.CELULAR;
+			}
+		}
+	}
+	
+	private void validaTipoTelefone() {
+		if (this.tipoTelefone != null) {
+			atualizaTipoTelefone();
+		}
+	}
+
+	private void atualizaTipoTelefone() {
+		this.setTipoTelefone(null);
+	}
+
+	private int retornaTamanhoTelefone() {
+		return this.getNumeroTelefone().length() - TAMANHO_FORMATACAO;
+	}
 
 	public static String formataTextoTelefone(String telefone) {
 		if (telefone.length() == 10) {
@@ -115,6 +134,7 @@ public class Telefone {
 			return "(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7);
 		}
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -126,28 +146,25 @@ public class Telefone {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Telefone other = (Telefone) obj;
 		if (numeroTelefone == null) {
-			if (other.numeroTelefone != null) {
+			if (other.numeroTelefone != null)
 				return false;
-			}
-		} else if (!numeroTelefone.equals(other.numeroTelefone)) {
+		} else if (!numeroTelefone.equals(other.numeroTelefone))
 			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Telefone [Numero: " + numeroTelefone + " Tipo Telefone: " + tipoTelefone + "]";
+		return getClass().getSimpleName() + ": Telefone=" + numeroTelefone + ", Tipo Telefone=" + tipoTelefone;
 	}
+
+
 }

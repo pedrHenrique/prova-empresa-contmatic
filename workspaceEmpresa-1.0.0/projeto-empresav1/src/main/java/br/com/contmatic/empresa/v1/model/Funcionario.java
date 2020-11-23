@@ -31,7 +31,7 @@ public class Funcionario {
 		setEndereco(endereco);
 		setContato(contato);
 		setSalario(salario);
-		setDepartamento(departamento);
+		setDepartamento(departamento);		
 	}
 
 	public String getNome() {
@@ -57,7 +57,8 @@ public class Funcionario {
 
 	private void validaCpf(String cpf) {
 		if (!cpfValido(cpf)) {
-			throw new IllegalArgumentException("O CPF informado não pôde ser aceito.");
+			throw new IllegalArgumentException(
+					"O CPF informado não pôde ser aceito. Por favor, insira o CPF sem formatação");
 		}
 	}
 
@@ -98,18 +99,34 @@ public class Funcionario {
 	}
 
 	public static String formataCpf(String cpf) {
-		return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);;
+		return cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
 	}
 
 	private void validaNome(String nome) {
-		if (nome.contains("0123456789_-!@#$%¨&*()?/|.,;")) {
-			throw new IllegalArgumentException("O nome do funcionario não pode possuir caracteres especiais ou números");
+		int tamanhoNome = nome.length();
+		for (int i = 0; i < tamanhoNome; ++i) {
+			if (Character.isDigit(nome.charAt(i))) {
+				throw new IllegalArgumentException(
+						"O nome do funcionario não pode possuir caracteres especiais ou números");
+			} else {
+				if (nomePossuiSimbolos(nome)) {
+					throw new IllegalArgumentException(
+							"O nome do funcionario não pode possuir caracteres especiais ou números");
+				}
+			}
 		}
+	}
+
+	private boolean nomePossuiSimbolos(String nome) {
+		return (nome.contains("!") || nome.contains("@") || nome.contains("#") || nome.contains("$")
+		|| nome.contains("%") || nome.contains("&") || nome.contains("-") || nome.contains("_")
+		|| nome.contains("()") || nome.contains("?") || nome.contains(".") || nome.contains(","));
 	}
 
 	private void validaTamanhoNome(String nome) {
 		if (nome.length() < NOME_TAMANHO_MIN || nome.length() > NOME_TAMANHO_MAX) {
-			throw new IllegalArgumentException("Nome do funcionario deve ter tamanho entre " + NOME_TAMANHO_MIN + " a " + NOME_TAMANHO_MAX);
+			throw new IllegalArgumentException(
+					"Nome do funcionario deve ter tamanho entre " + NOME_TAMANHO_MIN + " a " + NOME_TAMANHO_MAX);
 		}
 	}
 
@@ -120,7 +137,7 @@ public class Funcionario {
 	}
 
 	private void validaSalario(double salario) {
-		if (salario < SALARIO_VALOR_MIN || salario >= SALARIO_VALOR_MAX) {
+		if (salario <= SALARIO_VALOR_MIN || salario >= SALARIO_VALOR_MAX) {
 			throw new IllegalArgumentException("Este salário não pode ser aceito...");
 		}
 	}
@@ -142,7 +159,15 @@ public class Funcionario {
 			throw new NullPointerException("Departamento não pode ser nulo");
 		}
 	}
-	
+
+	public static int getNomeTamanhoMax() {
+		return NOME_TAMANHO_MAX;
+	}
+
+	public static int getNomeTamanhoMin() {
+		return NOME_TAMANHO_MIN;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -170,7 +195,7 @@ public class Funcionario {
 
 	@Override
 	public String toString() {
-		return "Funcionario [Nome: " + nome + ", CPF: " + cpf + ", Departamento: " + departamento + ", Endereco: "
-				+ endereco + ", Contato: " + contato + ", Salario: " + salario + "]";
+		return getClass().getSimpleName() + " Nome=" + nome + ", CPF=" + cpf + "\nDepartamento=" + departamento
+				+ "\nEndereco=" + endereco + "\nContato=" + contato + "\nSalario=" + salario;
 	}
 }

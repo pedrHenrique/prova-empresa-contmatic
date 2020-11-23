@@ -11,16 +11,16 @@ public class Empresa {
 	private static final int NOME_FANTASIA_TAMANHO_MIN = 2;
 
 	private static final int NOME_FANTASIA_TAMANHO_MAX = 50;
-	
+
 	private String razaoSocial;
 
 	private String nomeFantasia;
 
-	private String cnpj; 
+	private String cnpj;
 
-	private Endereco endereco; 
+	private Endereco endereco;
 
-	private Contato contato; 
+	private Contato contato;
 
 	public Empresa(String razaoSocial, String nome, String cnpj, Endereco endereco, Contato contato) {
 		this.setRazaoSocial(razaoSocial);
@@ -35,9 +35,8 @@ public class Empresa {
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {
-		this.validaNulo(nomeFantasia); 
-		nomeFantasia = this.removeEspacamento(nomeFantasia); 
-		this.validaTamanhoNomeFantasia(nomeFantasia); 
+		this.validaNulo(nomeFantasia);
+		this.validaTamanhoNomeFantasia(nomeFantasia);
 		this.validaNome(nomeFantasia);
 		this.nomeFantasia = nomeFantasia;
 	}
@@ -48,7 +47,6 @@ public class Empresa {
 
 	public void setRazaoSocial(String razaoSocial) {
 		this.validaNulo(razaoSocial);
-		razaoSocial = this.removeEspacamento(razaoSocial);
 		this.validaTamanhoRazaoSocial(razaoSocial);
 		this.validaNome(razaoSocial);
 		this.razaoSocial = razaoSocial;
@@ -78,47 +76,71 @@ public class Empresa {
 	}
 
 	public void setEndereco(Endereco endereco) {
+		this.validaNuloEndereco(endereco);
 		this.endereco = endereco;
 	}
 
 	private void validaNome(String nome) {
-		if (nome.contains("0123456789_-!@#$%¨&*()?/|.,;")) {
-			throw new IllegalArgumentException("O nome não pode possuir caracteres especiais ou números");
+			if (nome.contains("!") || nome.contains("@") || nome.contains("#") 
+				|| nome.contains("$")  || nome.contains("%") || nome.contains("_") 
+				|| nome.contains("()") || nome.contains("?") || nome.contains(",") || nome.contains("-")) {
+			throw new IllegalArgumentException("O nome não pode possuir caracteres especiais");
 		}
-	}
-	
-	private String removeEspacamento(String nome) {
-		return nome.trim();
 	}
 
 	private void validaTamanhoNomeFantasia(String nomeFantasia) {
 		if (nomeFantasia.length() < NOME_FANTASIA_TAMANHO_MIN || nomeFantasia.length() > NOME_FANTASIA_TAMANHO_MAX) {
-			throw new IllegalArgumentException("Nome Fantasia não pôde conter tamanho inferior a 2 ou maior que 45");
+			throw new IllegalArgumentException("Nome Fantasia não pôde conter tamanho inferior a "
+					+ NOME_FANTASIA_TAMANHO_MIN + " ou maior que " + NOME_FANTASIA_TAMANHO_MAX);
 		}
 	}
 
 	private void validaNulo(String valor) {
 		if (valor == null) {
-			throw new NullPointerException("Nulo não pode ser passado");
+			throw new NullPointerException("Valor não pode ser nulo");
 		}
 	}
 
 	private void validaNuloContato(Contato contato) {
-		if (contato == null){
+		if (contato == null) {
 			throw new NullPointerException("Contato não pode ser passado como nulo");
 		}
 	}
 
+	private void validaNuloEndereco(Endereco endereco) {
+		if (endereco == null) {
+			throw new NullPointerException("Endereco não pode ser passado como nulo");
+		}
+	}
+
 	private void validaTamanhoRazaoSocial(String razaoSocial) {
-		if (razaoSocial.length() > RAZAO_SOCIAL_TAMANHO_MIN || razaoSocial.length() > RAZAO_SOCIAL_TAMANHO_MAX) {
-			throw new IllegalArgumentException("Razão Social ou está muito longa, ou está muito pequena");
+		if (razaoSocial.length() < RAZAO_SOCIAL_TAMANHO_MIN || razaoSocial.length() > RAZAO_SOCIAL_TAMANHO_MAX) {
+			throw new IllegalArgumentException("Razão Social não pôde conter tamanho inferior a "
+			+ RAZAO_SOCIAL_TAMANHO_MIN + " ou maior que " + RAZAO_SOCIAL_TAMANHO_MAX);
 		}
 	}
 
 	private void validaCnpj(String cnpj) {
 		if (!cnpjValido(cnpj)) {
-			throw new IllegalArgumentException("O CNPJ que você inseriu não é válido. Insira o CNPJ sem nenhuma formatacao");
+			throw new IllegalArgumentException(
+					"O CNPJ que você inseriu não é válido. Por favor, insira o CNPJ sem nenhuma formatacao");
 		}
+	}
+
+	public static int getRazaoSocialTamanhoMax() {
+		return RAZAO_SOCIAL_TAMANHO_MAX;
+	}
+
+	public static int getRazaoSocialTamanhoMin() {
+		return RAZAO_SOCIAL_TAMANHO_MIN;
+	}
+
+	public static int getNomeFantasiaTamanhoMin() {
+		return NOME_FANTASIA_TAMANHO_MIN;
+	}
+
+	public static int getNomeFantasiaTamanhoMax() {
+		return NOME_FANTASIA_TAMANHO_MAX;
 	}
 
 	@Override
@@ -153,8 +175,8 @@ public class Empresa {
 	}
 
 	@Override
-	public String toString() { 
-		return "Empresa: [ " + "Razão Social: " + razaoSocial + ", Nome Fantasia: " + nomeFantasia + ", CNPJ: " + getCnpj() + ", Endereco: " + getEndereco() + ", Contato: "
-				+ getContato() + "]";
+	public String toString() {
+		return getClass().getSimpleName() + "Razão Social=" + razaoSocial + ", Nome Fantasia=" + nomeFantasia
+				+ ", CNPJ=" + cnpj + "\nEndereco=" + endereco + "\nContato=" + contato;
 	}
 }

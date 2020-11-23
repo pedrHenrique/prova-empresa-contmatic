@@ -4,7 +4,9 @@ import br.com.contmatic.empresa.viacep.ViaCEP;
 
 public class Endereco {
 
-    private static final int NUMERO_TAMANHO_MAX = 4;
+    private static final int TAMANHO_COMPLEMENTO = 15;
+
+    private static final int NUMERO_TAMANHO_MAX = 5;
 
     private static final int NUMERO_TAMANHO_MIN = 1;
 
@@ -44,20 +46,20 @@ public class Endereco {
         this.setEstado(Enum.valueOf(TipoEstado.class, endereco.getUf()));
     }
 
-    public static void cadastraEndereco(String cep, String numero) {
+    public static Endereco cadastraEndereco(String cep, String numero) {
         validaNulo(cep);
         validaTamanhoCep(cep);
         validaFormatoCep(cep);
         ViaCEP cepValidado = buscaInformacoesCep(cep);
-        new Endereco(cepValidado, numero);
+        return new Endereco(cepValidado, numero);
     }
 
-    public static void cadastraEndereco(String cep, String numero, String complemento) {
+    public static Endereco cadastraEndereco(String cep, String numero, String complemento) {
         validaNulo(cep);
         validaTamanhoCep(cep);
         validaFormatoCep(cep);
         ViaCEP cepValidado = buscaInformacoesCep(cep);
-        new Endereco(cepValidado, numero, complemento);
+        return new Endereco(cepValidado, numero, complemento);
     }
 
     private static ViaCEP buscaInformacoesCep(String cep) {
@@ -68,7 +70,7 @@ public class Endereco {
             return viaCEP;
         } catch (Exception viaCEPException) {
             throw new IllegalArgumentException(
-                    "Ops.. Parece que não foi possível obter as informações do CEP. Verifique se você digitou seu CEP corretamente");
+                    "Ops.. Parece que não foi possível obter as informações do seu CEP. Por favor verifique se você digitou seu CEP corretamente");
         }
     }
 
@@ -162,7 +164,8 @@ public class Endereco {
 
     private void validaVazioViaCep(String valorViaCep) {
         if (valorViaCep.isEmpty()) {
-            throw new IllegalArgumentException("Ops, um valor vazio foi rebecido pelo ViaCep. Isto não deveria ter acontecido");
+            throw new IllegalArgumentException(
+                    "Ops, um valor vazio foi rebecido pelo ViaCep. Isto não deveria ter acontecido");
         }
     }
 
@@ -174,36 +177,68 @@ public class Endereco {
 
     private void validaTamanhoNumero(String numero) {
         if (numero.length() < NUMERO_TAMANHO_MIN || numero.length() > NUMERO_TAMANHO_MAX) {
-            throw new IllegalArgumentException(
-                    "Tamanho da numeração do endereço não pode ser aceita. Não insira uma numeração maior que 4");
+            throw new IllegalArgumentException("Tamanho do numero passado não pode ser aceito. Insira uma numeração de "
+                    + NUMERO_TAMANHO_MIN + " até " + NUMERO_TAMANHO_MAX);
         }
     }
 
-    private void validaFormatoNumeracao(String numero) {       
+    private void validaFormatoNumeracao(String numero) {
         for (int i = 0; i < numero.length() - 1; ++i) {
             if (!Character.isDigit(numero.charAt(i))) {
                 throw new IllegalArgumentException("Este tipo de numeracao \"" + numero + "\" não pode ser aceita");
-            } 
+            }
         }
-        validaUltimoDigito(numero.charAt(numero.length() - 1));
+        validaUltimoDigito(numero.charAt(numero.length() - 1), numero);
     }
 
-    private void validaUltimoDigito(char c) {
-        if (!Character.isLetterOrDigit(c)) {
-            throw new IllegalArgumentException("Último dígito de numero pode ser uma letra ou número. Não " + c);
+    private void validaUltimoDigito(char c, String numero) {
+        if (!isUltimoDigitoLetra(c, numero)) {
+            throw new IllegalArgumentException("Último dígito desse formato de número precisa ser uma letra. Não " + c);
+        } else if (!isUltimoDigitoLetraOuNumero(c, numero)) {
+            throw new IllegalArgumentException(
+                    "Último dígito desse formato de número pode ser uma letra ou número. Não " + c);
         }
+    }
+
+    private boolean isUltimoDigitoLetraOuNumero(char c, String numero) {
+        return !(numero.length() < NUMERO_TAMANHO_MAX && !Character.isLetterOrDigit(c));
+    }
+
+    private boolean isUltimoDigitoLetra(char c, String numero) {
+        return !(numero.length() == NUMERO_TAMANHO_MAX && !Character.isLetter(c));
     }
 
     private void validaFormatoComplemento(String complemento) {
-        if (complemento.contains("_-!@#$%¨&*()?/|.,;")) {
+        if (complemento.contains("!") || complemento.contains("@") 
+                || complemento.contains("#") || complemento.contains("()")
+                || complemento.contains("$") || complemento.contains("%")
+                || complemento.contains("&") || complemento.contains("_") 
+                || complemento.contains("?") || complemento.contains(",")) {
             throw new IllegalArgumentException("Complemento não pode possuir caracteres especiais.");
         }
     }
-    
+
     private void validaTamanhoComplemento(String complemento) {
-        if (complemento.length() > 15) {
-            throw new IllegalArgumentException("Tamanho de complemento inserido precisa ser menor");
+        if (complemento.length() > TAMANHO_COMPLEMENTO) {
+            throw new IllegalArgumentException(
+                    "Tamanho de complemento inserido precisa ser menor que " + TAMANHO_COMPLEMENTO);
         }
+    }
+
+    public static int getNumeroTamanhoMax() {
+        return NUMERO_TAMANHO_MAX;
+    }
+
+    public static int getNumeroTamanhoMin() {
+        return NUMERO_TAMANHO_MIN;
+    }
+
+    public static int getTamanhoCep() {
+        return TAMANHO_CEP;
+    }
+
+    public static int getTamanhoComplemento() {
+        return TAMANHO_COMPLEMENTO;
     }
 
     @Override
@@ -239,7 +274,7 @@ public class Endereco {
 
     @Override
     public String toString() {
-        return "Endereco [Rua: " + rua + ", Bairro: " + bairro + ", Cep: " + cep + ", Cidade: " + cidade + ", Complemento: " + complemento
-                + ", Estado: " + estado + ", Numero: " + numero + "]";
+        return getClass().getSimpleName() + " Rua=" + rua + ", Numero=" + numero + ", Bairro=" + bairro + ", Cep=" + cep + ", Cidade=" + cidade
+                + ", Complemento=" + complemento + ", Estado=" + estado;
     }
 }

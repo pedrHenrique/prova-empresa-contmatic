@@ -73,7 +73,9 @@ public enum TipoDDD {
 	DDD99("99", "Imperatriz", TipoEstado.MA);
 	
 	private String ddd;
+	
 	private String cidade;
+	
 	private TipoEstado estado;
 
 	private TipoDDD(String ddd, String cidade, TipoEstado estado) {
