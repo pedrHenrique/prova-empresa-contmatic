@@ -1,21 +1,20 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.documentos.CpfValidator.validarCpf;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.util.DataFormatter;
 
+import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
+import static br.com.contmatic.util.AtributoValidator.validaNulo;
+import static br.com.contmatic.util.AtributoValidator.validaTamanho;
+import static br.com.contmatic.util.documentos.CpfValidator.validarCpf;
 import static br.com.contmatic.util.documentos.CpfValidator.formataCpf;
+import static br.com.contmatic.util.DataFormatter.getFormatterInstance;
+import static br.com.contmatic.util.DataFormatter.verificaSeDataEstaNoPassado;
 import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MIN;
 import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_SALARIO_VALOR_MAX;
 import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_SALARIO_VALOR_MIN;
-import static br.com.contmatic.util.DataFormatter.verificaSeDataEstaNoPassado;
 
 public class Funcionario {
 
@@ -33,35 +32,33 @@ public class Funcionario {
 
 	private Departamento departamento;
 
-	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, String dtAdimissao, double salario, Departamento departamento) {
+	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, String dtAdimissao, double salario,
+			Departamento departamento) {
 		this.setNome(nome);
 		this.setCpf(cpf);
 		this.setEndereco(endereco);
 		this.setContato(contato);
-		this.setDtAdimissao(new DataFormatter(dtAdimissao).getData());
+		this.setDtAdimissao(getFormatterInstance().formataData(dtAdimissao));
 		this.setSalario(salario);
-		this.setDepartamento(departamento);		
-		System.out.println(this.toString());
+		this.setDepartamento(departamento);
 	}
 
-	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, double salario, Departamento departamento) {
+	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, Date dtAdimissao, double salario,
+			Departamento departamento) {
 		this.setNome(nome);
 		this.setCpf(cpf);
 		this.setEndereco(endereco);
-		this.setContato(contato);		
+		this.setContato(contato);
+		this.setDtAdimissao(getFormatterInstance().formataData(dtAdimissao));
 		this.setSalario(salario);
-		this.setDepartamento(departamento);		
+		this.setDepartamento(departamento);
 	}
 
 	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato) {
 		this.setNome(nome);
 		this.setCpf(cpf);
 		this.setEndereco(endereco);
-		this.setContato(contato);	
-	}
-
-	public void data() {
-		new SimpleDateFormat();
+		this.setContato(contato);
 	}
 
 	public String getNome() {
@@ -70,7 +67,7 @@ public class Funcionario {
 
 	public void setNome(String nome) {
 		validaNulo(getClass(), "nome", nome);
-		this.validaTamanhoNome(nome);
+		validaTamanho(getClass(), "nome", nome.length(), FUNCIONARIO_NOME_TAMANHO_MIN, FUNCIONARIO_NOME_TAMANHO_MAX);
 		validaNomeSimples(getClass(), "nome", nome);
 		this.nome = nome;
 	}
@@ -130,13 +127,6 @@ public class Funcionario {
 		this.departamento = departamento;
 	}
 
-	private void validaTamanhoNome(String nome) {
-		if (nome.length() < FUNCIONARIO_NOME_TAMANHO_MIN || nome.length() > FUNCIONARIO_NOME_TAMANHO_MAX) {
-			throw new IllegalArgumentException(
-					"Nome do funcionario deve ter tamanho entre " + FUNCIONARIO_NOME_TAMANHO_MIN + " a " + FUNCIONARIO_NOME_TAMANHO_MAX);
-		}
-	}
-
 	private void validaSalario(double salario) {
 		if (salario <= FUNCIONARIO_SALARIO_VALOR_MIN || salario >= FUNCIONARIO_SALARIO_VALOR_MAX) {
 			throw new IllegalArgumentException("Este salário não pode ser aceito...");
@@ -170,7 +160,7 @@ public class Funcionario {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": Nome=" + nome + ", CPF=" + cpf + ", Data Admissão= " + dtAdimissao + "\nDepartamento=" + departamento
+		return getClass().getSimpleName() + ": Nome=" + nome + ", CPF=" + cpf + ", Data Admissão= " + getFormatterInstance().getSdf().format(dtAdimissao) + "\nDepartamento=" + departamento
 				+ "\nEndereco=" + endereco + "\nContato=" + contato + "\nSalario=" + salario;
 	}
 }

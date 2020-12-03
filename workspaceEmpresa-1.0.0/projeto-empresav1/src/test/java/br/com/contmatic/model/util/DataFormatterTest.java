@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
@@ -35,7 +36,7 @@ public class DataFormatterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.df = new DataFormatter("01/01/1970");
+		this.df = DataFormatter.getFormatterInstance();
 		this.sdf = df.getSdf();
 	}
 
@@ -48,14 +49,14 @@ public class DataFormatterTest {
 	@Test(expected = Test.None.class)
 	public void deve_aceitar_data_formatada_corretamente() {
 		String data = "04/02/2000";
-		Date dataFormatada = new DataFormatter(data).getData();
+		Date dataFormatada = df.formataData(data);
 		assertThat(sdf.format(dataFormatada), equalTo(data));
 	}
 
 	@Test(expected = Test.None.class)
 	public void deve_aceitar_e_formatar_data_sem_formatacao() {
 		String data = "04022000";
-		Date dataFormatada = new DataFormatter(data).getData();
+		Date dataFormatada = df.formataData(data);
 		assertThat(sdf.format(dataFormatada), equalTo(retornaDataFormatada(data)));
 	}
 
@@ -63,16 +64,23 @@ public class DataFormatterTest {
 	public void deve_aceitar_datas_mal_formatadas_e_retornar_elas_formatadas() {
 		String[] datas = { "04 02 2000", "04.02.2000", "04-02-2000" };
 		for (String data : datas) {
-			Date dataFormatada = new DataFormatter(data).getData();
+			Date dataFormatada = df.formataData(data);
 			assertThat(sdf.format(dataFormatada), equalTo(retornaDataFormatada(data)));
 		}
+	}
+
+	@Test(expected = Test.None.class)
+	public void deve_aceitar_dates_instanciados_no_mesmo_momento() {
+		Date data = new Date();
+		Date dataFormatada = df.formataData(data);
+		assertThat(sdf.format(dataFormatada), equalTo(sdf.format(data)));
 	}
 
 	@Test
 	public void nao_deve_aceitar_data_nula() {
 		Exception nu = assertThrows("Nulo não deve ser aceito como data", NullPointerException.class,
-				() -> new DataFormatter(null));
-		assertThat(nu.getMessage(), equalTo("O campo data da classe DataFormatter não pode ser nulo."));
+				() -> df.formataData(NULLSTR));
+		assertThat(nu.getMessage(), equalTo("Você não pode informar uma data nula para ser formatada."));
 	}
 
 	@Test
@@ -80,7 +88,7 @@ public class DataFormatterTest {
 		String[] datasInvalidas = { "040200", "1981999", "08/8/2000", "100200300" };
 		for (String data : datasInvalidas) {
 			Exception e = assertThrows("Datas fora do tamanho padrão não devem ser aceitas como data",
-					IllegalArgumentException.class, () -> new DataFormatter(data));
+					IllegalArgumentException.class, () -> df.formataData(data));
 			assertThat(e.getMessage(), startsWith("Este tamaho para a data " + data + " não pode ser aceito."));
 		}
 	}
@@ -90,7 +98,7 @@ public class DataFormatterTest {
 		String[] datasInvalidas = { "04A02A2000", "31*11*2011", "09\\08\\2000", "10_02_1200" };
 		for (String data : datasInvalidas) {
 			Exception e = assertThrows("Datas não devem ser separadas por qualquer tipo de caractere",
-					IllegalArgumentException.class, () -> new DataFormatter(data));
+					IllegalArgumentException.class, () -> df.formataData(data));
 			assertThat(e.getMessage(), startsWith("Este formato de data " + data + " não pode ser aceito"));
 		}
 	}
@@ -100,7 +108,7 @@ public class DataFormatterTest {
 		String[] datasInvalidas = { "4/2/2000", "4/12/200", "8/8/2000", "10/2/200" };
 		for (String data : datasInvalidas) {
 			Exception e = assertThrows("Datas fora do padrão não devem ser aceitas como data",
-					IllegalArgumentException.class, () -> new DataFormatter(data));
+					IllegalArgumentException.class, () -> df.formataData(data));
 			assertThat(e.getMessage(), startsWith("A data " + data + " não pôde ser formatada para uma data padrão."));
 		}
 	}
@@ -110,7 +118,7 @@ public class DataFormatterTest {
 		String[] datasInvalidas = { "dd-MM-yyyy", "ddMMyyyy", "ab/bc/abcd" };
 		for (String data : datasInvalidas) {
 			Exception e = assertThrows("Textos que não forem datas não devem ser aceitos",
-					IllegalArgumentException.class, () -> new DataFormatter(data));
+					IllegalArgumentException.class, () -> df.formataData(data));
 			assertThat(e.getMessage(), startsWith("A data " + data + " não pôde ser formatada para uma data padrão"));
 		}
 	}

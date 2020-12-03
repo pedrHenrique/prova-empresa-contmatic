@@ -5,6 +5,7 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import br.com.contmatic.model.util.AtributoValidatorTest;
+import br.com.contmatic.model.util.DataFormatterTest;
 import br.com.contmatic.model.v1.empresa.ContatoTest;
 import br.com.contmatic.model.v1.empresa.DepartamentoTest;
 import br.com.contmatic.model.v1.empresa.EmpresaTest;
@@ -19,7 +20,7 @@ public class TestRunner {
 	public static void main(String[] args) {
 		Result resultado = JUnitCore.runClasses(EmpresaTest.class, DepartamentoTest.class, FuncionarioTest.class,
 												EnderecoTest.class, ContatoTest.class, TelefoneTest.class,
-												AtributoValidatorTest.class, CidadeTest.class, EstadoTest.class);
+												AtributoValidatorTest.class, CidadeTest.class, EstadoTest.class, DataFormatterTest.class);
 
 		for (Failure falha : resultado.getFailures()) {
 			System.out.println(falha.toString());
