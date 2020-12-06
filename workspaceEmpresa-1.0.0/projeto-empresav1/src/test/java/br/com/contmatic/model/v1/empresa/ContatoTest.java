@@ -17,9 +17,9 @@ import org.junit.runners.MethodSorters;
 
 import br.com.contmatic.model.v1.telefone.Telefone;
 import br.com.contmatic.model.v1.telefone.TipoTelefone;
-import br.com.contmatic.testes.util.TestesUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 
@@ -71,7 +71,7 @@ public class ContatoTest {
 	@Test
 	public void nao_deve_aceitar_email_nulo() {
 		Exception nu = Assert.assertThrows("Email não deve aceitar nulos", NullPointerException.class,
-				() -> con.setEmail(TestesUtils.NULLSTR));
+				() -> con.setEmail(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo email da classe Contato não pode ser nulo."));
 	}
 
@@ -80,8 +80,7 @@ public class ContatoTest {
 		String emailMuitoLongo = "Xx_xX_rogerinho_ClauDiu_roberto_de_souza_silva1234Xx_xX@hotmail.com";
 		Exception e = Assert.assertThrows("Emails muito longos ou pequenos não devem ser aceitos",
 				IllegalArgumentException.class, () -> con.setEmail(emailMuitoLongo));
-		assertThat(e.getMessage(), equalTo(
-				"O Email que você inseriu é muito grande ou muito pequeno para ser um email válido. Tente novamente"));
+		assertThat(e.getMessage(), startsWith("O campo email da classe Contato não pode ter esse tamanho."));
 	}
 
 	@Test

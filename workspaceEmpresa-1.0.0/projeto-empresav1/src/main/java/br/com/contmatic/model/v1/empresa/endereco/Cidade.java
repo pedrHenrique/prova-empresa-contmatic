@@ -1,25 +1,28 @@
 package br.com.contmatic.model.v1.empresa.endereco;
 
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
+import static br.com.contmatic.util.AtributoValidator.validaTamanho;
+import static br.com.contmatic.util.CamposTypes.CIDADE_NOME_TAMANHO_MAX;
+import static br.com.contmatic.util.CamposTypes.CIDADE_NOME_TAMANHO_MIN;
 import static br.com.contmatic.util.AtributoValidator.validaNomeDigitos;
 
 public class Cidade {
-	
+
 	private String nome;
-	
+
 	private Estado estado;
-	
-	public Cidade(String cidade, Estado estado) {		
+
+	public Cidade(String cidade, Estado estado) {
 		this.setCidade(cidade);
 		this.setEstado(estado);
 	}
-	
-	public Cidade(String cidade, TipoEstado uf) {		
+
+	public Cidade(String cidade, TipoEstado uf) {
 		this.setCidade(cidade);
 		this.setEstado(new Estado(uf));
 	}
-	
-	public Cidade(String cidade, String estado, String uf, TipoPais pais) {		
+
+	public Cidade(String cidade, String estado, String uf, TipoPais pais) {
 		this.setCidade(cidade);
 		this.setEstado(new Estado(estado, uf, pais));
 	}
@@ -28,8 +31,9 @@ public class Cidade {
 		return nome;
 	}
 
-	public void setCidade(String nome) { 
+	public void setCidade(String nome) {
 		validaNulo(getClass(), "nome", nome);
+		validaTamanho(getClass(), "nome", nome.length(), CIDADE_NOME_TAMANHO_MIN, CIDADE_NOME_TAMANHO_MAX);
 		validaNomeDigitos(getClass(), "nome", nome);
 		this.nome = nome;
 	}

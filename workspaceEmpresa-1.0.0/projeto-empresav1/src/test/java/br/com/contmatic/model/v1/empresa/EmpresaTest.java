@@ -1,10 +1,13 @@
 package br.com.contmatic.model.v1.empresa;
 
+import static br.com.contmatic.testes.util.TestesUtils.retornaContato;
+import static br.com.contmatic.testes.util.TestesUtils.retornaEndereco;
+import static br.com.contmatic.util.documentos.CnpjValidator.geraCnpjAleatorio;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,13 +19,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static br.com.contmatic.testes.util.TestesUtils.retornaContato;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEndereco;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN;
-import static br.com.contmatic.util.documentos.CnpjValidator.geraCnpjAleatorio;
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
 import br.com.contmatic.testes.util.TestesUtils;
 
@@ -93,8 +89,7 @@ public class EmpresaTest {
 				+ " Cosméticos Com Foco Urbano e Simples LTDA";
 		Exception e = Assert.assertThrows("Nao deve permitir razao social com tamanho errado",
 				IllegalArgumentException.class, () -> emp.setRazaoSocial(exemploRazaoSocialGrande));
-		assertThat(e.getMessage(), equalTo("Razão Social não pôde conter tamanho inferior a "
-				+ EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN + " ou maior que " + EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX + "."));
+		assertThat(e.getMessage(), startsWith("O campo razaoSocial da classe Empresa não pode ter esse tamanho."));
 	}
 
 	@Test
@@ -125,8 +120,7 @@ public class EmpresaTest {
 	public void nao_deve_aceitar_nomeFantasia_com_tamanho_errado() {
 		String exemplo = "Exemplo de um nome fantasia que seria muito grande para ser aceito";
 		Exception e = Assert.assertThrows(IllegalArgumentException.class, () -> emp.setNomeFantasia(exemplo));
-		assertThat(e.getMessage(), equalTo("Nome Fantasia não pôde conter tamanho inferior a "
-				+ EMPRESA_NOME_FANTASIA_TAMANHO_MIN + " ou maior que " + EMPRESA_NOME_FANTASIA_TAMANHO_MAX + "."));
+		assertThat(e.getMessage(), startsWith("O campo nomeFantasia da classe Empresa não pode ter esse tamanho."));
 	}
 
 	@Test

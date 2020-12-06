@@ -44,7 +44,15 @@ public final class CamposTypes {
 
 	public static final int ENDERECO_TAMANHO_MAX = 60;
 
-    public static final int ENDERECO_TAMANHO_MIN = 3;
+	public static final int ENDERECO_TAMANHO_MIN = 3;
+	
+	public static final int CIDADE_NOME_TAMANHO_MIN = 0;
+
+	public static final int CIDADE_NOME_TAMANHO_MAX = 65;
+
+	public static final int ESTADO_TAMANHO_MIN = 2;
+
+	public static final int ESTADO_TAMANHO_MAX = 50;
 	
 	public static final int TELEFONE_TAMANHO_FORMATACAO = 3;
 

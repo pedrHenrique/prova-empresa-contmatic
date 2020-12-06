@@ -1,11 +1,15 @@
 package br.com.contmatic.model.v1.empresa;
 
+import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
+import static br.com.contmatic.util.AtributoValidator.validaTamanho;
 import static br.com.contmatic.util.CamposTypes.CONTATO_EMAIL_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.CONTATO_EMAIL_TAMANHO_MIN;
 import br.com.contmatic.model.v1.telefone.Telefone;
 
 public class Contato {
+
+	private static final String CAMPO_EMAIL = "email";
 
 	private String email;
 
@@ -21,8 +25,9 @@ public class Contato {
 	}
 
 	public void setEmail(String email) {
-		validaNulo(getClass(), "email", email);
-		this.validaTamanho(email);
+		validaNulo(getClass(), CAMPO_EMAIL, email);
+		validaEspacamento(getClass(), CAMPO_EMAIL, email, CONTATO_EMAIL_TAMANHO_MIN);
+		validaTamanho(getClass(), CAMPO_EMAIL, email.length(), CONTATO_EMAIL_TAMANHO_MIN, CONTATO_EMAIL_TAMANHO_MAX);
 		this.validaEmail(email);
 		this.email = email;
 	}
@@ -49,13 +54,6 @@ public class Contato {
 
 	private boolean validaDomioEmail(String email) {
 		return (email.contains("com") || email.contains("br")) || (email.contains("org") || email.contains("net"));
-	}
-
-	private void validaTamanho(String email) {
-		if (email.length() < CONTATO_EMAIL_TAMANHO_MIN || email.length() >= CONTATO_EMAIL_TAMANHO_MAX) {
-			throw new IllegalArgumentException(
-					"O Email que você inseriu é muito grande ou muito pequeno para ser um email válido. Tente novamente");
-		}
 	}
 
 	@Override

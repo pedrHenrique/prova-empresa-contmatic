@@ -1,7 +1,9 @@
 package br.com.contmatic.model.v1.empresa;
 
+import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
 import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
+import static br.com.contmatic.util.AtributoValidator.validaTamanho;
 import static br.com.contmatic.util.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MIN;
 import static br.com.contmatic.util.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX;
@@ -9,9 +11,12 @@ import static br.com.contmatic.util.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN
 import static br.com.contmatic.util.documentos.CnpjValidator.validarCnpj;
 
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.util.CamposTypes;
 
 public class Empresa {
+
+	private static final String CAMPO_RAZAOSOCIAL = "razaoSocial";
+
+	private static final String CAMPO_NOMEFANTASIA = "nomeFantasia";
 
 	private String razaoSocial;
 
@@ -22,14 +27,14 @@ public class Empresa {
 	private Endereco endereco;
 
 	private Contato contato;
-	
+
 	public Empresa(String razaoSocial, String cnpj) {
 		this.setRazaoSocial(razaoSocial);
-		this.setCnpj(cnpj);		
+		this.setCnpj(cnpj);
 	}
-	
+
 	public Empresa(String cnpj) {
-		this.setCnpj(cnpj);		
+		this.setCnpj(cnpj);
 	}
 
 	public Empresa(String razaoSocial, String nomeFantasia, String cnpj, Endereco endereco, Contato contato) {
@@ -45,9 +50,10 @@ public class Empresa {
 	}
 
 	public void setNomeFantasia(String nomeFantasia) {
-		validaNulo(getClass(), "nomeFantasia", nomeFantasia);
-		this.validaTamanhoNomeFantasia(nomeFantasia);
-		validaNomeSimples(getClass(), "nomeFantasia", nomeFantasia);
+		validaNulo(getClass(), CAMPO_NOMEFANTASIA, nomeFantasia);
+		validaEspacamento(getClass(), CAMPO_NOMEFANTASIA, nomeFantasia, EMPRESA_NOME_FANTASIA_TAMANHO_MIN);
+		validaTamanho(getClass(), CAMPO_NOMEFANTASIA, nomeFantasia.length(), EMPRESA_NOME_FANTASIA_TAMANHO_MIN, EMPRESA_NOME_FANTASIA_TAMANHO_MAX);
+		validaNomeSimples(getClass(), CAMPO_NOMEFANTASIA, nomeFantasia);
 		this.nomeFantasia = nomeFantasia;
 	}
 
@@ -56,9 +62,10 @@ public class Empresa {
 	}
 
 	public void setRazaoSocial(String razaoSocial) {
-		validaNulo(getClass(), "razaoSocial", razaoSocial);
-		this.validaTamanhoRazaoSocial(razaoSocial);
-		validaNomeSimples(getClass(), "razaoSocial", razaoSocial);
+		validaNulo(getClass(), CAMPO_RAZAOSOCIAL, razaoSocial);
+		validaEspacamento(getClass(), CAMPO_RAZAOSOCIAL, razaoSocial, EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN);
+		validaTamanho(getClass(), CAMPO_RAZAOSOCIAL, razaoSocial.length(), EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN, EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX);
+		validaNomeSimples(getClass(), CAMPO_RAZAOSOCIAL, razaoSocial);
 		this.razaoSocial = razaoSocial;
 	}
 
@@ -87,20 +94,6 @@ public class Empresa {
 	public void setEndereco(Endereco endereco) {
 		validaNulo(getClass(), "endereco", endereco);
 		this.endereco = endereco;
-	}
-
-	private void validaTamanhoNomeFantasia(String nomeFantasia) {
-		if (nomeFantasia.length() < EMPRESA_NOME_FANTASIA_TAMANHO_MIN || nomeFantasia.length() > EMPRESA_NOME_FANTASIA_TAMANHO_MAX) {
-			throw new IllegalArgumentException("Nome Fantasia não pôde conter tamanho inferior a "
-					+ EMPRESA_NOME_FANTASIA_TAMANHO_MIN + " ou maior que " + CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MAX + ".");
-		}
-	}
-
-	private void validaTamanhoRazaoSocial(String razaoSocial) {
-		if (razaoSocial.length() < EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN || razaoSocial.length() > EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX) {
-			throw new IllegalArgumentException("Razão Social não pôde conter tamanho inferior a "
-			+ EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN + " ou maior que " + EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX + ".");
-		}
 	}
 
 	@Override

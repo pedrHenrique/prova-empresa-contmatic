@@ -4,12 +4,14 @@ import java.util.Date;
 
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
 
+import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
 import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
 import static br.com.contmatic.util.AtributoValidator.validaTamanho;
 import static br.com.contmatic.util.documentos.CpfValidator.validarCpf;
 import static br.com.contmatic.util.documentos.CpfValidator.formataCpf;
-import static br.com.contmatic.util.DataFormatter.getFormatterInstance;
+import static br.com.contmatic.util.DataFormatter.getDataFormatterInstance;
+import static br.com.contmatic.util.DataFormatter.verificaSeDataEMuitoAntiga;
 import static br.com.contmatic.util.DataFormatter.verificaSeDataEstaNoPassado;
 import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MIN;
@@ -32,24 +34,24 @@ public class Funcionario {
 
 	private Departamento departamento;
 
-	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, String dtAdimissao, double salario,
+	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, String dtAdimissao, Double salario,
 			Departamento departamento) {
 		this.setNome(nome);
 		this.setCpf(cpf);
 		this.setEndereco(endereco);
 		this.setContato(contato);
-		this.setDtAdimissao(getFormatterInstance().formataData(dtAdimissao));
+		this.setDtAdimissao(getDataFormatterInstance().formataDataParaPadrao(dtAdimissao));
 		this.setSalario(salario);
 		this.setDepartamento(departamento);
 	}
 
-	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, Date dtAdimissao, double salario,
+	public Funcionario(String nome, String cpf, Endereco endereco, Contato contato, Date dtAdimissao, Double salario,
 			Departamento departamento) {
 		this.setNome(nome);
 		this.setCpf(cpf);
 		this.setEndereco(endereco);
 		this.setContato(contato);
-		this.setDtAdimissao(getFormatterInstance().formataData(dtAdimissao));
+		this.setDtAdimissao(getDataFormatterInstance().formataDataParaPadrao(dtAdimissao));
 		this.setSalario(salario);
 		this.setDepartamento(departamento);
 	}
@@ -68,6 +70,7 @@ public class Funcionario {
 	public void setNome(String nome) {
 		validaNulo(getClass(), "nome", nome);
 		validaTamanho(getClass(), "nome", nome.length(), FUNCIONARIO_NOME_TAMANHO_MIN, FUNCIONARIO_NOME_TAMANHO_MAX);
+		validaEspacamento(getClass(), "nome", nome, FUNCIONARIO_NOME_TAMANHO_MIN);
 		validaNomeSimples(getClass(), "nome", nome);
 		this.nome = nome;
 	}
@@ -106,6 +109,7 @@ public class Funcionario {
 	public void setDtAdimissao(Date dtAdimissao) {
 		validaNulo(getClass(), "dtAdimissao", dtAdimissao);
 		verificaSeDataEstaNoPassado(dtAdimissao);
+		verificaSeDataEMuitoAntiga(dtAdimissao);
 		this.dtAdimissao = dtAdimissao;
 	}
 
@@ -113,7 +117,8 @@ public class Funcionario {
 		return salario;
 	}
 
-	public void setSalario(double salario) {
+	public void setSalario(Double salario) {
+		validaNulo(getClass(), "salario", salario);
 		this.validaSalario(salario);
 		this.salario = salario;
 	}
@@ -127,7 +132,7 @@ public class Funcionario {
 		this.departamento = departamento;
 	}
 
-	private void validaSalario(double salario) {
+	private void validaSalario(Double salario) {
 		if (salario <= FUNCIONARIO_SALARIO_VALOR_MIN || salario >= FUNCIONARIO_SALARIO_VALOR_MAX) {
 			throw new IllegalArgumentException("Este salário não pode ser aceito...");
 		}
@@ -160,7 +165,7 @@ public class Funcionario {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": Nome=" + nome + ", CPF=" + cpf + ", Data Admissão= " + getFormatterInstance().getSdf().format(dtAdimissao) + "\nDepartamento=" + departamento
+		return getClass().getSimpleName() + ": Nome=" + nome + ", CPF=" + cpf + ", Data Admissão=" + getDataFormatterInstance().getSdf().format(dtAdimissao) + "\nDepartamento=" + departamento
 				+ "\nEndereco=" + endereco + "\nContato=" + contato + "\nSalario=" + salario;
 	}
 }

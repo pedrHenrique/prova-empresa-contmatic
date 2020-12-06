@@ -1,6 +1,7 @@
 package br.com.contmatic.model.v1.empresa.endereco;
 
 import static br.com.contmatic.util.AtributoValidator.validaCampoDigitos;
+import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
 import static br.com.contmatic.util.AtributoValidator.validaNomeSimbolos;
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
 import static br.com.contmatic.util.AtributoValidator.validaTamanho;
@@ -12,6 +13,8 @@ import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_MIN;
 
 public class Endereco {
+
+	private static final String CAMPO_BAIRRO = "bairro";
 
 	private String rua;
 
@@ -33,17 +36,17 @@ public class Endereco {
 		this.setCep(cep);
 		this.setCidade(cidade);
 	}
-	
+
 	public Endereco(String rua, String bairro, Integer numero, String cep, Cidade cidade) {
 		this.setRua(rua);
 		this.setBairro(bairro);
-		this.setNumero(numero);		
+		this.setNumero(numero);
 		this.setCep(cep);
 		this.setCidade(cidade);
 	}
-	
+
 	public Endereco(Integer numero, String cep) {
-		this.setNumero(numero);		
+		this.setNumero(numero);
 		this.setCep(cep);
 	}
 
@@ -53,6 +56,7 @@ public class Endereco {
 
 	public void setRua(String rua) {
 		validaNulo(getClass(), "rua", rua);
+		validaEspacamento(getClass(), "rua", rua, ENDERECO_TAMANHO_MIN);
 		validaTamanho(getClass(), "rua", rua.length(), ENDERECO_TAMANHO_MIN, ENDERECO_TAMANHO_MAX);
 		this.rua = rua;
 	}
@@ -62,8 +66,9 @@ public class Endereco {
 	}
 
 	public void setBairro(String bairro) {
-		validaNulo(getClass(), "bairro", bairro);
-		validaTamanho(getClass(), "bairro", bairro.length(), ENDERECO_TAMANHO_MIN, ENDERECO_TAMANHO_MAX);
+		validaNulo(getClass(), CAMPO_BAIRRO, bairro);
+		validaEspacamento(getClass(), CAMPO_BAIRRO, bairro, ENDERECO_TAMANHO_MIN);
+		validaTamanho(getClass(), CAMPO_BAIRRO, bairro.length(), ENDERECO_TAMANHO_MIN, ENDERECO_TAMANHO_MAX);
 		this.bairro = bairro;
 	}
 

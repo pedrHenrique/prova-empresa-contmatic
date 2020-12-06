@@ -1,6 +1,7 @@
 package br.com.contmatic.model.v1.empresa;
 
 import static br.com.contmatic.util.AtributoValidator.validaCampoDigitos;
+import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
 import static br.com.contmatic.util.AtributoValidator.validaNomeSimbolos;
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
 import static br.com.contmatic.util.AtributoValidator.validaTamanho;
@@ -21,13 +22,13 @@ public class Departamento {
 
 	private String ramal;
 
-	public Departamento(Long id, String nome, String ramal) {		
+	public Departamento(Long id, String nome, String ramal) {
 		this.setId(id);
 		this.setNome(nome);
 		this.setRamal(ramal);
 	}
 
-	public Departamento(Long id, String nome) {		
+	public Departamento(Long id, String nome) {
 		this.setId(id);
 		this.setNome(nome);
 	}
@@ -38,7 +39,8 @@ public class Departamento {
 
 	public void setId(Long id) {
 		validaNulo(getClass(), "id", id);
-		validaTamanho(getClass(), "id", id.intValue(), (int) DEPARTAMENTO_ID_TAMANHO_MIN, (int) DEPARTAMENTO_ID_TAMANHO_MAX);
+		validaTamanho(getClass(), "id", id.intValue(), (int) DEPARTAMENTO_ID_TAMANHO_MIN,
+				(int) DEPARTAMENTO_ID_TAMANHO_MAX);
 		this.id = id;
 	}
 
@@ -48,6 +50,7 @@ public class Departamento {
 
 	public void setNome(String nome) {
 		validaNulo(getClass(), "nome", nome);
+		validaEspacamento(getClass(), "nome", nome, DEPARTAMENTO_NOME_TAMANHO_MIN);
 		validaTamanho(getClass(), "nome", nome.length(), DEPARTAMENTO_NOME_TAMANHO_MIN, DEPARTAMENTO_NOME_TAMANHO_MAX);
 		validaNomeSimbolos(getClass(), "nome", nome);
 		this.nome = nome;
@@ -91,6 +94,6 @@ public class Departamento {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": ID= " + id + ", Nome= " + nome + ", Ramal=" + ramal;
+		return getClass().getSimpleName() + ": ID=" + id + ", Nome=" + nome + ", Ramal=" + ramal;
 	}
 }

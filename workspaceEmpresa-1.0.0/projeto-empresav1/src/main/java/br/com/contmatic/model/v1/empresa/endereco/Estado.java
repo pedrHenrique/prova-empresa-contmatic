@@ -4,8 +4,11 @@ import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.isEstadoVali
 import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.BRASIL;
 import static br.com.contmatic.util.AtributoValidator.validaNulo;
 import static br.com.contmatic.util.AtributoValidator.validaTamanho;
+import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
 import static br.com.contmatic.util.AtributoValidator.validaNomeDigitos;
 import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
+import static br.com.contmatic.util.CamposTypes.ESTADO_TAMANHO_MAX;
+import static br.com.contmatic.util.CamposTypes.ESTADO_TAMANHO_MIN;
 import static java.util.Locale.ROOT;
 
 public class Estado {
@@ -51,13 +54,15 @@ public class Estado {
 
 	private void validaUF(String uf) {
 		validaNulo(getClass(), "uf", uf);
-		validaTamanho(getClass(), "uf", uf.length(), 2);
+		validaEspacamento(getClass(), "uf", uf, ESTADO_TAMANHO_MIN);
+		validaTamanho(getClass(), "uf", uf.length(), ESTADO_TAMANHO_MIN);
 		validaNomeSimples(getClass(), "uf", uf);
 	}
 
 	private void validaEstado(String estado) {
 		validaNulo(getClass(), "nome", estado);
-		validaTamanho(getClass(), "nome", estado.length(), 2, 50);
+		validaEspacamento(getClass(), "nome", estado, ESTADO_TAMANHO_MIN);
+		validaTamanho(getClass(), "nome", estado.length(), ESTADO_TAMANHO_MIN, ESTADO_TAMANHO_MAX);
 		validaNomeDigitos(getClass(), "nome", estado);
 	}
 

@@ -199,9 +199,17 @@ public class FuncionarioTest {
 	@Test
 	public void nao_deve_aceitar_data_no_futuro() throws ParseException {
 		Date exemplo = new SimpleDateFormat(PADRAO_DATA).parse("15/02/2095");
-		Exception e = assertThrows("Datas no futoro não devem ser aceitas", IllegalArgumentException.class,
+		Exception e = assertThrows("Datas no futuro não devem ser aceitas", IllegalArgumentException.class,
 				() -> fun.setDtAdimissao(exemplo));
 		assertThat(e.getMessage(), equalTo("Datas no futuro não podem ser aceitas."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_data_muito_antigas() throws ParseException {
+		Date exemplo = new SimpleDateFormat(PADRAO_DATA).parse("25/12/1899");
+		Exception e = assertThrows("Datas com ano inferior a 1900 devem degar exception", IllegalArgumentException.class,
+				() -> fun.setDtAdimissao(exemplo));
+		assertThat(e.getMessage(), startsWith("A data informada é muito antiga para ser aceita."));
 	}
 
 	@Test(expected = Test.None.class)

@@ -1,10 +1,18 @@
 package br.com.contmatic.model.v1.endereco;
 
-import static org.junit.Assert.*;
-
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.AC;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.AL;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.MT;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.RO;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.BRASIL;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.ESTADOS_UNIDOS;
+import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
+import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,13 +29,6 @@ import org.junit.Test;
 import br.com.contmatic.model.v1.empresa.endereco.Cidade;
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
 import br.com.contmatic.model.v1.empresa.endereco.TipoPais;
-
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.*;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.*;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
-import static br.com.contmatic.testes.util.TestesUtils.EMPTYSTR;
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
 
 public class EnderecoTest {
 
@@ -125,7 +126,7 @@ public class EnderecoTest {
 	@Test
 	public void nao_deve_aceitar_rua_com_tamanho_invalido() {
 		Exception e = Assert.assertThrows("Nao deve permitir rua com tamanho invalido", IllegalArgumentException.class,
-				() -> end.setRua(EMPTYSTR));
+				() -> end.setRua("ExemploDeUmNomeParaRuaQueNaoDeveriaSerAceitoDevidoOSeuTamanho"));
 		assertThat(e.getMessage(), startsWith("O campo rua da classe Endereco não pode ter esse tamanho."));
 	}
 
@@ -144,7 +145,7 @@ public class EnderecoTest {
 	@Test
 	public void nao_deve_aceitar_bairro_com_tamanho_invalido() {
 		Exception e = Assert.assertThrows("Nao deve permitir bairro com tamanho invalido",
-				IllegalArgumentException.class, () -> end.setBairro(EMPTYSTR));
+				IllegalArgumentException.class, () -> end.setBairro("ExemploDeUmNomeParaEnderecoQueNaoDeveriaSerAceitoDevidoOSeuTamanho"));
 		assertThat(e.getMessage(), startsWith("O campo bairro da classe Endereco não pode ter esse tamanho."));
 	}
 
@@ -191,7 +192,7 @@ public class EnderecoTest {
 	@Test
 	public void nao_deve_aceitar_cep_com_formato_errado() {
 		Exception e = Assert.assertThrows("Nao deve permitir cep com formato errado", IllegalArgumentException.class,
-				() -> end.setCep("xxxxxxxx"));
+				() -> end.setCep("        "));
 		assertThat(e.getMessage(), equalTo("O campo cep da classe Endereco só pode conter números."));
 	}
 

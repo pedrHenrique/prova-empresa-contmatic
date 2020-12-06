@@ -58,17 +58,17 @@ public enum TipoEstado {
 	
 	public static boolean isEstadoValido(String nomeEstado, String uf) {
 		try {
-			return isNomeValido(nomeEstado, uf) && isUfValida(uf);
+			return isNomeEstadoExistente(nomeEstado, uf) && isUfExistente(uf);
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
 	}
 
-	private static boolean isUfValida(String uf) {
+	private static boolean isUfExistente(String uf) {
 		return uf.equalsIgnoreCase(valueOf(uf.toUpperCase(Locale.ROOT)).getUf());
 	}
 
-	private static boolean isNomeValido(String nomeEstado, String uf) {
+	private static boolean isNomeEstadoExistente(String nomeEstado, String uf) {
 		return nomeEstado.equalsIgnoreCase(valueOf(uf.toUpperCase(Locale.ROOT)).getNome());
 	}
 }

@@ -2,6 +2,7 @@ package br.com.contmatic.model.v1.endereco;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -61,9 +62,16 @@ public class CidadeTest {
 				() -> cid = new Cidade(null, SC));
 		assertThat(e.getMessage(), equalTo("O campo nome da classe Cidade não pode ser nulo."));
 	}
+
+	@Test
+	public void nao_deve_aceitar_nome_cidade_muito_grande() {
+		Exception e = Assert.assertThrows("Nomes enormes não devem ser aceitos", IllegalArgumentException.class,
+				() -> cid = new Cidade("ExemploDeUmNomeDeUmaCidadeMuitoMuitoGrandeMesmoQueNaoDeveriaSerAceito", SC));
+		assertThat(e.getMessage(), startsWith("O campo nome da classe Cidade não pode ter esse tamanho."));
+	}
 	
 	@Test
-	public void nao_deve_aceitar_nome_cidade_contendo_numeros_nulo() {
+	public void nao_deve_aceitar_nome_cidade_contendo_numeros() {
 		Exception e = Assert.assertThrows("Nomes com numeros não devem ser aceitos", IllegalArgumentException.class,
 				() -> cid = new Cidade("Pananapi489", SC));
 		assertThat(e.getMessage(), equalTo("O campo nome da classe Cidade não pode possuir dígitos."));

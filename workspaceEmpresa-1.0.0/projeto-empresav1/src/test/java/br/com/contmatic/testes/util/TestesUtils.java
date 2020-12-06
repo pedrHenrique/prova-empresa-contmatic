@@ -40,7 +40,7 @@ public final class TestesUtils {
 	}
 	
 	public static int retornaNumeroAleatorio() {
-		return random.nextInt(900);
+		return random.nextInt(9999);
 	}
 
 	private TestesUtils() {

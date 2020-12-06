@@ -1,9 +1,18 @@
 package br.com.contmatic.model.v1.endereco;
 
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.MG;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.PI;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.PR;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.SC;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.SP;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.BRASIL;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.ESTADOS_UNIDOS;
+import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.ITALIA;
+import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,10 +24,6 @@ import org.junit.Test;
 import br.com.contmatic.model.v1.empresa.endereco.Estado;
 import br.com.contmatic.model.v1.empresa.endereco.TipoEstado;
 import br.com.contmatic.model.v1.empresa.endereco.TipoPais;
-import static br.com.contmatic.testes.util.TestesUtils.EMPTYSTR;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.*;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.*;
 
 public class EstadoTest {
 
@@ -94,7 +99,7 @@ public class EstadoTest {
 	@Test
 	public void nao_deve_aceitar_nomeEstado_passado_vazio() {
 		Exception e = Assert.assertThrows("Nomes de estado vazios não devem ser aceitos", IllegalArgumentException.class,
-				() -> est = new Estado(EMPTYSTR, "SP", BRASIL));
+				() -> est = new Estado("ExemploDeUmNomeParaEstadoQueNaoDeveriaSerAceitoDevidoOSeuTamanho", "SP", BRASIL));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Estado não pode ter esse tamanho."));
 	}
 
@@ -115,7 +120,7 @@ public class EstadoTest {
 	@Test
 	public void nao_deve_aceitar_uf_passado_vazio() {
 		Exception e = Assert.assertThrows("UF vazias não devem ser aceitas", IllegalArgumentException.class,
-				() -> est = new Estado("Ohio", EMPTYSTR, ESTADOS_UNIDOS));
+				() -> est = new Estado("Ohio", "ExemploDeUmaUFQueNaoDeveriaSerAceitoDevidoOSeuTamanho", ESTADOS_UNIDOS));
 		assertThat(e.getMessage(), startsWith("O campo uf da classe Estado não pode ter esse tamanho."));
 	}
 

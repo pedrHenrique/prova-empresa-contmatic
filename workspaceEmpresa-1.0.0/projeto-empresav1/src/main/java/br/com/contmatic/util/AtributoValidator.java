@@ -10,7 +10,7 @@ public final class AtributoValidator {
 	private static final List<String> SIMBOLOS_NAO_PERMITIDOS = Arrays.asList("!", "@", "#", "$", "%", "&", "-", "¨", "*", "(", ")",
 			  																  "-", "_", "+", "=", "-", "/", ".", ",", "|", "?", ";");
 
-	private static String retornaMensagemException(Class<?> classe, String campo, String contexto) {
+	private static String retornaMensagemExceptionPadronizada(Class<?> classe, String campo, String contexto) {
 		return new StringBuilder("O campo " + campo + " da classe " + classe.getSimpleName() + " " + contexto).toString();
 	}
 
@@ -21,7 +21,7 @@ public final class AtributoValidator {
 
 	public static void validaTamanho(Class<?> classe, String campo, int tamanho, int tamanhoMin, int tamanhoMax) {
 		validaClasseCampo(classe, campo);
-		validaTamanhoPassado(classe, campo, tamanho, tamanhoMin, tamanhoMax);
+		validaTamanhoComparandoMinEMax(classe, campo, tamanho, tamanhoMin, tamanhoMax);
 	}
 	
 	public static void validaTamanho(Class<?> classe, String campo, int tamanho, int tamanhoEsperado) {
@@ -29,13 +29,18 @@ public final class AtributoValidator {
 		validaTamanhoEsperado(classe, campo, tamanho, tamanhoEsperado);
 	}
 
+	public static void validaEspacamento(Class<?> classe, String campo, String valor, int tamanhoMin) {
+		validaClasseCampo(classe, campo);
+		validaEspacamentoComBaseNoTamanhoMinimo(classe, campo, valor, tamanhoMin);
+	}
+
 	public static void validaNomeSimples(Class<?> classe, String campo, String nome) {
 		validaClasseCampo(classe, campo);
 		if (nomePossuiDigitos(nome)) {
-			throw new IllegalArgumentException(retornaMensagemException(classe, campo, "não pode possuir números."));
+			throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo, "não pode possuir números."));
 		} else if (nomePossuiSimbolos(nome)) {
 			throw new IllegalArgumentException(
-					retornaMensagemException(classe, campo, "não pode possuir caracteres especiais."));
+					retornaMensagemExceptionPadronizada(classe, campo, "não pode possuir caracteres especiais."));
 		}
 	}
 	
@@ -43,7 +48,7 @@ public final class AtributoValidator {
 		validaClasseCampo(classe, campo);
 		if (nomePossuiSimbolos(nome)) {
 			throw new IllegalArgumentException(
-					retornaMensagemException(classe, campo, "não pode possuir caracteres especiais."));
+					retornaMensagemExceptionPadronizada(classe, campo, "não pode possuir caracteres especiais."));
 		}
 	}
 	
@@ -51,7 +56,7 @@ public final class AtributoValidator {
 		validaClasseCampo(classe, campo);
 		if (nomePossuiDigitos(nome)) {
 			throw new IllegalArgumentException(
-					retornaMensagemException(classe, campo, "não pode possuir dígitos."));
+					retornaMensagemExceptionPadronizada(classe, campo, "não pode possuir dígitos."));
 		}
 	}
 	
@@ -59,14 +64,14 @@ public final class AtributoValidator {
 		validaClasseCampo(classe, campo);
 		for (int i = 0; i < valor.length(); ++i) {
 			if (!Character.isDigit(valor.charAt(i))) {
-				throw new IllegalArgumentException(retornaMensagemException(classe, campo, "só pode conter números."));
+				throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo, "só pode conter números."));
 			}
 		}
 	}
 	
 	private static void validaValorNulo(Class<?> classe, String campo, Object valor) {
 		if (valor == null) {
-			throw new NullPointerException(retornaMensagemException(classe, campo, "não pode ser nulo."));
+			throw new NullPointerException(retornaMensagemExceptionPadronizada(classe, campo, "não pode ser nulo."));
 		}
 	}
 	
@@ -86,18 +91,29 @@ public final class AtributoValidator {
 	protected static boolean nomeContemEsteSimbolo(String nome, String simbolo) {
 		return nome.contains(simbolo);
 	}
+
+	public static String retornaValorSemEspacamento(String valor) {
+		return valor.trim();
+	}
 	
-	private static void validaTamanhoPassado(Class<?> classe, String campo, int tamanho, int tamanhoMin, int tamanhoMax) {
+	private static void validaTamanhoComparandoMinEMax(Class<?> classe, String campo, int tamanho, int tamanhoMin, int tamanhoMax) {
 		if (tamanho < tamanhoMin || tamanho > tamanhoMax) {
-			throw new IllegalArgumentException(retornaMensagemException(classe, campo,
+			throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo,
 				"não pode ter esse tamanho. Tamanho de " + campo + " precisar ser entre " + tamanhoMin + " e " + tamanhoMax + "."));
 		}
 	}
 
 	private static void validaTamanhoEsperado(Class<?> classe, String campo, int tamanho, int tamanhoEsperado) {
 		if (tamanho != tamanhoEsperado) {
-			throw new IllegalArgumentException(retornaMensagemException(classe, campo,
+			throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo,
 				"não pode ter esse tamanho. Tamanho de " + campo + " precisar ser igual a " + tamanhoEsperado + "."));
+		}
+	}
+
+	private static void validaEspacamentoComBaseNoTamanhoMinimo(Class<?> classe, String campo, String valor, int tamanhoMin) {
+		if (retornaValorSemEspacamento(valor).length() < tamanhoMin) {
+			throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo, "foi informado em branco, " +
+			"ou com uma quantidade de espaços em brancos excessivos."));
 		}
 	}
 	

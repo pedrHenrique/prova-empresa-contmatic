@@ -17,7 +17,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static br.com.contmatic.testes.util.TestesUtils.EMPTYSTR;
 import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MIN;
@@ -122,7 +121,7 @@ public class DepartamentoTest {
 	@Test
 	public void nao_deve_aceitar_nome_departamento_com_tamanho_inapropriado() {
 		Exception e = Assert.assertThrows("Nome não deve aceitar tamanhos inapropriados",
-				IllegalArgumentException.class, () -> dep.setNome(EMPTYSTR));
+				IllegalArgumentException.class, () -> dep.setNome("ExemploDeUmNomeParaDepartamentoQueNaoDeveriaSerAceitoDevidoOSeuTamanho"));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Departamento não pode ter esse tamanho."));
 	}
 
