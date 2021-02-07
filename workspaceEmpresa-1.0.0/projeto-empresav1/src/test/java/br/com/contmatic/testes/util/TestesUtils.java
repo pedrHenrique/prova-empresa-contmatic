@@ -1,5 +1,7 @@
 package br.com.contmatic.testes.util;
 
+import static br.com.contmatic.model.v1.telefone.DDIType.DDI55;
+
 import java.util.Random;
 
 import br.com.contmatic.model.v1.empresa.Contato;
@@ -7,7 +9,7 @@ import br.com.contmatic.model.v1.empresa.Departamento;
 import br.com.contmatic.model.v1.empresa.DepartamentoTest;
 import br.com.contmatic.model.v1.empresa.endereco.Cidade;
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.model.v1.empresa.endereco.TipoEstado;
+import br.com.contmatic.model.v1.empresa.endereco.EstadoType;
 import br.com.contmatic.model.v1.telefone.Telefone;
 
 public final class TestesUtils {
@@ -27,12 +29,12 @@ public final class TestesUtils {
 				retornaNumeroAleatorio(), "72265515", new Cidade("Cidade Teste", retornaEstadoAleatorio()));
 	}
 	
-	public static TipoEstado retornaEstadoAleatorio() {		
-		return TipoEstado.values()[random.nextInt(TipoEstado.values().length)];
+	public static EstadoType retornaEstadoAleatorio() {		
+		return EstadoType.values()[random.nextInt(EstadoType.values().length)];
 	}
 	
 	public static Contato retornaContato() {
-		return new Contato("testematic@contmatic.com", new Telefone("1125068922"));
+		return new Contato("testematic@contmatic.com", new Telefone(DDI55, "11", "25068922", null));
 	}
 	
 	public static Departamento retornaDepartamento() {

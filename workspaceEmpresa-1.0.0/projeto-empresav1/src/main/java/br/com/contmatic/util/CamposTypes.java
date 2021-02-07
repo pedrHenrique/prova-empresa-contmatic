@@ -10,6 +10,10 @@ public final class CamposTypes {
 
 	public static final int EMPRESA_NOME_FANTASIA_TAMANHO_MAX = 50;
 	
+	public static final String EMPRESA_CAMPO_RAZAOSOCIAL = "razaoSocial";
+
+	public static final String EMPRESA_CAMPO_NOMEFANTASIA = "nomeFantasia";
+	
 	public static final int FUNCIONARIO_NOME_TAMANHO_MAX = 75;
 
 	public static final int FUNCIONARIO_NOME_TAMANHO_MIN = 10;
@@ -54,11 +58,17 @@ public final class CamposTypes {
 
 	public static final int ESTADO_TAMANHO_MAX = 50;
 	
-	public static final int TELEFONE_TAMANHO_FORMATACAO = 3;
+	public static final int TELEFONE_TAMANHO_FORMATACAO = 1;
 
-	public static final int TELEFONE_TAMANHO_TELEFONE_MOVEL = 11;
+	public static final int TELEFONE_TAMANHO_TELEFONE_MOVEL = 9;
 
-	public static final int TELEFONE_TAMANHO_TELEFONE_FIXO = 10;
+	public static final int TELEFONE_TAMANHO_TELEFONE_FIXO = 8;
+	
+	public static final int TELEFONE_TAMANHO_TELEFONE_INTERNACIONAL_MIN = 4;
+	
+	public static final int TELEFONE_TAMANHO_TELEFONE_INTERNACIONAL_MAX = 15;
+
+	public static final int TELEFONE_TAMANHO_DDD = 2;
 	
 	private CamposTypes() {
 		

@@ -1,10 +1,11 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.AtributoValidator.validaTamanho;
 import static br.com.contmatic.util.CamposTypes.CONTATO_EMAIL_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.CONTATO_EMAIL_TAMANHO_MIN;
+import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+
 import br.com.contmatic.model.v1.telefone.Telefone;
 
 public class Contato {
@@ -43,8 +44,7 @@ public class Contato {
 
 	private void validaEmail(String email) {
 		if (!validaInicioEmail(email) || !validaDomioEmail(email)) {
-			throw new IllegalArgumentException("O modelo de email inserido não corresponde a um modelo de email válido."
-					+ "Por Favor tente novamente.");
+			throw new IllegalArgumentException("O modelo de email inserido não corresponde a um modelo de email válido. Por Favor tente novamente.");
 		}
 	}
 

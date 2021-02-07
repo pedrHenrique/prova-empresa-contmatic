@@ -37,7 +37,7 @@ public class DataFormatterTest {
 	@Before
 	public void setUp() throws Exception {
 		this.df = DataFormatter.getDataFormatterInstance();
-		this.sdf = df.getSdf();
+		this.sdf = df.getFormatoDataPadrao();
 	}
 
 	@After
@@ -78,7 +78,7 @@ public class DataFormatterTest {
 
 	@Test
 	public void nao_deve_aceitar_data_nula() {
-		Exception nu = assertThrows("Nulo não deve ser aceito como data", NullPointerException.class,
+		Exception nu = assertThrows("Nulo não deve ser aceito como data", IllegalArgumentException.class,
 				() -> df.formataDataParaPadrao(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("Você não pode informar uma data nula para ser validada."));
 	}
@@ -126,10 +126,14 @@ public class DataFormatterTest {
 	private String retornaDataFormatada(String data) {
 		String dataLimpa = data.replaceAll("\\D", "");
 		try {
-			return new StringBuilder(10).append(dataLimpa.substring(0, 2)).append("/").append(dataLimpa.substring(2, 4))
-					.append("/").append(dataLimpa.substring(4, 8)).toString();
+			return formataData(dataLimpa);
 		} catch (IndexOutOfBoundsException in) {
-			throw new IndexOutOfBoundsException(in.getLocalizedMessage());
+			throw new IndexOutOfBoundsException("Ops. Parece que o padrão de data foi alterado. " + in.getLocalizedMessage());
 		}
+	}
+
+	private String formataData(String dataLimpa) {
+		return new StringBuilder(10).append(dataLimpa.substring(0, 2)).append("/").append(dataLimpa.substring(2, 4))
+				.append("/").append(dataLimpa.substring(4, 8)).toString();
 	}
 }

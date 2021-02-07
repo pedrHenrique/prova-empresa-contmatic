@@ -1,17 +1,21 @@
 package br.com.contmatic.model.v1.endereco;
 
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.AC;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.AL;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.MT;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.RO;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.BRASIL;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.ESTADOS_UNIDOS;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.AC;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.AL;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.MT;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.RO;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.BRASIL;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.ESTADOS_UNIDOS;
 import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
 import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -20,7 +24,6 @@ import java.util.Random;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -28,7 +31,7 @@ import org.junit.Test;
 
 import br.com.contmatic.model.v1.empresa.endereco.Cidade;
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.model.v1.empresa.endereco.TipoPais;
+import br.com.contmatic.model.v1.empresa.endereco.PaisType;
 
 public class EnderecoTest {
 
@@ -108,7 +111,7 @@ public class EnderecoTest {
 
 	@Test(expected = Test.None.class)
 	public void deve_aceitar_Endereco_mesmo_nao_passando_complemento() {
-		end = new Endereco("Rua dos Testes", "Lago dos testes", retornaNumero(), retornaCepValido(), new Cidade("Sydnei", "Ohio", "OH", TipoPais.ESTADOS_UNIDOS));
+		end = new Endereco("Rua dos Testes", "Lago dos testes", retornaNumero(), retornaCepValido(), new Cidade("Sydnei", "Ohio", "OH", PaisType.ESTADOS_UNIDOS));
 	}
 
 	@Test(expected = Test.None.class)
@@ -118,14 +121,14 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_rua_nula() {
-		Exception nu = Assert.assertThrows("Nao deve permitir rua nula", NullPointerException.class,
+		Exception nu = assertThrows("Nao deve permitir rua nula", IllegalArgumentException.class,
 				() -> end.setRua(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo rua da classe Endereco não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_rua_com_tamanho_invalido() {
-		Exception e = Assert.assertThrows("Nao deve permitir rua com tamanho invalido", IllegalArgumentException.class,
+		Exception e = assertThrows("Nao deve permitir rua com tamanho invalido", IllegalArgumentException.class,
 				() -> end.setRua("ExemploDeUmNomeParaRuaQueNaoDeveriaSerAceitoDevidoOSeuTamanho"));
 		assertThat(e.getMessage(), startsWith("O campo rua da classe Endereco não pode ter esse tamanho."));
 	}
@@ -137,14 +140,14 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_bairro_nulo() {
-		Exception nu = Assert.assertThrows("Nao deve permitir bairro nulo", NullPointerException.class,
+		Exception nu = assertThrows("Nao deve permitir bairro nulo", IllegalArgumentException.class,
 				() -> end.setBairro(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo bairro da classe Endereco não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_bairro_com_tamanho_invalido() {
-		Exception e = Assert.assertThrows("Nao deve permitir bairro com tamanho invalido",
+		Exception e = assertThrows("Nao deve permitir bairro com tamanho invalido",
 				IllegalArgumentException.class, () -> end.setBairro("ExemploDeUmNomeParaEnderecoQueNaoDeveriaSerAceitoDevidoOSeuTamanho"));
 		assertThat(e.getMessage(), startsWith("O campo bairro da classe Endereco não pode ter esse tamanho."));
 	}
@@ -156,15 +159,15 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_numeracao_de_endereco_nula() {
-		Assert.assertThrows("Numeração de endereco nula não deve ser permitida",
-				NullPointerException.class, () -> end.setNumero(null));
+		assertThrows("Numeração de endereco nula não deve ser permitida",
+				IllegalArgumentException.class, () -> end.setNumero(null));
 	}
 
 	@Test
 	public void nao_deve_aceitar_numeracoes_de_endereco_invalidas() {
 		Integer[] numerosMalFormados = { -1, 10000, 0, -545 };
 		for (Integer numero : numerosMalFormados) {
-			Exception e = Assert.assertThrows("Nao deve permitir numero com formato errado",
+			Exception e = assertThrows("Nao deve permitir numero com formato errado",
 					IllegalArgumentException.class, () -> end.setNumero(numero));
 			assertThat(e.getMessage(), startsWith("O campo numero da classe Endereco não pode ter esse tamanho."));
 		}
@@ -177,33 +180,25 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_cep_nulo() {
-		Exception nu = Assert.assertThrows("Nao deve permitir cep nulo", NullPointerException.class,
+		Exception nu = assertThrows("Nao deve permitir cep nulo", IllegalArgumentException.class,
 				() -> end.setCep(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo cep da classe Endereco não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_cep_com_tamanho_errado() {
-		Exception e = Assert.assertThrows("Nao deve permitir cep com tamanho errado", IllegalArgumentException.class,
+		Exception e = assertThrows("Nao deve permitir cep com tamanho errado", IllegalArgumentException.class,
 				() -> end.setCep("03575 09000"));
 		assertThat(e.getMessage(), startsWith("O campo cep da classe Endereco não pode ter esse tamanho."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_cep_com_formato_errado() {
-		Exception e = Assert.assertThrows("Nao deve permitir cep com formato errado", IllegalArgumentException.class,
+		Exception e = assertThrows("Nao deve permitir cep com formato errado", IllegalArgumentException.class,
 				() -> end.setCep("        "));
-		assertThat(e.getMessage(), equalTo("O campo cep da classe Endereco só pode conter números."));
+		assertThat(e.getMessage(), equalTo("O campo cep da classe Endereco só pode conter dígitos."));
 	}
 
-	@Ignore("Não há mais uma validação se o CEP informado realmente é um cep existente. ViaCep era responsável por isso.")
-	@Test
-	public void nao_deve_permitir_cadastrar_Endereco_se_o_cep_informado_nao_for_valido() {
-		Cidade cidade = retornaCidade();
-		Exception e = Assert.assertThrows("Nao deve permitir cep não existente", IllegalArgumentException.class,
-				() -> new Endereco("rua test", "bairro test", 9999, "00000000", cidade));
-		assertThat(e.getMessage(), startsWith("Ops.. Parece que não foi possível obter as informações do seu CEP."));
-	}
 
 	@Test(expected = Test.None.class)
 	public void deve_aceitar_complemento_valido() {
@@ -212,14 +207,14 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_complemento_nulo() {
-		Exception nu = Assert.assertThrows("Nao deve permitir complemento nulo", NullPointerException.class,
+		Exception nu = assertThrows("Nao deve permitir complemento nulo", IllegalArgumentException.class,
 				() -> end.setComplemento(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo complemento da classe Endereco não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_complemento_com_tamanho_invalido() {
-		Exception e = Assert.assertThrows("Nao deve permitir complemento com tamanho invalido",
+		Exception e = assertThrows("Nao deve permitir complemento com tamanho invalido",
 				IllegalArgumentException.class, () -> end.setComplemento("Exemplo de um Complemento Muito Grande"));
 		assertThat(e.getMessage(),
 				equalTo("Tamanho de complemento inserido precisa ser menor que " + ENDERECO_TAMANHO_COMPLEMENTO + "."));
@@ -227,7 +222,7 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_complemento_com_formato_invalido() {
-		Exception e = Assert.assertThrows("Nao deve permitir complemento invalido", IllegalArgumentException.class,
+		Exception e = assertThrows("Nao deve permitir complemento invalido", IllegalArgumentException.class,
 				() -> end.setComplemento("Apt.@#$@"));
 		assertThat(e.getMessage(),
 				equalTo("O campo complemento da classe Endereco não pode possuir caracteres especiais."));
@@ -236,7 +231,7 @@ public class EnderecoTest {
 	@Ignore("ViaCep não está mais presente no projeto")
 	@Test
 	public void nao_deve_aceitar_valor_retornado_do_viaCep_que_estiver_vazio() {
-		Exception e = Assert.assertThrows("Algo improvável acabou de acontecer...",
+		Exception e = assertThrows("Algo improvável acabou de acontecer...",
 				IllegalArgumentException.class, () -> end.setRua(""));
 		assertThat(e.getMessage(),
 				equalTo("Ops, um valor vazio foi rebecido pelo ViaCep. Isto não deveria ter acontecido."));
@@ -249,7 +244,7 @@ public class EnderecoTest {
 
 	@Test
 	public void nao_deve_aceitar_cidade_nula() {
-		Exception e = Assert.assertThrows("Cidades nulas não devem ser aceitas", NullPointerException.class,
+		Exception e = assertThrows("Cidades nulas não devem ser aceitas", IllegalArgumentException.class,
 				() -> end.setCidade(null));
 		assertThat(e.getMessage(), equalTo("O campo cidade da classe Endereco não pode ser nulo."));
 	}
@@ -263,7 +258,7 @@ public class EnderecoTest {
 
 	@Test
 	public void teste_equals_reflexividade() {
-		Assert.assertEquals(end, end);
+		assertEquals(end, end);
 	}
 
 	@Test
@@ -276,21 +271,21 @@ public class EnderecoTest {
 
 	@Test
 	public void teste_equals_objetos_nulos_devem_retornar_false() {
-		Assert.assertNotEquals(end, null);
+		assertNotEquals(end, null);
 	}
 
 	@Test
 	public void teste_equals_Enderecos_com_ceps_diferente_nao_devem_ser_iguais() {
 		Endereco Endereco1 = new Endereco("Travessa Lourenço do Teste", "Centro", 921, "68997970", new Cidade("Rio Branco", AC));
 		Endereco Endereco = new Endereco("Travessa Lourenço do Teste", "Centro", 921, "68997991", new Cidade("Rio Branco", AC));
-		Assert.assertNotEquals(Endereco1, Endereco);
+		assertNotEquals(Endereco1, Endereco);
 	}
 
 	@Test
 	public void teste_equals_Enderecos_com_numeros_diferente_nao_devem_ser_iguais() {
 		Endereco Endereco1 = new Endereco("Travessa Lourenço do Teste", "Centro", 921, "68997970", new Cidade("Houston", "Texas", "TX", ESTADOS_UNIDOS));
 		Endereco Endereco = new Endereco("Travessa Lourenço do Teste", "Centro", 1021, "68997991", new Cidade("Houston", "Texas", "TX", ESTADOS_UNIDOS));
-		Assert.assertNotEquals(Endereco1, Endereco);
+		assertNotEquals(Endereco1, Endereco);
 	}
 
 	@Test
@@ -298,11 +293,11 @@ public class EnderecoTest {
 		new Endereco(rua, bairro, numero, cep, cidade);
 		Endereco a = new Endereco("Avenida Testedade", "São Bento", 921, "58305006", new Cidade("Rio Branco", MT));
 		Endereco b = new Endereco("Avenida Testedade do Teste", "São Bento", 921, "58305006", new Cidade("Rio Branco", MT));
-		Assert.assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 
 	@Test
 	public void teste_toString() {
-		Assert.assertNotNull(end.toString());
+		assertNotNull(end.toString());
 	}
 }

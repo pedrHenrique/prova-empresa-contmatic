@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import br.com.contmatic.model.util.AtributoValidatorTest;
+import br.com.contmatic.model.util.DataFormatterTest;
 import br.com.contmatic.model.v1.empresa.ContatoTest;
 import br.com.contmatic.model.v1.empresa.DepartamentoTest;
 import br.com.contmatic.model.v1.empresa.EmpresaTest;
@@ -16,7 +17,7 @@ import br.com.contmatic.model.v1.telefone.TelefoneTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({EmpresaTest.class, DepartamentoTest.class, FuncionarioTest.class, EnderecoTest.class, ContatoTest.class, TelefoneTest.class,
-			   AtributoValidatorTest.class, CidadeTest.class, EstadoTest.class})
+			   AtributoValidatorTest.class, CidadeTest.class, EstadoTest.class, DataFormatterTest.class})
 public class EmpresaIT {
 
 }

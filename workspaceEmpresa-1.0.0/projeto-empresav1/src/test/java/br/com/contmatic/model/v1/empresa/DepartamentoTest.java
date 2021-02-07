@@ -3,6 +3,10 @@ package br.com.contmatic.model.v1.empresa;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -20,8 +24,6 @@ import org.junit.runners.MethodSorters;
 import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MIN;
-
-import org.junit.Assert;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DepartamentoTest {
@@ -94,14 +96,14 @@ public class DepartamentoTest {
 
 	@Test
 	public void nao_deve_aceitar_id_nulo() {
-		Exception nu = Assert.assertThrows("ID não devem ser passados como nulos", NullPointerException.class,
+		Exception nu = assertThrows("ID não devem ser passados como nulos", IllegalArgumentException.class,
 				() -> dep.setId(null));
 		assertThat(nu.getMessage(), equalTo("O campo id da classe Departamento não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_id_com_tamanho_inapropriado() {
-		Exception e = Assert.assertThrows("ID não devem ser passados como nulos", IllegalArgumentException.class,
+		Exception e = assertThrows("ID não devem ser passados como nulos", IllegalArgumentException.class,
 				() -> dep.setId(99999L));
 		assertThat(e.getMessage(), startsWith("O campo id da classe Departamento não pode ter esse tamanho."));
 	}
@@ -113,14 +115,14 @@ public class DepartamentoTest {
 
 	@Test
 	public void nao_deve_aceitar_nome_departamento_nulo() {
-		Exception nu = Assert.assertThrows("Nome não deve aceitar nulos", NullPointerException.class,
+		Exception nu = assertThrows("Nome não deve aceitar nulos", IllegalArgumentException.class,
 				() -> dep.setNome(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo nome da classe Departamento não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_nome_departamento_com_tamanho_inapropriado() {
-		Exception e = Assert.assertThrows("Nome não deve aceitar tamanhos inapropriados",
+		Exception e = assertThrows("Nome não deve aceitar tamanhos inapropriados",
 				IllegalArgumentException.class, () -> dep.setNome("ExemploDeUmNomeParaDepartamentoQueNaoDeveriaSerAceitoDevidoOSeuTamanho"));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Departamento não pode ter esse tamanho."));
 	}
@@ -130,7 +132,7 @@ public class DepartamentoTest {
 		String[] nomesInvalidos = { "Recurso Humanos!", "Ti?", "________", "Financeiro & Comercial", "Estoque.",
 				"_-Marketin!!-_" };
 		for (String nome : nomesInvalidos) {
-			Exception e = Assert.assertThrows("Nome não deve aceitar caracteres especiais",
+			Exception e = assertThrows("Nome não deve aceitar caracteres especiais",
 					IllegalArgumentException.class, () -> dep.setNome(nome));
 			assertThat(e.getMessage(),
 					equalTo("O campo nome da classe Departamento não pode possuir caracteres especiais."));
@@ -144,14 +146,14 @@ public class DepartamentoTest {
 
 	@Test
 	public void nao_deve_aceitar_ramal_nulo() {
-		Exception nu = Assert.assertThrows("Ramal não deve aceitar nulos", NullPointerException.class,
+		Exception nu = assertThrows("Ramal não deve aceitar nulos", IllegalArgumentException.class,
 				() -> dep.setRamal(null));
 		assertThat(nu.getMessage(), equalTo("O campo ramal da classe Departamento não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_ramal_com_tamanho_incorreto() {
-		Exception e = Assert.assertThrows("Ramal não deve aceitar valore com tamanho fora do limite",
+		Exception e = assertThrows("Ramal não deve aceitar valore com tamanho fora do limite",
 				IllegalArgumentException.class, () -> dep.setRamal("4448904578952745"));
 		assertThat(e.getMessage(), startsWith("O campo ramal da classe Departamento não pode ter esse tamanho."));
 	}
@@ -160,9 +162,9 @@ public class DepartamentoTest {
 	public void nao_deve_aceitar_ramal_com_valores_invalidos() {
 		String[] ramalInvalidos = { "448A", "ABC", "________", "89ABC89", "77894O", "559@!$%" };
 		for (String ramal : ramalInvalidos) {
-			Exception e = Assert.assertThrows("Não devem ser aceitos nomes com caracteres especiais",
+			Exception e = assertThrows("Não devem ser aceitos nomes com caracteres especiais",
 					IllegalArgumentException.class, () -> dep.setRamal(ramal));
-			assertThat(e.getMessage(), equalTo("O campo ramal da classe Departamento só pode conter números."));
+			assertThat(e.getMessage(), equalTo("O campo ramal da classe Departamento só pode conter dígitos."));
 		}
 	}
 
@@ -175,7 +177,7 @@ public class DepartamentoTest {
 
 	@Test
 	public void teste_equals_reflexividade() {
-		Assert.assertEquals(dep, dep);
+		assertEquals(dep, dep);
 	}
 
 	@Test
@@ -188,32 +190,32 @@ public class DepartamentoTest {
 
 	@Test
 	public void teste_equals_objetos_nulos_devem_retornar_false() {
-		Assert.assertNotEquals(dep, null);
+		assertNotEquals(dep, null);
 	}
 
 	@Test
 	public void teste_equals_departamentos_com_ids_diferentes_nao_devem_ser_iguais() {
 		Departamento departamento1 = new Departamento(5L, "Financeiro", "891");
 		Departamento departamento2 = new Departamento(10L, "Legal", "5034");
-		Assert.assertNotEquals(departamento1, departamento2);
+		assertNotEquals(departamento1, departamento2);
 	}
 
 	@Test
 	public void teste_equals_departamentos_com_ids_iguais_devem_ser_iguais() {
 		Departamento departamento1 = new Departamento(51L, "TI");
 		Departamento departamento2 = new Departamento(51L, "RH");
-		Assert.assertEquals(departamento1, departamento2);
+		assertEquals(departamento1, departamento2);
 	}
 
 	@Test
 	public void teste_hashcode_consistencia() {
 		Departamento a = new Departamento(892L, "Faxineiro", "4001");
 		Departamento b = new Departamento(892L, "Faxineiro", "4001");
-		Assert.assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 
 	@Test
 	public void teste_toString() {
-		Assert.assertNotNull("Os valores deveriam ser iguais", dep.toString());
+		assertNotNull("Os valores deveriam ser iguais", dep.toString());
 	}
 }

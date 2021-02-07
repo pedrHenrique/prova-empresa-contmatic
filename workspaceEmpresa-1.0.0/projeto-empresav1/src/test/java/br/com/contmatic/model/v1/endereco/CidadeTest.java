@@ -1,13 +1,16 @@
 package br.com.contmatic.model.v1.endereco;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,8 +18,8 @@ import org.junit.Test;
 import br.com.contmatic.model.v1.empresa.endereco.Cidade;
 import br.com.contmatic.model.v1.empresa.endereco.Estado;
 
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.*;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.*;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.*;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.*;
 import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
 
 public class CidadeTest {
@@ -58,21 +61,28 @@ public class CidadeTest {
 
 	@Test
 	public void nao_deve_aceitar_nome_cidade_sendo_passado_nulo() {
-		Exception e = Assert.assertThrows("Nomes nulos não devem ser aceitos", NullPointerException.class,
+		Exception e = assertThrows("Nomes nulos não devem ser aceitos", IllegalArgumentException.class,
 				() -> cid = new Cidade(null, SC));
 		assertThat(e.getMessage(), equalTo("O campo nome da classe Cidade não pode ser nulo."));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_nome_cidade_sendo_passado_vazio() {
+		Exception e = assertThrows("Nomes vazios não devem ser aceitos", IllegalArgumentException.class,
+				() -> cid = new Cidade("             ", SC));
+		assertThat(e.getMessage(), startsWith("O campo nome da classe Cidade foi informado em branco"));
 	}
 
 	@Test
 	public void nao_deve_aceitar_nome_cidade_muito_grande() {
-		Exception e = Assert.assertThrows("Nomes enormes não devem ser aceitos", IllegalArgumentException.class,
+		Exception e = assertThrows("Nomes enormes não devem ser aceitos", IllegalArgumentException.class,
 				() -> cid = new Cidade("ExemploDeUmNomeDeUmaCidadeMuitoMuitoGrandeMesmoQueNaoDeveriaSerAceito", SC));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Cidade não pode ter esse tamanho."));
 	}
 	
 	@Test
 	public void nao_deve_aceitar_nome_cidade_contendo_numeros() {
-		Exception e = Assert.assertThrows("Nomes com numeros não devem ser aceitos", IllegalArgumentException.class,
+		Exception e = assertThrows("Nomes com numeros não devem ser aceitos", IllegalArgumentException.class,
 				() -> cid = new Cidade("Pananapi489", SC));
 		assertThat(e.getMessage(), equalTo("O campo nome da classe Cidade não pode possuir dígitos."));
 	}
@@ -80,14 +90,14 @@ public class CidadeTest {
 	@Test
 	public void nao_deve_aceitar_estado_sendo_passado_nulo() {
 		Estado estado = null;
-		Exception e = Assert.assertThrows("Estados nulos não devem ser aceitos", NullPointerException.class,
+		Exception e = assertThrows("Estados nulos não devem ser aceitos", IllegalArgumentException.class,
 				() -> cid = new Cidade("Mogi Das Cruzes", estado));
 		assertThat(e.getMessage(), equalTo("O campo estado da classe Cidade não pode ser nulo."));
 	}
 
 	@Test
 	public void teste_toString() {
-		Assert.assertNotNull(cid.toString());
+		assertNotNull(cid.toString());
 	}
 
 	@Test
@@ -99,7 +109,7 @@ public class CidadeTest {
 
 	@Test
 	public void teste_equals_reflexividade() {
-		Assert.assertEquals(cid, cid);
+		assertEquals(cid, cid);
 	}
 
 	@Test
@@ -112,35 +122,35 @@ public class CidadeTest {
 
 	@Test
 	public void teste_equals_objetos_nulos_devem_retornar_false() {
-		Assert.assertNotEquals(cid, null);
+		assertNotEquals(cid, null);
 	}
 
 	@Test
 	public void teste_equals_Cidades_diferentes_devem_ser_diferentes_uma_da_outra() {
 		Cidade cidadeA = new Cidade("Campo Grande", AL);
 		Cidade cidadeB = new Cidade("Rio Branco", AC);
-		Assert.assertNotEquals(cidadeA, cidadeB);
+		assertNotEquals(cidadeA, cidadeB);
 	}
 	
 	@Test
 	public void teste_equals_Cidades_com_nomes_diferentes_nao_devem_ser_iguais() {
 		Cidade cidadeA = new Cidade("Tartarugalzinho", AP);
 		Cidade cidadeB = new Cidade("Porto Grande", AP);
-		Assert.assertNotEquals(cidadeA, cidadeB);
+		assertNotEquals(cidadeA, cidadeB);
 	}
 	
 	@Test
 	public void teste_equals_Cidades_com_nomes_iguais_mas_UF_diferentes_nao_devem_ser_iguais() {
 		Cidade cidadeA = new Cidade("Rio Branco", AC);
 		Cidade cidadeB = new Cidade("Rio Branco", MT);
-		Assert.assertNotEquals(cidadeA, cidadeB);
+		assertNotEquals(cidadeA, cidadeB);
 	}
 
 	@Test
 	public void teste_hashcode_consistencia() {
 		Cidade a = new Cidade("Houston", "Texas", "TX", ESTADOS_UNIDOS);
 		Cidade b = new Cidade("Houston", "Texas", "TX", ESTADOS_UNIDOS);
-		Assert.assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 
 }

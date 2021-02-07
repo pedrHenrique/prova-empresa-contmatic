@@ -4,7 +4,11 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.startsWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +19,6 @@ import java.util.Random;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -30,8 +33,8 @@ import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
 import static br.com.contmatic.testes.util.TestesUtils.retornaContato;
 import static br.com.contmatic.testes.util.TestesUtils.retornaDepartamento;
 import static br.com.contmatic.testes.util.TestesUtils.retornaEndereco;
-import static br.com.contmatic.util.documentos.CpfValidator.geraCpfAleatorio;
 import static br.com.contmatic.util.DataFormatter.PADRAO_DATA;
+import static br.com.contmatic.util.validator.documentos.CpfValidator.geraCpfAleatorio;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FuncionarioTest {
@@ -109,28 +112,28 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_nome_nulo() {
-		Exception nu = Assert.assertThrows("Nome não deve aceitar nulos", NullPointerException.class,
+		Exception nu = assertThrows("Nome não deve aceitar nulos", IllegalArgumentException.class,
 				() -> fun.setNome(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo nome da classe Funcionario não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_nome_com_tamanho_inapropriado() {
-		Exception e = Assert.assertThrows("Nome não deve aceitar tamanhos inapropriados",
+		Exception e = assertThrows("Nome não deve aceitar tamanhos inapropriados",
 				IllegalArgumentException.class, () -> fun.setNome(EMPTYSTR));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Funcionario não pode ter esse tamanho."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_nome_com_numeros() {
-		Exception e = Assert.assertThrows("Nome não deve aceitar caracteres diferentes de letras",
+		Exception e = assertThrows("Nome não deve aceitar caracteres diferentes de letras",
 				IllegalArgumentException.class, () -> fun.setNome("JoaoCleber123"));
-		assertThat(e.getMessage(), equalTo("O campo nome da classe Funcionario não pode possuir números."));
+		assertThat(e.getMessage(), equalTo("O campo nome da classe Funcionario não pode possuir dígitos."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_nome_com_simbolos() {
-		Exception e = Assert.assertThrows("Nome não deve aceitar caracteres diferentes de letras",
+		Exception e = assertThrows("Nome não deve aceitar caracteres diferentes de letras",
 				IllegalArgumentException.class, () -> fun.setNome("xX_-Joao_Cleber-_Xx"));
 		assertThat(e.getMessage(),
 				equalTo("O campo nome da classe Funcionario não pode possuir caracteres especiais."));
@@ -143,7 +146,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_cpf_nulo() {
-		Exception nu = Assert.assertThrows("CPF não deve aceitar nulos", NullPointerException.class,
+		Exception nu = assertThrows("CPF não deve aceitar nulos", IllegalArgumentException.class,
 				() -> fun.setCpf(NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo cpf da classe Funcionario não pode ser nulo."));
 
@@ -151,21 +154,21 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_cpf_com_tamanho_invalido() {
-		Exception e = Assert.assertThrows("CPF com tamanho incorreto deve gerar exception",
+		Exception e = assertThrows("CPF com tamanho incorreto deve gerar exception",
 				IllegalArgumentException.class, () -> fun.setCpf("12345"));
 		assertThat(e.getMessage(), startsWith("O campo CPF da classe Funcionario foi informado com o tamanho errado."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_cpf_formato_invalido() {
-		Exception e = Assert.assertThrows("CPF com formato incorreto deve gerar exception",
+		Exception e = assertThrows("CPF com formato incorreto deve gerar exception",
 				IllegalArgumentException.class, () -> fun.setCpf("xxxxxxxxxxx"));
 		assertThat(e.getMessage(), startsWith("O campo CPF da classe Funcionario foi informado com o formato errado."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_um_cpf_invalido() {
-		Exception e = Assert.assertThrows("CPF invalido deve gerar exception", IllegalArgumentException.class,
+		Exception e = assertThrows("CPF invalido deve gerar exception", IllegalArgumentException.class,
 				() -> fun.setCpf("00011122233"));
 		assertThat(e.getMessage(),
 				equalTo("O CPF que você inseriu não é válido. Por favor, insira o CPF sem nenhuma formatacao"));
@@ -178,7 +181,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_contato_nulo() {
-		Exception nu = Assert.assertThrows("Contatos passados nulos devem gerar exception", NullPointerException.class,
+		Exception nu = assertThrows("Contatos passados nulos devem gerar exception", IllegalArgumentException.class,
 				() -> fun.setContato(null));
 		assertThat(nu.getMessage(), equalTo("O campo contato da classe Funcionario não pode ser nulo."));
 	}
@@ -191,7 +194,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_data_no_nula() throws ParseException {
-		Exception e = assertThrows("Datas nulas não devem ser aceitas", NullPointerException.class,
+		Exception e = assertThrows("Datas nulas não devem ser aceitas", IllegalArgumentException.class,
 				() -> fun.setDtAdimissao(null));
 		assertThat(e.getMessage(), equalTo("O campo dtAdimissao da classe Funcionario não pode ser nulo."));
 	}
@@ -219,7 +222,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_endereco_nulo() {
-		Exception nu = Assert.assertThrows("Enderecos passados nulos devem gerar exception", NullPointerException.class,
+		Exception nu = assertThrows("Enderecos passados nulos devem gerar exception", IllegalArgumentException.class,
 				() -> fun.setEndereco(null));
 		assertThat(nu.getMessage(), equalTo("O campo endereco da classe Funcionario não pode ser nulo."));
 	}
@@ -231,7 +234,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_salario_invalido() {
-		Exception e = Assert.assertThrows("Salario invalidos devem gerar exception", IllegalArgumentException.class,
+		Exception e = assertThrows("Salario invalidos devem gerar exception", IllegalArgumentException.class,
 				() -> fun.setSalario(EMPTYDOUBLE));
 		assertThat(e.getMessage(), equalTo("Este salário não pode ser aceito..."));
 	}
@@ -243,8 +246,8 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_departamento_nulo() {
-		Exception nu = Assert.assertThrows("Departamentos passados nulos devem gerar exception",
-				NullPointerException.class, () -> fun.setDepartamento(null));
+		Exception nu = assertThrows("Departamentos passados nulos devem gerar exception",
+				IllegalArgumentException.class, () -> fun.setDepartamento(null));
 		assertThat(nu.getMessage(), equalTo("O campo departamento da classe Funcionario não pode ser nulo."));
 	}
 
@@ -264,7 +267,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void teste_equals_reflexividade() {
-		Assert.assertEquals(fun, fun);
+		assertEquals(fun, fun);
 	}
 
 	@Test
@@ -280,7 +283,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void teste_equals_objetos_nulos_devem_retornar_false() {
-		Assert.assertNotEquals(fun, null);
+		assertNotEquals(fun, null);
 	}
 
 	@Test
@@ -289,7 +292,7 @@ public class FuncionarioTest {
 				retornaContato(), retornaDataTexto(), 500.00, retornaDepartamento());
 		Funcionario funcionario2 = new Funcionario("Ana Vitória Leonardi", "66348746038", retornaEndereco(),
 				retornaContato(), retornaDataTexto(), 500.00, retornaDepartamento());
-		Assert.assertNotEquals(funcionario1, funcionario2);
+		assertNotEquals(funcionario1, funcionario2);
 	}
 
 	@Test
@@ -298,6 +301,6 @@ public class FuncionarioTest {
 				retornaDepartamento());
 		Funcionario b = new Funcionario("Ana Maria Clara", "49490297038", retornaEndereco(), retornaContato(), retornaDataTexto(), 750.00,
 				retornaDepartamento());
-		Assert.assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 }

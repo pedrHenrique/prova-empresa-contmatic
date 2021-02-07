@@ -4,12 +4,12 @@ import java.util.Date;
 
 import br.com.contmatic.model.v1.empresa.endereco.Endereco;
 
-import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
-import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.AtributoValidator.validaTamanho;
-import static br.com.contmatic.util.documentos.CpfValidator.validarCpf;
-import static br.com.contmatic.util.documentos.CpfValidator.formataCpf;
+import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.validator.StringValidator.validaNomeSimples;
+import static br.com.contmatic.util.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.validator.documentos.CpfValidator.formataCpf;
+import static br.com.contmatic.util.validator.documentos.CpfValidator.validarCpf;
 import static br.com.contmatic.util.DataFormatter.getDataFormatterInstance;
 import static br.com.contmatic.util.DataFormatter.verificaSeDataEMuitoAntiga;
 import static br.com.contmatic.util.DataFormatter.verificaSeDataEstaNoPassado;
@@ -165,7 +165,7 @@ public class Funcionario {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": Nome=" + nome + ", CPF=" + cpf + ", Data Admissão=" + getDataFormatterInstance().getSdf().format(dtAdimissao) + "\nDepartamento=" + departamento
+		return getClass().getSimpleName() + ": Nome=" + nome + ", CPF=" + cpf + ", Data Admissão=" + getDataFormatterInstance().getFormatoDataPadrao().format(dtAdimissao) + "\nDepartamento=" + departamento
 				+ "\nEndereco=" + endereco + "\nContato=" + contato + "\nSalario=" + salario;
 	}
 }

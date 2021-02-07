@@ -1,17 +1,22 @@
 package br.com.contmatic.model.v1.telefone;
 
-public enum TipoTelefone {
+public enum TelefoneType {
 
-	CELULAR("Celular", 9),
-	RESIDENCIAL("Fixo", 8);
+	CELULAR_NACIONAL("Celular", 9),
+	RESIDENCIAL_NACIONAL("Fixo", 8),
+	INTERNACIONAL("Internacional");
 	
     private String descricao;
     
     private int tamanho;
 
-	TipoTelefone(String descricao, int tamanho) {
+	TelefoneType(String descricao, int tamanho) {
 		this.descricao = descricao;
 		this.tamanho = tamanho;
+	}
+	
+	TelefoneType(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public String getDescricao() {

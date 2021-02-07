@@ -1,15 +1,18 @@
 package br.com.contmatic.model.v1.empresa.endereco;
 
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.isEstadoValido;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.BRASIL;
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.AtributoValidator.validaTamanho;
-import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
-import static br.com.contmatic.util.AtributoValidator.validaNomeDigitos;
-import static br.com.contmatic.util.AtributoValidator.validaNomeSimples;
+import static java.util.Locale.ROOT;
+
 import static br.com.contmatic.util.CamposTypes.ESTADO_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.ESTADO_TAMANHO_MIN;
-import static java.util.Locale.ROOT;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.BRASIL;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.isEstadoValido;
+import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.validator.StringValidator.validaNomeSimples;
+import static br.com.contmatic.util.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoPossuiDigitos;
+import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+
+import java.util.Objects;
 
 public class Estado {
 
@@ -17,38 +20,37 @@ public class Estado {
 
 	private final String uf;
 
-	private final TipoPais pais;
+	private final PaisType pais;
 
-	public Estado(TipoEstado uf) {
-		validaNulo(TipoEstado.class, "uf", uf);
+	public Estado(EstadoType uf) {
+		validaNulo(EstadoType.class, "uf", uf);
 		this.uf = uf.getUf();
 		this.nome = uf.getNome();
 		this.pais = uf.getPais();
 	}
 
-	public Estado(String nome, String uf, TipoPais pais) {
+	public Estado(String nome, String uf, PaisType pais) {
 		this.validaValoresInformados(nome, uf, pais);
 		this.nome = nome;
 		this.uf = uf.toUpperCase(ROOT);		
 		this.pais = pais;
 	}
 
-	private void validaValoresInformados(String nome, String uf, TipoPais pais) {
+	private void validaValoresInformados(String nome, String uf, PaisType pais) {
 		this.validaEstado(nome);
 		this.validaUF(uf);
 		this.validaPais(pais);
 		this.validaEstadoNacionalInformado(nome, uf, pais);
 	}
 
-	private void validaEstadoNacionalInformado(String nome, String uf, TipoPais pais) {
+	private void validaEstadoNacionalInformado(String nome, String uf, PaisType pais) {
 		if (!isEstadoValido(nome, uf) && pais.equals(BRASIL)) {
-			throw new IllegalArgumentException(
-					"Os valores informados para o estado não condizem com um estado Brasileiro válido.\n"
+			throw new IllegalArgumentException("Os valores informados para o estado não condizem com um estado Brasileiro válido.\n"
 							+ "Por Favor, verifique se você não esqueceu algum acento no nome da cidade.");
 		}
 	}
 
-	private void validaPais(TipoPais pais) {
+	private void validaPais(PaisType pais) {
 		validaNulo(getClass(), "pais", pais);
 	}
 
@@ -63,7 +65,7 @@ public class Estado {
 		validaNulo(getClass(), "nome", estado);
 		validaEspacamento(getClass(), "nome", estado, ESTADO_TAMANHO_MIN);
 		validaTamanho(getClass(), "nome", estado.length(), ESTADO_TAMANHO_MIN, ESTADO_TAMANHO_MAX);
-		validaNomeDigitos(getClass(), "nome", estado);
+		verificaSeCampoPossuiDigitos(getClass(), "nome", estado);
 	}
 
 	public String getNomeEstado() {
@@ -74,16 +76,13 @@ public class Estado {
 		return uf;
 	}
 
-	public TipoPais getPais() {
+	public PaisType getPais() {
 		return pais;
 	}
-
+	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((uf == null) ? 0 : uf.hashCode());
-		return result;
+		return Objects.hash(uf);
 	}
 
 	@Override
@@ -98,7 +97,7 @@ public class Estado {
 			return false;
 		}
 		Estado other = (Estado) obj;
-		return (uf == other.uf);
+		return Objects.equals(uf, other.uf);
 	}
 
 	@Override

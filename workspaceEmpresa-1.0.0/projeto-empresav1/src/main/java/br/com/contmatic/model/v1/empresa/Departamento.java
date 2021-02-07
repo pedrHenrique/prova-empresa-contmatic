@@ -1,10 +1,10 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.util.AtributoValidator.validaCampoDigitos;
-import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
-import static br.com.contmatic.util.AtributoValidator.validaNomeSimbolos;
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.AtributoValidator.validaTamanho;
+import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.validator.StringValidator.validaNomeSimbolos;
+import static br.com.contmatic.util.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
+import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_NOME_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_NOME_TAMANHO_MIN;
 import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_RAMAL_TAMANHO_MAX;
@@ -63,7 +63,7 @@ public class Departamento {
 	public void setRamal(String ramal) {
 		validaNulo(getClass(), RAMAL_NOME_CAMPO, ramal);
 		validaTamanho(getClass(), RAMAL_NOME_CAMPO, ramal.length(), DEPARTAMENTO_RAMAL_TAMANHO_MIN, DEPARTAMENTO_RAMAL_TAMANHO_MAX);
-		validaCampoDigitos(getClass(), RAMAL_NOME_CAMPO, ramal);
+		verificaSeCampoSoPossuiDigitos(getClass(), RAMAL_NOME_CAMPO, ramal);
 		this.ramal = ramal;
 	}
 

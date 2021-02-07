@@ -1,9 +1,9 @@
-package br.com.contmatic.util.documentos;
+package br.com.contmatic.util.validator.documentos;
 
-import static br.com.contmatic.util.documentos.CnpjValidator.PESOS_CNPJ;
-import static br.com.contmatic.util.documentos.CnpjValidator.TAMANHO_CNPJ;
-import static br.com.contmatic.util.documentos.CpfValidator.PESOS_CPF;
-import static br.com.contmatic.util.documentos.CpfValidator.TAMANHO_CPF;
+import static br.com.contmatic.util.validator.documentos.CnpjValidator.PESOS_CNPJ;
+import static br.com.contmatic.util.validator.documentos.CnpjValidator.TAMANHO_CNPJ;
+import static br.com.contmatic.util.validator.documentos.CpfValidator.PESOS_CPF;
+import static br.com.contmatic.util.validator.documentos.CpfValidator.TAMANHO_CPF;
 
 import java.util.Random;
 
@@ -87,13 +87,13 @@ public final class DocumentoValidator {
 	
 	private static void validaNuloCnpj(final String cnpj) {
 		if (cnpj == null) {
-			throw new NullPointerException("O campo CNPJ da classe Empresa não pode ser nulo.");
+			throw new IllegalArgumentException("O campo CNPJ da classe Empresa não pode ser nulo.");
 		}
 	}
 
 	private static void validaNuloCpf(final String cpf) {
 		if (cpf == null) {
-			throw new NullPointerException("O campo cpf da classe Funcionario não pode ser nulo.");
+			throw new IllegalArgumentException("O campo cpf da classe Funcionario não pode ser nulo.");
 		}
 	}
 	

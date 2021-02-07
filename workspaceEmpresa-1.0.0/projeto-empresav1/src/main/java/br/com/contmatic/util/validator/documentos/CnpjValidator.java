@@ -1,8 +1,8 @@
-package br.com.contmatic.util.documentos;
+package br.com.contmatic.util.validator.documentos;
 
-import static br.com.contmatic.util.documentos.DocumentoValidator.cnpjValido;
-import static br.com.contmatic.util.documentos.DocumentoValidator.digitos;
-import static br.com.contmatic.util.documentos.DocumentoValidator.verificador;
+import static br.com.contmatic.util.validator.documentos.DocumentoValidator.cnpjValido;
+import static br.com.contmatic.util.validator.documentos.DocumentoValidator.digitos;
+import static br.com.contmatic.util.validator.documentos.DocumentoValidator.verificador;
 
 public final class CnpjValidator {
 
@@ -12,8 +12,7 @@ public final class CnpjValidator {
 	
 	public static void validarCnpj(String cnpj) {
 		if (!cnpjValido(cnpj)) {
-			throw new IllegalArgumentException(
-					"O CNPJ que você inseriu não é válido. Por favor, insira o CNPJ sem nenhuma formatacao");
+			throw new IllegalArgumentException("O CNPJ que você inseriu não é válido. Por favor, insira o CNPJ sem nenhuma formatacao");
 		}
 	}
 	

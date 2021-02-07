@@ -1,10 +1,11 @@
 package br.com.contmatic.model.v1.empresa.endereco;
 
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.AtributoValidator.validaTamanho;
 import static br.com.contmatic.util.CamposTypes.CIDADE_NOME_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.CIDADE_NOME_TAMANHO_MIN;
-import static br.com.contmatic.util.AtributoValidator.validaNomeDigitos;
+import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoPossuiDigitos;
+import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
 
 public class Cidade {
 
@@ -17,12 +18,12 @@ public class Cidade {
 		this.setEstado(estado);
 	}
 
-	public Cidade(String cidade, TipoEstado uf) {
+	public Cidade(String cidade, EstadoType uf) {
 		this.setCidade(cidade);
 		this.setEstado(new Estado(uf));
 	}
 
-	public Cidade(String cidade, String estado, String uf, TipoPais pais) {
+	public Cidade(String cidade, String estado, String uf, PaisType pais) {
 		this.setCidade(cidade);
 		this.setEstado(new Estado(estado, uf, pais));
 	}
@@ -33,8 +34,9 @@ public class Cidade {
 
 	public void setCidade(String nome) {
 		validaNulo(getClass(), "nome", nome);
+		validaEspacamento(getClass(), "nome", nome, CIDADE_NOME_TAMANHO_MIN);
 		validaTamanho(getClass(), "nome", nome.length(), CIDADE_NOME_TAMANHO_MIN, CIDADE_NOME_TAMANHO_MAX);
-		validaNomeDigitos(getClass(), "nome", nome);
+		verificaSeCampoPossuiDigitos(getClass(), "nome", nome);
 		this.nome = nome;
 	}
 

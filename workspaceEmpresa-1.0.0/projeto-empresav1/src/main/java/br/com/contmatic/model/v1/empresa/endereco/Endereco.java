@@ -1,16 +1,16 @@
 package br.com.contmatic.model.v1.empresa.endereco;
 
-import static br.com.contmatic.util.AtributoValidator.validaCampoDigitos;
-import static br.com.contmatic.util.AtributoValidator.validaEspacamento;
-import static br.com.contmatic.util.AtributoValidator.validaNomeSimbolos;
-import static br.com.contmatic.util.AtributoValidator.validaNulo;
-import static br.com.contmatic.util.AtributoValidator.validaTamanho;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_NUMERO_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_NUMERO_TAMANHO_MIN;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_CEP;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_MAX;
 import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_MIN;
+import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.validator.StringValidator.validaNomeSimbolos;
+import static br.com.contmatic.util.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
+import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
 
 public class Endereco {
 
@@ -100,7 +100,7 @@ public class Endereco {
 	public void setCep(String cep) {
 		validaNulo(getClass(), "cep", cep);
 		validaTamanho(getClass(), "cep", cep.length(), ENDERECO_TAMANHO_CEP);
-		validaCampoDigitos(getClass(), "cep", cep);
+		verificaSeCampoSoPossuiDigitos(getClass(), "cep", cep);
 		this.cep = cep;
 	}
 
@@ -115,8 +115,7 @@ public class Endereco {
 
 	private void validaTamanhoComplemento(String complemento) {
 		if (complemento.length() > ENDERECO_TAMANHO_COMPLEMENTO) {
-			throw new IllegalArgumentException(
-					"Tamanho de complemento inserido precisa ser menor que " + ENDERECO_TAMANHO_COMPLEMENTO + ".");
+			throw new IllegalArgumentException("Tamanho de complemento inserido precisa ser menor que " + ENDERECO_TAMANHO_COMPLEMENTO + ".");
 		}
 	}
 

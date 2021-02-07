@@ -2,16 +2,18 @@ package br.com.contmatic.model.v1.empresa;
 
 import static br.com.contmatic.testes.util.TestesUtils.retornaContato;
 import static br.com.contmatic.testes.util.TestesUtils.retornaEndereco;
-import static br.com.contmatic.util.documentos.CnpjValidator.geraCnpjAleatorio;
+import static br.com.contmatic.util.validator.documentos.CnpjValidator.geraCnpjAleatorio;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -78,7 +80,7 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_razaoSocial_nula() {
-		Exception nu = Assert.assertThrows("Nao deve permitir razao social nula", NullPointerException.class,
+		Exception nu = assertThrows("Nao deve permitir razao social nula", IllegalArgumentException.class,
 				() -> emp.setRazaoSocial(null));
 		assertThat(nu.getMessage(), equalTo("O campo razaoSocial da classe Empresa não pode ser nulo."));
 	}
@@ -87,14 +89,14 @@ public class EmpresaTest {
 	public void nao_deve_aceitar_razaoSocial_com_tamanho_errado() {
 		String exemploRazaoSocialGrande = "Arthur Cristo Meirelis da Silva Junior Sauro Mercado de Produções e"
 				+ " Cosméticos Com Foco Urbano e Simples LTDA";
-		Exception e = Assert.assertThrows("Nao deve permitir razao social com tamanho errado",
+		Exception e = assertThrows("Nao deve permitir razao social com tamanho errado",
 				IllegalArgumentException.class, () -> emp.setRazaoSocial(exemploRazaoSocialGrande));
 		assertThat(e.getMessage(), startsWith("O campo razaoSocial da classe Empresa não pode ter esse tamanho."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_razaoSocial_com_formato_invalido() {
-		Exception e = Assert.assertThrows("Nao deve permitir razao social contendo caracteres especiais",
+		Exception e = assertThrows("Nao deve permitir razao social contendo caracteres especiais",
 				IllegalArgumentException.class, () -> emp.setRazaoSocial("Antonio Ribeiro, Produtor de Carnes, Ltda! "));
 		assertThat(e.getMessage(),
 				equalTo("O campo razaoSocial da classe Empresa não pode possuir caracteres especiais."));
@@ -111,7 +113,7 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_nomeFantasia_com_valor_nulo() {
-		Exception nu = Assert.assertThrows("Não deve permitir nome fantasia nulo", NullPointerException.class,
+		Exception nu = assertThrows("Não deve permitir nome fantasia nulo", IllegalArgumentException.class,
 				() -> emp.setNomeFantasia(TestesUtils.NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo nomeFantasia da classe Empresa não pode ser nulo."));
 	}
@@ -119,7 +121,7 @@ public class EmpresaTest {
 	@Test
 	public void nao_deve_aceitar_nomeFantasia_com_tamanho_errado() {
 		String exemplo = "Exemplo de um nome fantasia que seria muito grande para ser aceito";
-		Exception e = Assert.assertThrows(IllegalArgumentException.class, () -> emp.setNomeFantasia(exemplo));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> emp.setNomeFantasia(exemplo));
 		assertThat(e.getMessage(), startsWith("O campo nomeFantasia da classe Empresa não pode ter esse tamanho."));
 	}
 
@@ -127,7 +129,7 @@ public class EmpresaTest {
 	public void nao_deve_aceitar_nomesFantasias_incorretos() {
 		String[] nomesInvalidos = { "Vi$o", "_____", "Coca-Cola", "!@#$%&*().;_ ", };
 		for (String nome : nomesInvalidos) {
-			Exception e = Assert.assertThrows("Nome fantasia não deveria conter caracteres especiais",
+			Exception e = assertThrows("Nome fantasia não deveria conter caracteres especiais",
 					IllegalArgumentException.class, () -> emp.setNomeFantasia(nome));
 			assertThat(e.getMessage(),
 					equalTo("O campo nomeFantasia da classe Empresa não pode possuir caracteres especiais."));
@@ -138,7 +140,7 @@ public class EmpresaTest {
 	@Test
 	public void nao_deve_aceitar_espacamentos_em_branco_invalidos_no_nomeFantasia() {
 		String exemploInvalido = "Roda Roda Jequi  ti";
-		Assert.assertThrows("Espaçamento incorreto em nome deve provocar uma exception", IllegalArgumentException.class,
+		assertThrows("Espaçamento incorreto em nome deve provocar uma exception", IllegalArgumentException.class,
 				() -> emp.setNomeFantasia(exemploInvalido));
 	}
 
@@ -149,28 +151,28 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_cnpj_nulo() {
-		Exception nu = Assert.assertThrows("CNPJ que forem informados nulos, devem gerar exception",
-				NullPointerException.class, () -> emp.setCnpj(TestesUtils.NULLSTR));
+		Exception nu = assertThrows("CNPJ que forem informados nulos, devem gerar exception",
+				IllegalArgumentException.class, () -> emp.setCnpj(TestesUtils.NULLSTR));
 		assertThat(nu.getMessage(), equalTo("O campo CNPJ da classe Empresa não pode ser nulo."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_tamanho_incorreto_no_cnpj() {
-		Exception e = Assert.assertThrows("CNPJ com tamanho incorreto deve gerar exception",
+		Exception e = assertThrows("CNPJ com tamanho incorreto deve gerar exception",
 				IllegalArgumentException.class, () -> emp.setCnpj("123005"));
 		assertThat(e.getMessage(), startsWith("O campo CNPJ da classe Empresa foi informado com o tamanho errado."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_cnpj_incorreto() {
-		Exception e = Assert.assertThrows("CNPJ com formato incorreto deve gerar exception",
+		Exception e = assertThrows("CNPJ com formato incorreto deve gerar exception",
 				IllegalArgumentException.class, () -> emp.setCnpj("xxxxxxxxxxxxxx"));
 		assertThat(e.getMessage(), startsWith("O campo CNPJ da classe Empresa foi informado com o formato errado."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_cnpj_invalido() {
-		Exception e = Assert.assertThrows("CNPJ's invalidos devem gerar exception", IllegalArgumentException.class,
+		Exception e = assertThrows("CNPJ's invalidos devem gerar exception", IllegalArgumentException.class,
 				() -> emp.setCnpj("23124362123455"));
 		assertThat(e.getMessage(),
 				equalTo("O CNPJ que você inseriu não é válido. Por favor, insira o CNPJ sem nenhuma formatacao"));
@@ -183,7 +185,7 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_contato_nulo() {
-		Exception nu = Assert.assertThrows("Contatos passados nulos devem gerar exception", NullPointerException.class,
+		Exception nu = assertThrows("Contatos passados nulos devem gerar exception", IllegalArgumentException.class,
 				() -> emp.setContato(null));
 		assertThat(nu.getMessage(), equalTo("O campo contato da classe Empresa não pode ser nulo."));
 	}
@@ -195,7 +197,7 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_endereco_nulo() {
-		Exception nu = Assert.assertThrows("enderecos passados nulos devem gerar exception", NullPointerException.class,
+		Exception nu = assertThrows("enderecos passados nulos devem gerar exception", IllegalArgumentException.class,
 				() -> emp.setEndereco(null));
 		assertThat(nu.getMessage(), equalTo("O campo endereco da classe Empresa não pode ser nulo."));
 	}
@@ -211,7 +213,7 @@ public class EmpresaTest {
 
 	@Test
 	public void teste_equals_reflexividade() {
-		Assert.assertEquals(emp, emp);
+		assertEquals(emp, emp);
 	}
 
 	@Test
@@ -227,7 +229,7 @@ public class EmpresaTest {
 
 	@Test
 	public void teste_equals_objetos_nulos_devem_retornar_false() {
-		Assert.assertNotEquals(emp, null);
+		assertNotEquals(emp, null);
 	}
 
 	@Test
@@ -236,7 +238,7 @@ public class EmpresaTest {
 				retornaContato());
 		Empresa empresa2 = new Empresa("Mercado Livre SA", "Mercado Livre", "38456215000194", retornaEndereco(),
 				retornaContato());
-		Assert.assertNotEquals(empresa1, empresa2);
+		assertNotEquals(empresa1, empresa2);
 	}
 
 	@Test
@@ -245,7 +247,7 @@ public class EmpresaTest {
 				retornaContato());
 		Empresa empresa2 = new Empresa("Torresmos do Ricardao Mei", "Mercado Livre", "32395778000133",
 				retornaEndereco(), retornaContato());
-		Assert.assertNotEquals(empresa1, empresa2);
+		assertNotEquals(empresa1, empresa2);
 	}
 
 	@Test
@@ -254,7 +256,7 @@ public class EmpresaTest {
 				retornaContato());
 		Empresa b = new Empresa("Alibaba Comercios ltda", "Alibaba", "38456215000194", retornaEndereco(),
 				retornaContato());
-		Assert.assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 
 	@Test

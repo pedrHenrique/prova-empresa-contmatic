@@ -1,8 +1,8 @@
-package br.com.contmatic.util.documentos;
+package br.com.contmatic.util.validator.documentos;
 
-import static br.com.contmatic.util.documentos.DocumentoValidator.cpfValido;
-import static br.com.contmatic.util.documentos.DocumentoValidator.digitos;
-import static br.com.contmatic.util.documentos.DocumentoValidator.verificador;
+import static br.com.contmatic.util.validator.documentos.DocumentoValidator.cpfValido;
+import static br.com.contmatic.util.validator.documentos.DocumentoValidator.digitos;
+import static br.com.contmatic.util.validator.documentos.DocumentoValidator.verificador;
 
 public final class CpfValidator {
 	
@@ -12,8 +12,7 @@ public final class CpfValidator {
 	
 	public static void validarCpf(String cpf) {
 		if (!cpfValido(cpf)) {
-			throw new IllegalArgumentException(
-					"O CPF que você inseriu não é válido. Por favor, insira o CPF sem nenhuma formatacao");
+			throw new IllegalArgumentException("O CPF que você inseriu não é válido. Por favor, insira o CPF sem nenhuma formatacao");
 		}
 	}
 	

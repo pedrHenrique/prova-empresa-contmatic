@@ -1,29 +1,31 @@
 package br.com.contmatic.model.v1.endereco;
 
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.MG;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.PI;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.PR;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.SC;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoEstado.SP;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.BRASIL;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.ESTADOS_UNIDOS;
-import static br.com.contmatic.model.v1.empresa.endereco.TipoPais.ITALIA;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.MG;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.PI;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.PR;
+import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.SC;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.BRASIL;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.ESTADOS_UNIDOS;
+import static br.com.contmatic.model.v1.empresa.endereco.PaisType.ITALIA;
 import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.model.v1.empresa.endereco.Estado;
-import br.com.contmatic.model.v1.empresa.endereco.TipoEstado;
-import br.com.contmatic.model.v1.empresa.endereco.TipoPais;
+import br.com.contmatic.model.v1.empresa.endereco.EstadoType;
+import br.com.contmatic.model.v1.empresa.endereco.PaisType;
 
 public class EstadoTest {
 
@@ -31,9 +33,9 @@ public class EstadoTest {
 
 	private String uf;
 
-	private TipoPais pais;
+	private PaisType pais;
 
-	private TipoEstado tipo;
+	private EstadoType tipo;
 
 	private Estado est;
 
@@ -76,7 +78,7 @@ public class EstadoTest {
 
 	@Test
 	public void nao_deve_aceitar_estado_brasileiro_informado_invalidamente() {
-		Exception e = Assert.assertThrows("Estados brasileiros devem ser validados", IllegalArgumentException.class,
+		Exception e = assertThrows("Estados brasileiros devem ser validados", IllegalArgumentException.class,
 				() -> est = new Estado("São Paulo", "RJ", BRASIL));
 		assertThat(e.getMessage(),
 				startsWith("Os valores informados para o estado não condizem com um estado Brasileiro válido."));
@@ -84,75 +86,82 @@ public class EstadoTest {
 
 	@Test
 	public void nao_deve_aceitar_tipo_estado_sendo_passado_nulo() {
-		Exception e = Assert.assertThrows("Estados nulos não devem ser aceitos", NullPointerException.class,
+		Exception e = assertThrows("Estados nulos não devem ser aceitos", IllegalArgumentException.class,
 				() -> est = new Estado(null));
-		assertThat(e.getMessage(), equalTo("O campo uf da classe TipoEstado não pode ser nulo."));
+		assertThat(e.getMessage(), equalTo("O campo uf da classe EstadoType não pode ser nulo."));
 	}
 	
 	@Test
 	public void nao_deve_aceitar_nomeEstado_passado_nulo() {
-		Exception e = Assert.assertThrows("Nomes de estado nulos não devem ser aceitos", NullPointerException.class,
+		Exception e = assertThrows("Nomes de estado nulos não devem ser aceitos", IllegalArgumentException.class,
 				() -> est = new Estado(null, "SP", BRASIL));
 		assertThat(e.getMessage(), equalTo("O campo nome da classe Estado não pode ser nulo."));
 	}
 	
 	@Test
 	public void nao_deve_aceitar_nomeEstado_passado_vazio() {
-		Exception e = Assert.assertThrows("Nomes de estado vazios não devem ser aceitos", IllegalArgumentException.class,
+		Exception e = assertThrows("Nomes de estado vazios não devem ser aceitos", IllegalArgumentException.class,
+				() -> est = new Estado("                                          ", "SP", BRASIL));
+		assertThat(e.getMessage(), startsWith("O campo nome da classe Estado foi informado em branco"));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_nomeEstado_passado_com_tamanho_inapropriado() {
+		Exception e = assertThrows("Nomes de estado enormes não devem ser aceitos", IllegalArgumentException.class,
 				() -> est = new Estado("ExemploDeUmNomeParaEstadoQueNaoDeveriaSerAceitoDevidoOSeuTamanho", "SP", BRASIL));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Estado não pode ter esse tamanho."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_nomeEstado_passado_com_numeros() {
-		Exception e = Assert.assertThrows("Nomes de estado com números não devem ser aceitos", IllegalArgumentException.class,
+		Exception e = assertThrows("Nomes de estado com números não devem ser aceitos", IllegalArgumentException.class,
 				() -> est = new Estado("P4R4", "SP", BRASIL));
 		assertThat(e.getMessage(), startsWith("O campo nome da classe Estado não pode possuir dígitos."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_uf_passado_nulo() {
-		Exception e = Assert.assertThrows("UF nulos não devem ser aceitos", NullPointerException.class,
+		Exception e = assertThrows("UF nulos não devem ser aceitos", IllegalArgumentException.class,
 				() -> est = new Estado("Rio de Janeiro", null, BRASIL));
 		assertThat(e.getMessage(), equalTo("O campo uf da classe Estado não pode ser nulo."));
 	}
 	
 	@Test
 	public void nao_deve_aceitar_uf_passado_vazio() {
-		Exception e = Assert.assertThrows("UF vazias não devem ser aceitas", IllegalArgumentException.class,
+		Exception e = assertThrows("UF vazias não devem ser aceitas", IllegalArgumentException.class,
 				() -> est = new Estado("Ohio", "ExemploDeUmaUFQueNaoDeveriaSerAceitoDevidoOSeuTamanho", ESTADOS_UNIDOS));
 		assertThat(e.getMessage(), startsWith("O campo uf da classe Estado não pode ter esse tamanho."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_uf_passado_com_numeros() {
-		Exception e = Assert.assertThrows("UF com números não devem ser aceitas", IllegalArgumentException.class,
+		Exception e = assertThrows("UF com números não devem ser aceitas", IllegalArgumentException.class,
 				() -> est = new Estado("ROMA", "22", ITALIA));
-		assertThat(e.getMessage(), startsWith("O campo uf da classe Estado não pode possuir números."));
+		assertThat(e.getMessage(), startsWith("O campo uf da classe Estado não pode possuir dígitos."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_pais_passado_nulo() {
-		Exception e = Assert.assertThrows("Pais informado nulo deve gerar exception", NullPointerException.class,
+		Exception e = assertThrows("Pais informado nulo deve gerar exception", IllegalArgumentException.class,
 				() -> est = new Estado("ROMA", "IT", null));
 		assertThat(e.getMessage(), startsWith("O campo pais da classe Estado não pode ser nulo."));
 	}
 
 	@Test
 	public void teste_toString() {
-		Assert.assertNotNull(est.toString());
+		assertNotNull(est.toString());
 	}
 
 	@Test
 	public void teste_equals_simetria() {
-		Estado a = new Estado(SP);
-		Estado b = new Estado(SP);
+		Estado a = new Estado("São Paulo", "SP", BRASIL);
+		Estado b = new Estado("são paulo", "Sp", BRASIL);
 		assertTrue(a.equals(b) && b.equals(a));
 	}
 
 	@Test
 	public void teste_equals_reflexividade() {
-		Assert.assertEquals(est, est);
+		assertEquals(est, est);
 	}
 
 	@Test
@@ -165,20 +174,20 @@ public class EstadoTest {
 
 	@Test
 	public void teste_equals_objetos_nulos_devem_retornar_false() {
-		Assert.assertNotEquals(est, null);
+		assertNotEquals(est, null);
 	}
 
 	@Test
 	public void teste_equals_Estados_diferentes_devem_ser_diferentes_um_do_outro() {
 		Estado estadoA = new Estado(PI);
 		Estado estadoB = new Estado(PR);
-		Assert.assertNotEquals(estadoA, estadoB);
+		assertNotEquals(estadoA, estadoB);
 	}
 
 	@Test
 	public void teste_hashcode_consistencia() {
 		Estado a = new Estado(SC);
 		Estado b = new Estado(SC);
-		Assert.assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 }
