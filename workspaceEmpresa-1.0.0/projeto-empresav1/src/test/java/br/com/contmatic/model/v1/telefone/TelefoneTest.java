@@ -29,7 +29,7 @@ import static br.com.contmatic.model.v1.telefone.DDIType.DDI852;
 import static br.com.contmatic.model.v1.telefone.TelefoneType.CELULAR_NACIONAL;
 import static br.com.contmatic.model.v1.telefone.TelefoneType.INTERNACIONAL;
 import static br.com.contmatic.model.v1.telefone.TelefoneType.RESIDENCIAL_NACIONAL;
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.testes.v1.util.TestesUtils.NULLSTR;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TelefoneTest {
@@ -253,7 +253,7 @@ public class TelefoneTest {
 		String[] telInvalidos = { "xxxxxxxx", "abcdefgh", "telefone" };
 		for (String value : telInvalidos) {
 			Exception e = assertThrows("Telefone só deve poder conter dígitos", IllegalArgumentException.class, () -> tel.setNumero(value));
-			assertThat(e.getMessage(), equalTo("O campo numero da classe Telefone só pode conter dígitos."));
+			assertThat(e.getMessage(), equalTo("O campo numero da classe Telefone só pode possuir dígitos."));
 		}
 	}
 

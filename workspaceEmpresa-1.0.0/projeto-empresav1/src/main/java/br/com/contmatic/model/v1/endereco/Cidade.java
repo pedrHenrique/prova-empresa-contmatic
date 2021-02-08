@@ -1,11 +1,11 @@
-package br.com.contmatic.model.v1.empresa.endereco;
+package br.com.contmatic.model.v1.endereco;
 
-import static br.com.contmatic.util.CamposTypes.CIDADE_NOME_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.CIDADE_NOME_TAMANHO_MIN;
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoPossuiDigitos;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.CamposTypes.CIDADE_NOME_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.CIDADE_NOME_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoPossuiDigitos;
 
 public class Cidade {
 

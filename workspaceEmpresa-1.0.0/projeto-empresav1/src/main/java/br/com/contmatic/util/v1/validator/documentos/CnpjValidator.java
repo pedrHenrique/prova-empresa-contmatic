@@ -1,8 +1,8 @@
-package br.com.contmatic.util.validator.documentos;
+package br.com.contmatic.util.v1.validator.documentos;
 
-import static br.com.contmatic.util.validator.documentos.DocumentoValidator.cnpjValido;
-import static br.com.contmatic.util.validator.documentos.DocumentoValidator.digitos;
-import static br.com.contmatic.util.validator.documentos.DocumentoValidator.verificador;
+import static br.com.contmatic.util.v1.validator.documentos.DocumentoValidator.cnpjValido;
+import static br.com.contmatic.util.v1.validator.documentos.DocumentoValidator.digitos;
+import static br.com.contmatic.util.v1.validator.documentos.DocumentoValidator.verificador;
 
 public final class CnpjValidator {
 

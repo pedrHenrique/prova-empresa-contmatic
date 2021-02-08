@@ -1,6 +1,6 @@
 package br.com.contmatic.model.v1.telefone;
 
-import br.com.contmatic.model.v1.empresa.endereco.EstadoType;
+import br.com.contmatic.model.v1.endereco.EstadoType;
 
 public enum DDDType {
 	

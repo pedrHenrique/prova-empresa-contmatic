@@ -1,22 +1,22 @@
 package br.com.contmatic.model.v1.empresa;
 
+import static br.com.contmatic.util.v1.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.FUNCIONARIO_SALARIO_VALOR_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.FUNCIONARIO_SALARIO_VALOR_MIN;
+import static br.com.contmatic.util.v1.DataFormatter.getDataFormatterInstance;
+import static br.com.contmatic.util.v1.DataFormatter.verificaSeDataEMuitoAntiga;
+import static br.com.contmatic.util.v1.DataFormatter.verificaSeDataEstaNoPassado;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNomeSimples;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.documentos.CpfValidator.formataCpf;
+import static br.com.contmatic.util.v1.validator.documentos.CpfValidator.validarCpf;
+
 import java.util.Date;
 
-import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNomeSimples;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
-import static br.com.contmatic.util.validator.documentos.CpfValidator.formataCpf;
-import static br.com.contmatic.util.validator.documentos.CpfValidator.validarCpf;
-import static br.com.contmatic.util.DataFormatter.getDataFormatterInstance;
-import static br.com.contmatic.util.DataFormatter.verificaSeDataEMuitoAntiga;
-import static br.com.contmatic.util.DataFormatter.verificaSeDataEstaNoPassado;
-import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_NOME_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_SALARIO_VALOR_MAX;
-import static br.com.contmatic.util.CamposTypes.FUNCIONARIO_SALARIO_VALOR_MIN;
+import br.com.contmatic.model.v1.endereco.Endereco;
 
 public class Funcionario {
 

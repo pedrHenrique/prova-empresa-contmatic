@@ -1,4 +1,4 @@
-package br.com.contmatic.util.validator;
+package br.com.contmatic.util.v1.validator;
 
 public final class ValidatorUtils {
 	

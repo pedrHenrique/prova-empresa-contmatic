@@ -25,7 +25,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static br.com.contmatic.model.v1.telefone.DDIType.DDI55;
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.testes.v1.util.TestesUtils.NULLSTR;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

@@ -1,9 +1,9 @@
-package br.com.contmatic.util.validator.documentos;
+package br.com.contmatic.util.v1.validator.documentos;
 
-import static br.com.contmatic.util.validator.documentos.CnpjValidator.PESOS_CNPJ;
-import static br.com.contmatic.util.validator.documentos.CnpjValidator.TAMANHO_CNPJ;
-import static br.com.contmatic.util.validator.documentos.CpfValidator.PESOS_CPF;
-import static br.com.contmatic.util.validator.documentos.CpfValidator.TAMANHO_CPF;
+import static br.com.contmatic.util.v1.validator.documentos.CnpjValidator.PESOS_CNPJ;
+import static br.com.contmatic.util.v1.validator.documentos.CnpjValidator.TAMANHO_CNPJ;
+import static br.com.contmatic.util.v1.validator.documentos.CpfValidator.PESOS_CPF;
+import static br.com.contmatic.util.v1.validator.documentos.CpfValidator.TAMANHO_CPF;
 
 import java.util.Random;
 

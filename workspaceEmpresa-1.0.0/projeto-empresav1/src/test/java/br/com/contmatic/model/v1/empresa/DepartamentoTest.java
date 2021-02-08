@@ -21,9 +21,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MIN;
+import static br.com.contmatic.testes.v1.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MIN;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DepartamentoTest {
@@ -164,7 +164,7 @@ public class DepartamentoTest {
 		for (String ramal : ramalInvalidos) {
 			Exception e = assertThrows("Não devem ser aceitos nomes com caracteres especiais",
 					IllegalArgumentException.class, () -> dep.setRamal(ramal));
-			assertThat(e.getMessage(), equalTo("O campo ramal da classe Departamento só pode conter dígitos."));
+			assertThat(e.getMessage(), equalTo("O campo ramal da classe Departamento só pode possuir dígitos."));
 		}
 	}
 

@@ -1,6 +1,6 @@
 package br.com.contmatic.model.v1.telefone;
 
-import br.com.contmatic.model.v1.empresa.endereco.PaisType;
+import br.com.contmatic.model.v1.endereco.PaisType;
 
 public enum DDIType {
 	

@@ -1,18 +1,18 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.util.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_CAMPO_NOMEFANTASIA;
-import static br.com.contmatic.util.CamposTypes.EMPRESA_CAMPO_RAZAOSOCIAL;
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNomeSimples;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
-import static br.com.contmatic.util.validator.documentos.CnpjValidator.validarCnpj;
+import static br.com.contmatic.util.v1.CamposTypes.EMPRESA_CAMPO_NOMEFANTASIA;
+import static br.com.contmatic.util.v1.CamposTypes.EMPRESA_CAMPO_RAZAOSOCIAL;
+import static br.com.contmatic.util.v1.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.EMPRESA_NOME_FANTASIA_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.EMPRESA_RAZAO_SOCIAL_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNomeSimples;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.documentos.CnpjValidator.validarCnpj;
 
-import br.com.contmatic.model.v1.empresa.endereco.Endereco;
+import br.com.contmatic.model.v1.endereco.Endereco;
 
 public class Empresa {
 

@@ -1,10 +1,10 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.util.CamposTypes.CONTATO_EMAIL_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.CONTATO_EMAIL_TAMANHO_MIN;
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.CamposTypes.CONTATO_EMAIL_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.CONTATO_EMAIL_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
 
 import br.com.contmatic.model.v1.telefone.Telefone;
 

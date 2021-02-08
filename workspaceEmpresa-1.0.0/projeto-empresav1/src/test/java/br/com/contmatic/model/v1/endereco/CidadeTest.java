@@ -15,12 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import br.com.contmatic.model.v1.empresa.endereco.Cidade;
-import br.com.contmatic.model.v1.empresa.endereco.Estado;
-
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.*;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.*;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
+import static br.com.contmatic.model.v1.endereco.EstadoType.*;
+import static br.com.contmatic.model.v1.endereco.PaisType.*;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaEstadoAleatorio;
 
 public class CidadeTest {
 

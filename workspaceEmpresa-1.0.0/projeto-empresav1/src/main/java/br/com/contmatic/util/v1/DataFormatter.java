@@ -1,4 +1,4 @@
-package br.com.contmatic.util;
+package br.com.contmatic.util.v1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

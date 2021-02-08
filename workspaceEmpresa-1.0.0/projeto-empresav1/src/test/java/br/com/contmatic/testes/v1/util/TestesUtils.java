@@ -1,4 +1,4 @@
-package br.com.contmatic.testes.util;
+package br.com.contmatic.testes.v1.util;
 
 import static br.com.contmatic.model.v1.telefone.DDIType.DDI55;
 
@@ -7,9 +7,9 @@ import java.util.Random;
 import br.com.contmatic.model.v1.empresa.Contato;
 import br.com.contmatic.model.v1.empresa.Departamento;
 import br.com.contmatic.model.v1.empresa.DepartamentoTest;
-import br.com.contmatic.model.v1.empresa.endereco.Cidade;
-import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.model.v1.empresa.endereco.EstadoType;
+import br.com.contmatic.model.v1.endereco.Cidade;
+import br.com.contmatic.model.v1.endereco.Endereco;
+import br.com.contmatic.model.v1.endereco.EstadoType;
 import br.com.contmatic.model.v1.telefone.Telefone;
 
 public final class TestesUtils {

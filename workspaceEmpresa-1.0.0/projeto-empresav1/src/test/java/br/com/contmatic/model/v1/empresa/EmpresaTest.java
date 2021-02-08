@@ -1,8 +1,8 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.testes.util.TestesUtils.retornaContato;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEndereco;
-import static br.com.contmatic.util.validator.documentos.CnpjValidator.geraCnpjAleatorio;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaContato;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaEndereco;
+import static br.com.contmatic.util.v1.validator.documentos.CnpjValidator.geraCnpjAleatorio;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,8 +21,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.testes.util.TestesUtils;
+import br.com.contmatic.model.v1.endereco.Endereco;
+import br.com.contmatic.testes.v1.util.TestesUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmpresaTest {

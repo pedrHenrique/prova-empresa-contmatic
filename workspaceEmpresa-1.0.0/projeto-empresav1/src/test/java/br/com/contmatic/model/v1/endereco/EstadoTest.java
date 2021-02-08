@@ -1,13 +1,13 @@
 package br.com.contmatic.model.v1.endereco;
 
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.MG;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.PI;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.PR;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.SC;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.BRASIL;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.ESTADOS_UNIDOS;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.ITALIA;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
+import static br.com.contmatic.model.v1.endereco.EstadoType.MG;
+import static br.com.contmatic.model.v1.endereco.EstadoType.PI;
+import static br.com.contmatic.model.v1.endereco.EstadoType.PR;
+import static br.com.contmatic.model.v1.endereco.EstadoType.SC;
+import static br.com.contmatic.model.v1.endereco.PaisType.BRASIL;
+import static br.com.contmatic.model.v1.endereco.PaisType.ESTADOS_UNIDOS;
+import static br.com.contmatic.model.v1.endereco.PaisType.ITALIA;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaEstadoAleatorio;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,10 +22,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import br.com.contmatic.model.v1.empresa.endereco.Estado;
-import br.com.contmatic.model.v1.empresa.endereco.EstadoType;
-import br.com.contmatic.model.v1.empresa.endereco.PaisType;
 
 public class EstadoTest {
 

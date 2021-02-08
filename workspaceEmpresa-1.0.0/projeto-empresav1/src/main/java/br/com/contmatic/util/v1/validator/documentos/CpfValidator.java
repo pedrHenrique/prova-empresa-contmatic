@@ -1,8 +1,8 @@
-package br.com.contmatic.util.validator.documentos;
+package br.com.contmatic.util.v1.validator.documentos;
 
-import static br.com.contmatic.util.validator.documentos.DocumentoValidator.cpfValido;
-import static br.com.contmatic.util.validator.documentos.DocumentoValidator.digitos;
-import static br.com.contmatic.util.validator.documentos.DocumentoValidator.verificador;
+import static br.com.contmatic.util.v1.validator.documentos.DocumentoValidator.cpfValido;
+import static br.com.contmatic.util.v1.validator.documentos.DocumentoValidator.digitos;
+import static br.com.contmatic.util.v1.validator.documentos.DocumentoValidator.verificador;
 
 public final class CpfValidator {
 	

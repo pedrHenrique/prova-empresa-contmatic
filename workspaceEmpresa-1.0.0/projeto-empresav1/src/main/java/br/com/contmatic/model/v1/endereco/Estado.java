@@ -1,16 +1,15 @@
-package br.com.contmatic.model.v1.empresa.endereco;
+package br.com.contmatic.model.v1.endereco;
 
 import static java.util.Locale.ROOT;
-
-import static br.com.contmatic.util.CamposTypes.ESTADO_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.ESTADO_TAMANHO_MIN;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.BRASIL;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.isEstadoValido;
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNomeSimples;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoPossuiDigitos;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.model.v1.endereco.EstadoType.isEstadoValido;
+import static br.com.contmatic.model.v1.endereco.PaisType.BRASIL;
+import static br.com.contmatic.util.v1.CamposTypes.ESTADO_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.ESTADO_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNomeSimples;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoPossuiDigitos;
 
 import java.util.Objects;
 

@@ -1,14 +1,14 @@
 package br.com.contmatic.model.v1.endereco;
 
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.AC;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.AL;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.MT;
-import static br.com.contmatic.model.v1.empresa.endereco.EstadoType.RO;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.BRASIL;
-import static br.com.contmatic.model.v1.empresa.endereco.PaisType.ESTADOS_UNIDOS;
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEstadoAleatorio;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
+import static br.com.contmatic.model.v1.endereco.EstadoType.AC;
+import static br.com.contmatic.model.v1.endereco.EstadoType.AL;
+import static br.com.contmatic.model.v1.endereco.EstadoType.MT;
+import static br.com.contmatic.model.v1.endereco.EstadoType.RO;
+import static br.com.contmatic.model.v1.endereco.PaisType.BRASIL;
+import static br.com.contmatic.model.v1.endereco.PaisType.ESTADOS_UNIDOS;
+import static br.com.contmatic.testes.v1.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaEstadoAleatorio;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,10 +28,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import br.com.contmatic.model.v1.empresa.endereco.Cidade;
-import br.com.contmatic.model.v1.empresa.endereco.Endereco;
-import br.com.contmatic.model.v1.empresa.endereco.PaisType;
 
 public class EnderecoTest {
 
@@ -196,7 +192,7 @@ public class EnderecoTest {
 	public void nao_deve_aceitar_cep_com_formato_errado() {
 		Exception e = assertThrows("Nao deve permitir cep com formato errado", IllegalArgumentException.class,
 				() -> end.setCep("        "));
-		assertThat(e.getMessage(), equalTo("O campo cep da classe Endereco só pode conter dígitos."));
+		assertThat(e.getMessage(), equalTo("O campo cep da classe Endereco só pode possuir dígitos."));
 	}
 
 

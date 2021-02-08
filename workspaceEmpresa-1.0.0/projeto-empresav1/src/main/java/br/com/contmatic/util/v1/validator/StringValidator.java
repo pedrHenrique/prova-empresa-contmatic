@@ -1,7 +1,7 @@
-package br.com.contmatic.util.validator;
+package br.com.contmatic.util.v1.validator;
 
-import static br.com.contmatic.util.validator.ValidatorUtils.retornaMensagemExceptionPadronizada;
-import static br.com.contmatic.util.validator.ValidatorUtils.validaClasseCampo;
+import static br.com.contmatic.util.v1.validator.ValidatorUtils.retornaMensagemExceptionPadronizada;
+import static br.com.contmatic.util.v1.validator.ValidatorUtils.validaClasseCampo;
 import static java.lang.Character.isDigit;
 
 import java.util.Arrays;
@@ -69,7 +69,7 @@ public final class StringValidator {
 	 * @param campo - O <b>nome do campo</b> o qual pertence a classe.
 	 * @param valor - O valor do campo a ser validado.
 	 */
-	public static void validaNomeSimbolos(Class<?> classe, String campo, String valor) {
+	public static void verificaSeCampoPossuiSimbolos(Class<?> classe, String campo, String valor) {
 		validaClasseCampo(classe, campo);
 		validarSeNomePossuiSimbolos(classe, campo, valor);
 	}
@@ -109,7 +109,7 @@ public final class StringValidator {
 	private static void verificaSeOCampoECompostoDeDigitos(Class<?> classe, String campo, String valor) {
 		for (int i = 0; i < valor.length(); ++i) {
 			if (!Character.isDigit(valor.charAt(i))) {
-				throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo, "só pode conter dígitos."));
+				throw new IllegalArgumentException(retornaMensagemExceptionPadronizada(classe, campo, "só pode possuir dígitos."));
 			}
 		}
 	}

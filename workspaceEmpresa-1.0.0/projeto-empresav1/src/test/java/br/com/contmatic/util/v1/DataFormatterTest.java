@@ -1,11 +1,11 @@
-package br.com.contmatic.model.util;
+package br.com.contmatic.util.v1;
 
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.testes.v1.util.TestesUtils.NULLSTR;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
@@ -15,8 +15,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import br.com.contmatic.util.DataFormatter;
 
 public class DataFormatterTest {
 

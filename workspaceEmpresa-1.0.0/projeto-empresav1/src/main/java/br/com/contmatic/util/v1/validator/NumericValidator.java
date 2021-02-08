@@ -1,7 +1,7 @@
-package br.com.contmatic.util.validator;
+package br.com.contmatic.util.v1.validator;
 
-import static br.com.contmatic.util.validator.ValidatorUtils.retornaMensagemExceptionPadronizada;
-import static br.com.contmatic.util.validator.ValidatorUtils.validaClasseCampo;
+import static br.com.contmatic.util.v1.validator.ValidatorUtils.retornaMensagemExceptionPadronizada;
+import static br.com.contmatic.util.v1.validator.ValidatorUtils.validaClasseCampo;
 
 public final class NumericValidator {
 

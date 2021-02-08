@@ -1,16 +1,16 @@
-package br.com.contmatic.model.v1.empresa.endereco;
+package br.com.contmatic.model.v1.endereco;
 
-import static br.com.contmatic.util.CamposTypes.ENDERECO_NUMERO_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_NUMERO_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_CEP;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.ENDERECO_TAMANHO_MIN;
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNomeSimbolos;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_NUMERO_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_NUMERO_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_TAMANHO_CEP;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_TAMANHO_COMPLEMENTO;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.ENDERECO_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoPossuiSimbolos;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
 
 public class Endereco {
 
@@ -89,7 +89,7 @@ public class Endereco {
 	public void setComplemento(String complemento) {
 		validaNulo(getClass(), "complemento", complemento);
 		this.validaTamanhoComplemento(complemento);
-		validaNomeSimbolos(getClass(), "complemento", complemento);
+		verificaSeCampoPossuiSimbolos(getClass(), "complemento", complemento);
 		this.complemento = complemento;
 	}
 

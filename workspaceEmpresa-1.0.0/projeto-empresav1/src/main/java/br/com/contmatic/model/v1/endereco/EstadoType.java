@@ -1,4 +1,4 @@
-package br.com.contmatic.model.v1.empresa.endereco;
+package br.com.contmatic.model.v1.endereco;
 
 import java.util.Locale;
 

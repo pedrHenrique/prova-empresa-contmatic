@@ -4,16 +4,16 @@ import static br.com.contmatic.model.v1.telefone.DDIType.DDI55;
 import static br.com.contmatic.model.v1.telefone.TelefoneType.CELULAR_NACIONAL;
 import static br.com.contmatic.model.v1.telefone.TelefoneType.INTERNACIONAL;
 import static br.com.contmatic.model.v1.telefone.TelefoneType.RESIDENCIAL_NACIONAL;
-import static br.com.contmatic.util.CamposTypes.TELEFONE_TAMANHO_FORMATACAO;
-import static br.com.contmatic.util.CamposTypes.TELEFONE_TAMANHO_TELEFONE_FIXO;
-import static br.com.contmatic.util.CamposTypes.TELEFONE_TAMANHO_TELEFONE_MOVEL;
-import static br.com.contmatic.util.CamposTypes.TELEFONE_TAMANHO_TELEFONE_INTERNACIONAL_MIN;
-import static br.com.contmatic.util.CamposTypes.TELEFONE_TAMANHO_TELEFONE_INTERNACIONAL_MAX;
-import static br.com.contmatic.util.CamposTypes.TELEFONE_TAMANHO_DDD;
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.CamposTypes.TELEFONE_TAMANHO_DDD;
+import static br.com.contmatic.util.v1.CamposTypes.TELEFONE_TAMANHO_FORMATACAO;
+import static br.com.contmatic.util.v1.CamposTypes.TELEFONE_TAMANHO_TELEFONE_FIXO;
+import static br.com.contmatic.util.v1.CamposTypes.TELEFONE_TAMANHO_TELEFONE_INTERNACIONAL_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.TELEFONE_TAMANHO_TELEFONE_INTERNACIONAL_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.TELEFONE_TAMANHO_TELEFONE_MOVEL;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
 
 
 public class Telefone {

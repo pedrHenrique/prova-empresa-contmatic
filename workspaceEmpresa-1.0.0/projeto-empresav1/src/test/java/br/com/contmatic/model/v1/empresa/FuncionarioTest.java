@@ -25,16 +25,16 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import br.com.contmatic.model.v1.empresa.endereco.Endereco;
+import br.com.contmatic.model.v1.endereco.Endereco;
 
-import static br.com.contmatic.testes.util.TestesUtils.EMPTYDOUBLE;
-import static br.com.contmatic.testes.util.TestesUtils.EMPTYSTR;
-import static br.com.contmatic.testes.util.TestesUtils.NULLSTR;
-import static br.com.contmatic.testes.util.TestesUtils.retornaContato;
-import static br.com.contmatic.testes.util.TestesUtils.retornaDepartamento;
-import static br.com.contmatic.testes.util.TestesUtils.retornaEndereco;
-import static br.com.contmatic.util.DataFormatter.PADRAO_DATA;
-import static br.com.contmatic.util.validator.documentos.CpfValidator.geraCpfAleatorio;
+import static br.com.contmatic.testes.v1.util.TestesUtils.EMPTYDOUBLE;
+import static br.com.contmatic.testes.v1.util.TestesUtils.EMPTYSTR;
+import static br.com.contmatic.testes.v1.util.TestesUtils.NULLSTR;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaContato;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaDepartamento;
+import static br.com.contmatic.testes.v1.util.TestesUtils.retornaEndereco;
+import static br.com.contmatic.util.v1.DataFormatter.PADRAO_DATA;
+import static br.com.contmatic.util.v1.validator.documentos.CpfValidator.geraCpfAleatorio;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FuncionarioTest {

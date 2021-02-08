@@ -1,16 +1,16 @@
 package br.com.contmatic.model.v1.empresa;
 
-import static br.com.contmatic.util.validator.StringValidator.validaEspacamento;
-import static br.com.contmatic.util.validator.StringValidator.validaNomeSimbolos;
-import static br.com.contmatic.util.validator.StringValidator.validaNulo;
-import static br.com.contmatic.util.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
-import static br.com.contmatic.util.validator.NumericValidator.validaTamanho;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_NOME_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_NOME_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_RAMAL_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_RAMAL_TAMANHO_MIN;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MAX;
-import static br.com.contmatic.util.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_ID_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_NOME_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_NOME_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_RAMAL_TAMANHO_MAX;
+import static br.com.contmatic.util.v1.CamposTypes.DEPARTAMENTO_RAMAL_TAMANHO_MIN;
+import static br.com.contmatic.util.v1.validator.NumericValidator.validaTamanho;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaEspacamento;
+import static br.com.contmatic.util.v1.validator.StringValidator.validaNulo;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoPossuiSimbolos;
+import static br.com.contmatic.util.v1.validator.StringValidator.verificaSeCampoSoPossuiDigitos;
 
 public class Departamento {
 
@@ -39,8 +39,7 @@ public class Departamento {
 
 	public void setId(Long id) {
 		validaNulo(getClass(), "id", id);
-		validaTamanho(getClass(), "id", id.intValue(), (int) DEPARTAMENTO_ID_TAMANHO_MIN,
-				(int) DEPARTAMENTO_ID_TAMANHO_MAX);
+		validaTamanho(getClass(), "id", id.intValue(), (int) DEPARTAMENTO_ID_TAMANHO_MIN, (int) DEPARTAMENTO_ID_TAMANHO_MAX);
 		this.id = id;
 	}
 
@@ -52,7 +51,7 @@ public class Departamento {
 		validaNulo(getClass(), "nome", nome);
 		validaEspacamento(getClass(), "nome", nome, DEPARTAMENTO_NOME_TAMANHO_MIN);
 		validaTamanho(getClass(), "nome", nome.length(), DEPARTAMENTO_NOME_TAMANHO_MIN, DEPARTAMENTO_NOME_TAMANHO_MAX);
-		validaNomeSimbolos(getClass(), "nome", nome);
+		verificaSeCampoPossuiSimbolos(getClass(), "nome", nome);
 		this.nome = nome;
 	}
 
