@@ -23,9 +23,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runners.MethodSorters;
 
-import br.com.contmatic.empresav2.model.Endereco;
-import br.com.contmatic.empresav2.model.Estado;
 import br.com.contmatic.empresav2.util.TestesModel;
+import br.com.contmatic.model.v2.Endereco;
+import br.com.contmatic.model.v2.Estado;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 

@@ -2,12 +2,12 @@ package br.com.contmatic.empresav2.util;
 
 import java.util.Random;
 
-import br.com.contmatic.empresav2.model.Contato;
-import br.com.contmatic.empresav2.model.Departamento;
-import br.com.contmatic.empresav2.model.Empresa;
-import br.com.contmatic.empresav2.model.Endereco;
-import br.com.contmatic.empresav2.model.Estado;
-import br.com.contmatic.empresav2.model.Funcionario;
+import br.com.contmatic.model.v2.Contato;
+import br.com.contmatic.model.v2.Departamento;
+import br.com.contmatic.model.v2.Empresa;
+import br.com.contmatic.model.v2.Endereco;
+import br.com.contmatic.model.v2.Estado;
+import br.com.contmatic.model.v2.Funcionario;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 import br.com.six2six.fixturefactory.loader.TemplateLoader;

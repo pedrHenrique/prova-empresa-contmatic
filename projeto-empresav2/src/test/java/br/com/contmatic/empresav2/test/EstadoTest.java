@@ -14,7 +14,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import org.junit.runners.MethodSorters;
-import br.com.contmatic.empresav2.model.Estado;
+
+import br.com.contmatic.model.v2.Estado;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EstadoTest {

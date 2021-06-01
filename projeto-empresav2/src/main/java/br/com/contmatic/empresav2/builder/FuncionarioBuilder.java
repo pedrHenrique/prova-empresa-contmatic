@@ -3,10 +3,10 @@
  */
 package br.com.contmatic.empresav2.builder;
 
-import br.com.contmatic.empresav2.model.Departamento;
-import br.com.contmatic.empresav2.model.Endereco;
-import br.com.contmatic.empresav2.model.Estado;
-import br.com.contmatic.empresav2.model.Funcionario;
+import br.com.contmatic.model.v2.Departamento;
+import br.com.contmatic.model.v2.Endereco;
+import br.com.contmatic.model.v2.Estado;
+import br.com.contmatic.model.v2.Funcionario;
 
 /**
  * @author Pedro

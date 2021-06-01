@@ -1,4 +1,4 @@
-package br.com.contmatic.empresav2.model;
+package br.com.contmatic.model.v2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +33,8 @@ import br.com.contmatic.empresav2.validator.ModelAnotacao;
  */
 public class Contato implements Validacao {
 
+    // TODO telefones
+    
     public enum ContatoTipo {
 
                              NAOINFORMADO("Não informado", 0),

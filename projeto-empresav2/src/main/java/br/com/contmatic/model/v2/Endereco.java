@@ -1,4 +1,4 @@
-package br.com.contmatic.empresav2.model;
+package br.com.contmatic.model.v2;
 
 import java.util.HashSet;
 import java.util.Iterator;

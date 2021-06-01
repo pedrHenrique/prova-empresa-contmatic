@@ -13,9 +13,9 @@ import org.junit.runners.MethodSorters;
 
 import com.google.common.base.VerifyException;
 
-import br.com.contmatic.empresav2.model.DataJoda;
-import br.com.contmatic.empresav2.model.Empresa;
 import br.com.contmatic.empresav2.util.FixtureTempleateLoader;
+import br.com.contmatic.model.v2.Empresa;
+import br.com.contmatic.util.v2.DataJoda;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 

@@ -30,8 +30,8 @@ import org.junit.runners.MethodSorters;
 
 import static org.apache.log4j.BasicConfigurator.configure;
 
-import br.com.contmatic.empresav2.model.Departamento;
 import br.com.contmatic.empresav2.util.TestesModel;
+import br.com.contmatic.model.v2.Departamento;
 import br.com.contmatic.empresav2.util.FixtureTempleateLoader;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;

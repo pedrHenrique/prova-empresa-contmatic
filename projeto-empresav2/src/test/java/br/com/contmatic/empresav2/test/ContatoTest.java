@@ -31,8 +31,8 @@ import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.contmatic.empresav2.model.Contato;
 import br.com.contmatic.empresav2.validator.ModelAnotacao;
+import br.com.contmatic.model.v2.Contato;
 import br.com.contmatic.empresav2.util.TestesModel;
 import br.com.contmatic.empresav2.util.TestesUtil;
 import br.com.six2six.fixturefactory.Fixture;

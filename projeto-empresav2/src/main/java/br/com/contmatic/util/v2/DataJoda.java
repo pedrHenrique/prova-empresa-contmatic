@@ -1,4 +1,4 @@
-package br.com.contmatic.empresav2.model;
+package br.com.contmatic.util.v2;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;

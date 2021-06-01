@@ -2,11 +2,9 @@ package br.com.contmatic.empresav2.validator;
 
 public abstract class ModelAnotacao {
     
-    private ModelAnotacao() { //Ideia do Sonar
+    private ModelAnotacao() {
         throw new IllegalStateException("Utility class");
-    }     
-    
-    //poderia ter uma lista contendo todas os padroes aqui abaixo, e criar uma interface contendo apenas essa lista vida desta classe - não deu certo...
+    }
     
     public static final String CONTATO = "O Telefone ou Celular não pode ficar vazio";
     
